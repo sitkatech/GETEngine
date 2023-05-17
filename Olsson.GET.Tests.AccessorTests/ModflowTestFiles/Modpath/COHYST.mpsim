@@ -1,0 +1,20 @@
+COHYST2010_28b_14_28.mpnam
+COHYST2010_28b_14_28.mplist
+4 2 1 1 0 0
+COHYST2010_28b_14_28.endpoint7
+COHYST2010_28b_14_28.pathline7
+COHYST2010_28b_14_28.timeseries7
+0
+1 Reference Time Option
+0.0
+3 Stopping Time Option
+18262.5
+1 Time Point Option
+50 365.25
+1 Zone Data Option
+1 Retardation Factor Option
+1 Particle Group Count
+PG1
+1
+0.0
+external COHYST2010_28b_14_28.sloc

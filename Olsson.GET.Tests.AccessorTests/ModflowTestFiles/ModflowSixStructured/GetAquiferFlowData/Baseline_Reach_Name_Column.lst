@@ -1,0 +1,1637 @@
+        //////////////////////////////////////////////////////////////////
+        /   This file has been truncated to allow for ease of testing!!!!/
+        //////////////////////////////////////////////////////////////////
+
+
+                                   MODFLOW 6
+                U.S. GEOLOGICAL SURVEY MODULAR HYDROLOGIC MODEL
+                          GROUNDWATER FLOW MODEL (GWF)
+                            VERSION 6.1.0 12/12/2019
+
+   MODFLOW 6 compiled Dec 12 2019 13:30:12 with IFORT compiler (ver. 19.0.5)
+
+This software has been approved for release by the U.S. Geological 
+Survey (USGS). Although the software has been subjected to rigorous 
+review, the USGS reserves the right to update the software as needed 
+pursuant to further analysis and review. No warranty, expressed or 
+implied, is made by the USGS or the U.S. Government as to the 
+functionality of the software and related material nor shall the 
+fact of release constitute any such warranty. Furthermore, the 
+software is released on condition that neither the USGS nor the U.S. 
+Government shall be held liable for any damages resulting from its 
+authorized or unauthorized use. Also refer to the USGS Water 
+Resources Software User Rights Notice for complete use, copyright, 
+and distribution information.
+
+
+MODFLOW was compiled using uniform precision.
+Precision of REAL variables: 15
+
+
+ OPENED hrb_tr6.dis
+ FILE TYPE:DIS6                   UNIT 1005   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.ic
+ FILE TYPE:IC6                    UNIT 1006   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.npf
+ FILE TYPE:NPF6                   UNIT 1007   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.sto
+ FILE TYPE:STO6                   UNIT 1008   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.oc
+ FILE TYPE:OC6                    UNIT 1009   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.faults.hfb
+ FILE TYPE:HFB6                   UNIT 1010   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.evt
+ FILE TYPE:EVT6                   UNIT 1011   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.rch
+ FILE TYPE:RCH6                   UNIT 1012   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.paradise.rch
+ FILE TYPE:RCH6                   UNIT 1013   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.gumboot.rch
+ FILE TYPE:RCH6                   UNIT 1014   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.mine.rch
+ FILE TYPE:RCH6                   UNIT 1015   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6.sfr
+ FILE TYPE:SFR6                   UNIT 1016   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6e.drn
+ FILE TYPE:DRN6                   UNIT 1017   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED hrb_tr6p.drn
+ FILE TYPE:DRN6                   UNIT 1018   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED CombinedWel.wel
+ FILE TYPE:WEL6                   UNIT 1019   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ NAMEFILE OPTIONS:
+    NEWTON-RAPHSON method enabled for the model.
+    NEWTON-RAPHSON UNDER-RELAXATION based on the bottom elevation of the model will be applied to the model.
+
+ DIS -- STRUCTURED GRID DISCRETIZATION PACKAGE, VERSION 2 : 3/27/2014 - INPUT READ FROM UNIT 1005
+
+
+ # DIS6 input file for the Middle Humboldt River Basin GW model
+ PROCESSING DISCRETIZATION OPTIONS
+    MODEL LENGTH UNIT IS FEET
+    XORIGIN SPECIFIED AS     1300550.00000000    
+    YORIGIN SPECIFIED AS     14349100.0000000    
+    ANGROT SPECIFIED AS     0.00000000000000    
+ END OF DISCRETIZATION OPTIONS
+ PROCESSING DISCRETIZATION DIMENSIONS
+    NLAY =       6
+    NROW =     428
+    NCOL =     329
+ END OF DISCRETIZATION DIMENSIONS
+ PROCESSING GRIDDATA
+
+                     DELR =   2000.000    
+
+                     DELC =   2000.000    
+
+ OPENED external_files/surfs/top1.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1021   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot1.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1022   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot2.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1023   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot3.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1024   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot4.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1025   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot5.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1026   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/surfs/bot6.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1027   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id1.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1028   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id2.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1029   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id3.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1030   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id4.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1031   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id5.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1032   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/idomain/id6.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1033   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END PROCESSING GRIDDATA
+
+ THE SPECIFIED IDOMAIN RESULTS IN A REDUCED NUMBER OF CELLS.
+ NUMBER OF USER NODES: 844872
+ NUMBER OF NODES IN SOLUTION: 249996
+
+
+
+ NPF -- NODE PROPERTY FLOW PACKAGE, VERSION 1, 3/30/2015 INPUT READ FROM UNIT 1007
+
+
+ # NPF6 input file for the Middle Humboldt River Basin GW model
+ # VARIABLECV DEWATERED
+ # PERCHED
+ PROCESSING NPF OPTIONS
+    CELL-BY-CELL FLOW INFORMATION WILL BE SAVED TO BINARY FILE WHENEVER ICBCFL IS NOT ZERO.
+    VALUES SPECIFIED FOR K33 ARE ANISOTROPY RATIOS AND WILL BE MULTIPLIED BY K BEFORE BEING USED IN CALCULATIONS.
+ END OF NPF OPTIONS
+
+ WEL   -- WEL PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1019
+
+ PROCESSING WEL OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUTOMATIC FLOW REDUCTION OF WELLS IMPLEMENTED.
+    AUTOMATIC FLOW REDUCTION FRACTION (  0.2000000    ).
+ END OF WEL OPTIONS
+
+ PROCESSING WEL DIMENSIONS
+    MAXBOUND =     140
+ END OF WEL DIMENSIONS
+
+ DRN   -- DRN PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1017
+ # DRN6 input file for the Middle Humboldt River Basin GW model
+ # ephemeral drains file
+ # PRINT_INPUT
+ # PRINT_FLOWS
+
+ PROCESSING DRN OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY DRN VARIABLE: D_COND_MULT     
+    AUXILIARY MULTIPLIER NAME: D_COND_MULT     
+    DRN BOUNDARIES HAVE NAMES IN LAST COLUMN.
+
+ OPENED external_files/obs/tr/hrb_tr.edrn.obs
+ FILE TYPE:OBS   UNIT 1034   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END OF DRN OPTIONS
+
+ PROCESSING DRN DIMENSIONS
+    MAXBOUND =     852
+ END OF DRN DIMENSIONS
+
+ DRN   -- DRN PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1018
+ # DRN6 input file for the Middle Humboldt River Basin GW model
+ # perennial drains file
+ # PRINT_INPUT
+ # PRINT_FLOWS
+
+ PROCESSING DRN OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY DRN VARIABLE: D_COND_MULT     
+    AUXILIARY MULTIPLIER NAME: D_COND_MULT     
+    DRN BOUNDARIES HAVE NAMES IN LAST COLUMN.
+
+ OPENED external_files/obs/tr/hrb_tr.pdrn.obs
+ FILE TYPE:OBS   UNIT 1035   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END OF DRN OPTIONS
+
+ PROCESSING DRN DIMENSIONS
+    MAXBOUND =     897
+ END OF DRN DIMENSIONS
+
+ RCH   -- RCH PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1012
+ # RCH6 input file for the Middle Humboldt River Basin GW model
+
+ PROCESSING RCH OPTIONS
+    RECHARGE INPUT WILL BE READ AS ARRAY(S).
+ # PRINT_INPUT
+ # PRINT_FLOWS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY RCH VARIABLE: RCH_MULT        
+    AUXILIARY MULTIPLIER NAME: RCH_MULT        
+ END OF RCH OPTIONS
+
+ RCH   -- RCH PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1013
+ # RCH6 input file for the Middle Humboldt River Basin GW model
+ # package represents the surface-water irrigated area in paradise valley
+ # auxiliary multiplication variable "irr_eff" represents the irrigation
+ # inefficiency in the area (1 - irrigation efficiency)
+ # PRINT_INPUT
+ # PRINT_FLOWS
+
+ PROCESSING RCH OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY RCH VARIABLE: IRR_EFF         
+    AUXILIARY MULTIPLIER NAME: IRR_EFF         
+    RCH BOUNDARIES HAVE NAMES IN LAST COLUMN.
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_rch6.paradise.irrigation.ts
+ # script: transient_diversion_flow_other_decree.py (2019-02-08 15:40)
+ # reference location: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\lut
+ # gage flow file(s): D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\gage
+ # out file: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\output\transient\flows\hrb_sfr6.paradise.inflow.ts
+ # Area of application for irrigation in Paradise Valley:  1,668,000,000 ft**2
+ # determined from the feature class: LAND_IrrigatedArea_p (attribute IrrArea_50=1) in
+ # Humboldt EGDB
+ # Surface water withdrawals by decree in Paradise Valley from Martin Creek and Little
+ # Humboldt, streams were summed and the inefficient portion was applied as recharge.
+ # paradise_rch[ft/d] = rate[ft**3/s] / area[ft**2] * 86400[s/d])
+ # Note: The inefficient factor is applied by multiplying a constant value in the model and the
+ # full recharge values are listed in this file.
+ #modelday	paradise_rch
+ END OF RCH OPTIONS
+
+ PROCESSING RCH DIMENSIONS
+    MAXBOUND =     417
+ END OF RCH DIMENSIONS
+
+ RCH   -- RCH PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1014
+ # RCH6 input file for the Middle Humboldt River Basin GW model
+ # Recharge input representative of Gumboot Lake
+ # each cell's rate is based on its contribution to a 2K, 4K, or 10K-acre sized lake
+ # multiplier for calibration
+ # time series
+ # Time series file hrb_gumboot.rch6.ts defines recharge rates based on lake area
+ # PRINT_INPUT
+ # PRINT_FLOWS
+
+ PROCESSING RCH OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY RCH VARIABLE: MULT            
+    AUXILIARY MULTIPLIER NAME: MULT            
+    RCH BOUNDARIES HAVE NAMES IN LAST COLUMN.
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_rch6.gumboot.ts
+ # time series for Gumboot Lake
+ # rates based on area weighted recharge rate of 1.645E-5 ftd; 2K wgt = 0.5, 4K wgt = 0.6, 10K wgt = 0.8
+ #day   	rate_2k	    rate_4k	    rate_10k
+ END OF RCH OPTIONS
+
+ PROCESSING RCH DIMENSIONS
+    MAXBOUND =     135
+ END OF RCH DIMENSIONS
+
+ RCH   -- RCH PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1015
+ # RECHARGE FROM MINE PUMPING APPLIED TO INFIL LOCATIONS						
+ # TIME SERIES FILE FOR INFIL RATES
+ # MULTIPLIER IS A PERCENTAGE OF TOTAL INFIL IN THE SPECIFIED CELL (AREA
+ # WEIGHTED), EXCEPT FOR INFIL INTO KELLY CREEK WHICH IS A LINEAR DISCTRIBUTION
+ # TO THE CELLS WITH THE LARGEST INFIL RATE AT THE UPSTREAM CELL AND ZERO AT
+ # THE LAST CELL					
+ 
+ # PRINT_INPUT
+ # PRINT_FLOWS
+
+ PROCESSING RCH OPTIONS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY RCH VARIABLE: MULT            
+    AUXILIARY MULTIPLIER NAME: MULT            
+    RCH BOUNDARIES HAVE NAMES IN LAST COLUMN.
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_rch6.mines.ts
+ # TIME SERIES FOR MINE INFILTRATION SITES (NEEDED SOME DATA FROM PAPER COPIES)
+ # RATES FROM VOLUMES PER MONTH PROVIDED BY STATE OF NV
+ # VOLUMES COMBINED FOR SOME SITES (SEE GIS FILE)																							
+ 
+ 
+ #modelday	NM_CN_infil	NM_CN_TSranch	NM_CS_irr	NM_CS_resvr	BK_Cortez_irr	BK_Cortez_infil	BK_Cortez_resvr	BK_GS_irr	BK_GS_resvr	NM_LT_infil	BK_PS_infil	PM_MC_infil	BK_TQ_dsch_kelly	BK_TQ_infil	BK_TQ_rib1	BK_TQ_rib2	BK_TQ_rib3	NM_TC_dsch_rabbit	NM_TC_infil	BK_NM_dsch_kellyrabbit
+
+ OPENED external_files/obs/tr/hrb_tr.mines.rch.obs
+ FILE TYPE:OBS   UNIT 1039   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END OF RCH OPTIONS
+
+ PROCESSING RCH DIMENSIONS
+    MAXBOUND =     443
+ END OF RCH DIMENSIONS
+
+ EVT   -- EVT PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1011
+ # EVT6 input file for the Middle Humboldt River Basin GW model
+ # annual ET rate 36 in/year
+ # winter ET rate ( 0.2 * 3 ft  ) / winter_days appled in all basin fill
+ # summer ET rate ( 0.2 * 3 ft  ) / summer_days not applied in irrigation areas
+
+ PROCESSING EVT OPTIONS
+    EVAPOTRANSPIRATION INPUT WILL BE READ AS ARRAYS.
+ # PRINT_INPUT
+ # PRINT_FLOWS
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    AUXILIARY EVT VARIABLE: ET_MULT         
+    AUXILIARY MULTIPLIER NAME: ET_MULT         
+ END OF EVT OPTIONS
+
+ SFR   -- SFR PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1016
+ # SFR6 input file for the Middle Humboldt River Basin GW model
+ # PRINT_INPUT
+
+ PROCESSING SFR OPTIONS
+    SFR FLOWS WILL BE PRINTED TO LISTING FILE.
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+    SFR BOUNDARIES HAVE NAMES IN LAST COLUMN.
+ # MAXIMUM_PICARD_ITERATIONS 1
+    MAXIMUM DEPTH CHANGE VALUE (  0.1000000E-03) SPECIFIED.
+    UNIT CONVERSION VALUE (   128390.4    ) SPECIFIED.
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_sfr6.inflow.ts
+ # Inflows from gaged sites to Humboldt River
+ # g10321000 = Carlin; g10321590 = Susie; g10322000 = Maggie; g10322150 = Mary; g10322800 = Pine; g103224500 = Rock; g10324700 = Boulder; NM_LT_dsch_humb = Lone Tree Mine discharge to Humboldt
+ #modelday g10321000         g10321590         g10322000         g10322150         g10322800         g10324500         g10324700         NM_LT_dsch_humb
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_sfr6.diversion.initial.ts
+ # script: C:/workspace/cjmayers/CODE/git_workspaces/humboldt_dep/HRB_sw_utl/diversions_Humboldt_decree/transient_diversion_flow_Humboldt_decree.py (2019-02-12 12:57)
+ # reference location: C:\workspace\cjmayers\CODE\git_workspaces\humboldt_dep\HRB_sw_utl\diversions_Humboldt_decree\input\lut
+ # transient inflow file: C:\workspace\cjmayers\CODE\git_workspaces\humboldt_dep\HRB_sw_utl\diversions_Humboldt_decree\input\transient_Palisade_flows\g10322500_monthly_trans_from_record.txt
+ # out file: C:\workspace\cjmayers\CODE\git_workspaces\humboldt_dep\HRB_sw_utl\diversions_Humboldt_decree\output\transient\diversion_flows\hrb_sfr6.diversion.initial.ts
+ #modelday	Aitken	Amos	CS_Dam	Chris_lo	Chris_up	CircleB_lo	CircleB_up	DS_Filben	DS_Fullen	Flying_M	Hay	Heck_main	Pioneer_lo	Pioneer_up	RH_Ranch	TQC_main	Tomera_HR	WH_R_lo	WH_R_up	r25_lo	r25_up	Heck_lo	TQC_lo
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_sfr6.bifurcation.ts
+ #modelday        Iron_Pt       RC_BIF      Hay_BIF       WH_BIF    CS_slough    PtTylr_div
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_sfr6.paradise.inflow.ts
+ # script: transient_diversion_flow_other_decree.py (2019-02-08 15:40)
+ # reference location: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\lut
+ # gage flow file(s): D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\gage
+ # out file: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\output\transient\flows\hrb_sfr6.paradise.inflow.ts
+ # Irrigation season:
+ #   Inflow values were reduced to 0. Based on seasons/priority as dictated by the decree, the
+ #   portion of the decree water not used by crops/ET was applied using the recharge package.
+ #   Water in excess of decrees was routed to a return flow location below the irrigation area.
+ # Non irrigation season:
+ #   All flow is routed through the original gage location(s).
+ # Note:
+ #   Calculations are time-weighted monthly values and in transition month(s) there may be flow
+ #   in the original gage location, recharge package, and return flow location
+ #   The g########_base values are the original flow value preserved for posterity.
+ #modelday	g10329000	g10329000_base	g10329500	g10329500_base
+    TIME-SERIES DATA WILL BE READ FROM FILE: external_files/ts/hrb_sfr6.paradise.return.ts
+ # script: transient_diversion_flow_other_decree.py (2019-02-08 15:40)
+ # reference location: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\lut
+ # gage flow file(s): D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\input\gage
+ # out file: D:\kyledavis\01_Projects\nt00g43\Models\MODFLOW\00_HRB_gw_model\ancillary\scripts\diversions_other_decree\output\transient\flows\hrb_sfr6.paradise.inflow.ts
+ # Return flow is water in excess of the decree. This water is routed to a return flow location
+ # below the irrigation area.
+ # Return flows, if any, should only occur during irrigation season
+ #modelday	l_humb_ret	martin_ret
+
+ OPENED external_files/obs/tr/hrb_tr.sfr6.obs
+ FILE TYPE:OBS   UNIT 1045   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED output__hrb_tr6.sfr.stage.bdat
+ FILE TYPE:DATA(BINARY)   UNIT 1046   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    SFR  STAGE  WILL BE SAVED TO FILE: output__hrb_tr6.sfr.stage.bdat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    OPENED ON UNIT:    1046
+
+ OPENED output__hrb_tr6.sfr.budget.bdat
+ FILE TYPE:DATA(BINARY)   UNIT 1047   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    SFR  BUDGET  WILL BE SAVED TO FILE: output__hrb_tr6.sfr.budget.bdat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    OPENED ON UNIT:    1047
+ END OF SFR OPTIONS
+
+ PROCESSING SFR DIMENSIONS
+    NREACHES = 36
+ END OF SFR DIMENSIONS
+
+ IC -- INITIAL CONDITIONS PACKAGE, VERSION 8, 3/28/2015 INPUT READ FROM UNIT 1006
+ # IC6 input file for the Middle Humboldt River Basin GW model
+ PROCESSING GRIDDATA
+
+ OPENED external_files/ic/tr_hrb_strt.hds
+ FILE TYPE:OPEN/CLOSE   UNIT 1048   STATUS:OLD                 
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READ                
+
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 1
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 2
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 3
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 4
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 5
+
+ HEADER FROM BINARY FILE HAS FOLLOWING ENTRIES
+    KSTP: 1  KPER: 1
+    PERTIM: 1.000000000000000  TOTIM: 1.000000000000000
+    TEXT: HEAD            
+    MSIZE 1: 329  MSIZE 2: 428  MSIZE 3: 6
+ END PROCESSING GRIDDATA
+ PROCESSING GRIDDATA
+
+                ICELLTYPE = 1 FOR LAYER 1
+
+                ICELLTYPE = 1 FOR LAYER 2
+
+                ICELLTYPE = 1 FOR LAYER 3
+
+                ICELLTYPE = 1 FOR LAYER 4
+
+                ICELLTYPE = 1 FOR LAYER 5
+
+                ICELLTYPE = 1 FOR LAYER 6
+
+ OPENED external_files/props/l1._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1049   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l2._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1050   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l3._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1051   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l4._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1052   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l5._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1053   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l6._kx
+ FILE TYPE:OPEN/CLOSE   UNIT 1054   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l1._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1055   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l2._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1056   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l3._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1057   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l4._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1058   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l5._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1059   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l6._kz
+ FILE TYPE:OPEN/CLOSE   UNIT 1060   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ K22 not provided.  Assuming K22 = K.
+ END PROCESSING GRIDDATA
+
+ HFB -- HORIZONTAL FLOW BARRIER PACKAGE, VERSION 8, 4/24/2015 INPUT READ FROM UNIT 1010
+
+
+ # HFB6 input file for the Middle Humboldt River Basin GW model
+ #
+ PROCESSING HFB OPTIONS
+    THE LIST OF HFBS WILL BE PRINTED.
+ END OF HFB OPTIONS
+
+ PROCESSING HFB DIMENSIONS
+    MAXHFB =     284
+ END OF HFB DIMENSIONS
+
+ STO -- STORAGE PACKAGE, VERSION 1, 5/19/2014 INPUT READ FROM UNIT 1008
+
+
+ # NPF6 input file for the Middle Humboldt River Basin GW model
+ PROCESSING STORAGE OPTIONS
+    CELL-BY-CELL FLOW INFORMATION WILL BE SAVED TO BINARY FILE WHENEVER ICBCFL IS NOT ZERO.
+ END OF STORAGE OPTIONS
+ PROCESSING GRIDDATA
+
+                 ICONVERT = 1 FOR LAYER 1
+
+                 ICONVERT = 1 FOR LAYER 2
+
+                 ICONVERT = 1 FOR LAYER 3
+
+                 ICONVERT = 1 FOR LAYER 4
+
+                 ICONVERT = 1 FOR LAYER 5
+
+                 ICONVERT = 1 FOR LAYER 6
+
+ OPENED external_files/props/l1._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1061   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l2._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1062   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l3._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1063   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l4._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1064   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l5._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1065   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l6._ss
+ FILE TYPE:OPEN/CLOSE   UNIT 1066   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l1._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1067   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l2._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1068   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l3._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1069   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l4._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1070   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l5._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1071   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/props/l6._sy
+ FILE TYPE:OPEN/CLOSE   UNIT 1072   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END PROCESSING GRIDDATA
+    BINARY GRID INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1073
+      FILE NAME: R:\GET\Models\Nevada\MH_TR_Calibration_Model\GET\hrb_tr6.dis.grb
+
+ OPENED R:\GET\Models\Nevada\MH_TR_Calibration_Model\GET\hrb_tr6.dis.grb
+ FILE TYPE:DATA(BINARY)   UNIT 1073   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+      THE LAST TIME STEP WILL BE PRINTED
+      THE LAST TIME STEP WILL BE PRINTED
+ # OC6 input file for the Middle Humboldt River Basin GW model
+ PROCESSING OC OPTIONS
+    BUDGET INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1074
+      FILE NAME: output__hrb_tr6.cbb
+
+ OPENED output__hrb_tr6.cbb
+ FILE TYPE:DATA(BINARY)   UNIT 1074   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    HEAD INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1075
+      FILE NAME: output__hrb_tr6.hds
+
+ OPENED output__hrb_tr6.hds
+ FILE TYPE:DATA(BINARY)   UNIT 1075   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+ END OF OC OPTIONS
+
+The observation utility is active for "EPHEMERAL_DRN"
+
+Processing observation options:
+
+Text output number of digits of precision set to:  8
+ # PRINT_INPUT
+
+ # obsnam                     obstype     id(rno)
+
+The observation utility is active for "PERENNIAL_DRN"
+
+Processing observation options:
+
+Text output number of digits of precision set to:  8
+ # PRINT_INPUT
+
+ # obsnam                     obstype     id(rno)
+
+The observation utility is active for "MINES_RCH"
+
+Processing observation options:
+
+Text output number of digits of precision set to: 10
+ # PRINT_INPUT
+
+ # obsnam                    obstype        id(boundname)
+ #  BK_TQ_infil               RCH            BK_TQ_infil
+
+The observation utility is active for "STREAMS_SFR"
+
+Processing observation options:
+
+Text output number of digits of precision set to: 16
+ # PRINT_INPUT
+
+ # obsnam                       obstype       id(rno)
+ # obsnam                       obstype       id(rno)
+ # obsnam                       obstype       id(rno)
+ # obsnam              obstype       id(rno)
+ #  humboldt_flux       SFR           Humboldt_Riv
+ # obsnam              obstype       id(rno)
+ #  PitTylr_div         INFLOW        PitTylr_div
+ #rno    lay   row   col    rlen         rwid   rgrd        rbtp     rbth  rbhk          man          ncon   ustrf   ndv    boundname                name
+
+ PROCESSING SFR PACKAGEDATA
+ END OF SFR PACKAGEDATA
+ # rno   in1   in2   out1  out2  out3
+
+ PROCESSING SFR CONNECTIONDATA
+ END OF SFR CONNECTIONDATA
+ # rno   idv   iconr cprior
+
+ PROCESSING SFR DIVERSIONS
+ END OF SFR DIVERSIONS
+ # Siphon Fault
+ # lay1 row1 col1 lay2 row2 col2 hydchr
+
+
+ READING HFB DATA
+   HFB NUM     CELL1     CELL2         HYDCHR
+         1(5,162,251(5,162,250   9.802843E-06
+         2(5,162,251(5,163,251   9.802843E-06
+         3(5,163,252(5,163,251   9.802843E-06
+         4(5,163,252(5,164,252   9.802843E-06
+         5(5,164,253(5,164,252   9.802843E-06
+         6(5,164,253(5,165,253   9.802843E-06
+         7(5,165,254(5,165,253   9.802843E-06
+         8(5,165,254(5,166,254   9.802843E-06
+         9(5,166,255(5,166,254   9.802843E-06
+        10(5,167,255(5,167,254   9.802843E-06
+        11(5,167,255(5,168,255   9.802843E-06
+        12(5,168,256(5,168,255   9.802843E-06
+        13(5,169,256(5,169,255   9.802843E-06
+        14(5,170,256(5,170,255   9.802843E-06
+        15(5,170,256(5,171,256   9.802843E-06
+        16(5,171,257(5,171,256   9.802843E-06
+        17(5,172,257(5,172,256   9.802843E-06
+        18(5,173,257(5,173,256   9.802843E-06
+        19(5,173,257(5,174,257   9.802843E-06
+        20(5,174,258(5,174,257   9.802843E-06
+        21(5,175,258(5,175,257   9.802843E-06
+        22(5,176,258(5,176,257   9.802843E-06
+        23(5,176,258(5,177,258   9.802843E-06
+        24(5,177,259(5,177,258   9.802843E-06
+        25(5,178,259(5,178,258   9.802843E-06
+        26(5,179,259(5,179,258   9.802843E-06
+        27(5,180,259(5,180,258   9.802843E-06
+        28(5,181,259(5,181,258   9.802843E-06
+        29(5,182,259(5,182,258   9.802843E-06
+        30(5,182,259(5,183,259   9.802843E-06
+        31(5,183,260(5,183,259   9.802843E-06
+        32(5,184,260(5,184,259   9.802843E-06
+        33(5,185,260(5,185,259   9.802843E-06
+        34(5,186,260(5,186,259   9.802843E-06
+        35(5,187,260(5,187,259   9.802843E-06
+        36(5,188,260(5,188,259   9.802843E-06
+        37(5,189,260(5,189,259   9.802843E-06
+        38(5,190,260(5,190,259   9.802843E-06
+        39(5,191,260(5,191,259   9.802843E-06
+        40(5,192,260(5,192,259   9.802843E-06
+        41(5,193,260(5,193,259   9.802843E-06
+        42(5,194,260(5,194,259   9.802843E-06
+        43(5,195,260(5,195,259   9.802843E-06
+        44(5,196,260(5,196,259   9.802843E-06
+        45(5,197,260(5,197,259   9.802843E-06
+        46(5,198,260(5,198,259   9.802843E-06
+        47(6,162,251(6,162,250   1.253501E-07
+        48(6,162,251(6,163,251   1.253501E-07
+        49(6,163,252(6,163,251   1.253501E-07
+        50(6,163,252(6,164,252   1.253501E-07
+        51(6,164,253(6,164,252   1.253501E-07
+        52(6,164,253(6,165,253   1.253501E-07
+        53(6,165,254(6,165,253   1.253501E-07
+        54(6,165,254(6,166,254   1.253501E-07
+        55(6,166,255(6,166,254   1.253501E-07
+        56(6,167,255(6,167,254   1.253501E-07
+        57(6,167,255(6,168,255   1.253501E-07
+        58(6,168,256(6,168,255   1.253501E-07
+        59(6,169,256(6,169,255   1.253501E-07
+        60(6,170,256(6,170,255   1.253501E-07
+        61(6,170,256(6,171,256   1.253501E-07
+        62(6,171,257(6,171,256   1.253501E-07
+        63(6,172,257(6,172,256   1.253501E-07
+        64(6,173,257(6,173,256   1.253501E-07
+        65(6,173,257(6,174,257   1.253501E-07
+        66(6,174,258(6,174,257   1.253501E-07
+        67(6,175,258(6,175,257   1.253501E-07
+        68(6,176,258(6,176,257   1.253501E-07
+        69(6,176,258(6,177,258   1.253501E-07
+        70(6,177,259(6,177,258   1.253501E-07
+        71(6,178,259(6,178,258   1.253501E-07
+        72(6,179,259(6,179,258   1.253501E-07
+        73(6,180,259(6,180,258   1.253501E-07
+        74(6,181,259(6,181,258   1.253501E-07
+        75(6,182,259(6,182,258   1.253501E-07
+        76(6,182,259(6,183,259   1.253501E-07
+        77(6,183,260(6,183,259   1.253501E-07
+        78(6,184,260(6,184,259   1.253501E-07
+        79(6,185,260(6,185,259   1.253501E-07
+        80(6,186,260(6,186,259   1.253501E-07
+        81(6,187,260(6,187,259   1.253501E-07
+        82(6,188,260(6,188,259   1.253501E-07
+        83(6,189,260(6,189,259   1.253501E-07
+        84(6,190,260(6,190,259   1.253501E-07
+        85(6,191,260(6,191,259   1.253501E-07
+        86(6,192,260(6,192,259   1.253501E-07
+        87(6,193,260(6,193,259   1.253501E-07
+        88(6,194,260(6,194,259   1.253501E-07
+        89(6,195,260(6,195,259   1.253501E-07
+        90(6,196,260(6,196,259   1.253501E-07
+        91(6,197,260(6,197,259   1.253501E-07
+        92(6,198,260(6,198,259   1.253501E-07
+ # Post Fault
+ # lay1 row1 col1 lay2 row2 col2 hydchr
+        93(5,160,258(5,160,257   7.407487E-05
+        94(5,160,258(5,161,258   7.407487E-05
+        95(5,161,259(5,161,258   7.407487E-05
+        96(5,162,259(5,162,258   7.407487E-05
+        97(5,163,259(5,163,258   7.407487E-05
+        98(5,164,259(5,164,258   7.407487E-05
+        99(5,164,259(5,165,259   7.407487E-05
+       100(5,165,260(5,165,259   7.407487E-05
+       101(5,166,260(5,166,259   7.407487E-05
+       102(5,167,260(5,167,259   7.407487E-05
+       103(5,168,260(5,168,259   7.407487E-05
+       104(5,169,260(5,169,259   7.407487E-05
+       105(5,169,260(5,170,260   7.407487E-05
+       106(5,170,261(5,170,260   7.407487E-05
+       107(5,171,261(5,171,260   7.407487E-05
+       108(5,172,261(5,172,260   7.407487E-05
+       109(5,173,262(5,173,261   7.407487E-05
+       110(5,173,262(5,174,262   7.407487E-05
+       111(5,174,263(5,174,262   7.407487E-05
+       112(5,174,263(5,175,263   7.407487E-05
+       113(5,174,264(5,175,264   7.407487E-05
+       114(5,174,265(5,175,265   7.407487E-05
+       115(5,175,266(5,175,265   7.407487E-05
+       116(5,175,266(5,176,266   7.407487E-05
+       117(6,160,258(6,160,257   2.803596E-05
+       118(6,160,258(6,161,258   2.803596E-05
+       119(6,161,259(6,161,258   2.803596E-05
+       120(6,162,259(6,162,258   2.803596E-05
+       121(6,163,259(6,163,258   2.803596E-05
+       122(6,164,259(6,164,258   2.803596E-05
+       123(6,164,259(6,165,259   2.803596E-05
+       124(6,165,260(6,165,259   2.803596E-05
+       125(6,166,260(6,166,259   2.803596E-05
+       126(6,167,260(6,167,259   2.803596E-05
+       127(6,168,260(6,168,259   2.803596E-05
+       128(6,169,260(6,169,259   2.803596E-05
+       129(6,169,260(6,170,260   2.803596E-05
+       130(6,170,261(6,170,260   2.803596E-05
+       131(6,171,261(6,171,260   2.803596E-05
+       132(6,172,261(6,172,260   2.803596E-05
+       133(6,173,262(6,173,261   2.803596E-05
+       134(6,173,262(6,174,262   2.803596E-05
+       135(6,174,263(6,174,262   2.803596E-05
+       136(6,174,263(6,175,263   2.803596E-05
+       137(6,174,264(6,175,264   2.803596E-05
+       138(6,174,265(6,175,265   2.803596E-05
+       139(6,175,266(6,175,265   2.803596E-05
+       140(6,175,266(6,176,266   2.803596E-05
+ # Crescent Fault
+ # lay1 row1 col1 lay2 row2 col2 hydchr
+       141(5,288,241(5,287,241   1.557576E-06
+       142(5,288,240(5,287,240   1.557576E-06
+       143(5,288,240(5,288,239   1.557576E-06
+       144(5,289,239(5,288,239   1.557576E-06
+       145(5,289,239(5,289,238   1.557576E-06
+       146(5,290,238(5,289,238   1.557576E-06
+       147(5,290,237(5,289,237   1.557576E-06
+       148(5,290,237(5,290,236   1.557576E-06
+       149(5,291,236(5,290,236   1.557576E-06
+       150(5,291,236(5,291,235   1.557576E-06
+       151(5,292,235(5,291,235   1.557576E-06
+       152(5,292,235(5,292,234   1.557576E-06
+       153(5,293,234(5,292,234   1.557576E-06
+       154(5,293,234(5,293,233   1.557576E-06
+       155(5,294,233(5,293,233   1.557576E-06
+       156(5,294,233(5,294,232   1.557576E-06
+       157(5,295,232(5,294,232   1.557576E-06
+       158(5,295,232(5,295,231   1.557576E-06
+       159(5,296,232(5,296,231   1.557576E-06
+       160(5,297,232(5,297,231   1.557576E-06
+       161(5,298,232(5,298,231   1.557576E-06
+       162(5,299,231(5,298,231   1.557576E-06
+       163(5,299,231(5,299,230   1.557576E-06
+       164(5,300,230(5,299,230   1.557576E-06
+       165(5,300,230(5,300,229   1.557576E-06
+       166(5,301,229(5,300,229   1.557576E-06
+       167(5,301,229(5,301,228   1.557576E-06
+       168(5,302,229(5,302,228   1.557576E-06
+       169(5,303,228(5,302,228   1.557576E-06
+       170(5,303,227(5,302,227   1.557576E-06
+       171(5,303,226(5,302,226   1.557576E-06
+       172(5,303,226(5,303,225   1.557576E-06
+       173(5,304,225(5,303,225   1.557576E-06
+       174(6,288,241(6,287,241   1.554987E-06
+       175(6,288,240(6,287,240   1.554987E-06
+       176(6,288,240(6,288,239   1.554987E-06
+       177(6,289,239(6,288,239   1.554987E-06
+       178(6,289,239(6,289,238   1.554987E-06
+       179(6,290,238(6,289,238   1.554987E-06
+       180(6,290,237(6,289,237   1.554987E-06
+       181(6,290,237(6,290,236   1.554987E-06
+       182(6,291,236(6,290,236   1.554987E-06
+       183(6,291,236(6,291,235   1.554987E-06
+       184(6,292,235(6,291,235   1.554987E-06
+       185(6,292,235(6,292,234   1.554987E-06
+       186(6,293,234(6,292,234   1.554987E-06
+       187(6,293,234(6,293,233   1.554987E-06
+       188(6,294,233(6,293,233   1.554987E-06
+       189(6,294,233(6,294,232   1.554987E-06
+       190(6,295,232(6,294,232   1.554987E-06
+       191(6,295,232(6,295,231   1.554987E-06
+       192(6,296,232(6,296,231   1.554987E-06
+       193(6,297,232(6,297,231   1.554987E-06
+       194(6,298,232(6,298,231   1.554987E-06
+       195(6,299,231(6,298,231   1.554987E-06
+       196(6,299,231(6,299,230   1.554987E-06
+       197(6,300,230(6,299,230   1.554987E-06
+       198(6,300,230(6,300,229   1.554987E-06
+       199(6,301,229(6,300,229   1.554987E-06
+       200(6,301,229(6,301,228   1.554987E-06
+       201(6,302,229(6,302,228   1.554987E-06
+       202(6,303,228(6,302,228   1.554987E-06
+       203(6,303,227(6,302,227   1.554987E-06
+       204(6,303,226(6,302,226   1.554987E-06
+       205(6,303,226(6,303,225   1.554987E-06
+       206(6,304,225(6,303,225   1.554987E-06
+ # Cortez Fault
+ # lay1 row1 col1 lay2 row2 col2 hydchr
+       207(5,304,225(5,304,224   1.190906E-06
+       208(5,305,225(5,305,224   1.190906E-06
+       209(5,306,225(5,306,224   1.190906E-06
+       210(5,306,225(5,307,225   1.190906E-06
+       211(5,307,226(5,307,225   1.190906E-06
+       212(5,308,226(5,308,225   1.190906E-06
+       213(5,309,226(5,309,225   1.190906E-06
+       214(5,310,226(5,310,225   1.190906E-06
+       215(5,310,226(5,311,226   1.190906E-06
+       216(5,310,227(5,311,227   1.190906E-06
+       217(5,311,228(5,311,227   1.190906E-06
+       218(5,312,228(5,312,227   1.190906E-06
+       219(5,313,228(5,313,227   1.190906E-06
+       220(5,313,228(5,314,228   1.190906E-06
+       221(5,314,229(5,314,228   1.190906E-06
+       222(5,315,229(5,315,228   1.190906E-06
+       223(5,316,229(5,316,228   1.190906E-06
+       224(5,317,229(5,317,228   1.190906E-06
+       225(5,318,229(5,318,228   1.190906E-06
+       226(5,319,229(5,319,228   1.190906E-06
+       227(5,320,229(5,320,228   1.190906E-06
+       228(5,321,228(5,320,228   1.190906E-06
+       229(5,321,228(5,321,227   1.190906E-06
+       230(5,322,228(5,322,227   1.190906E-06
+       231(5,323,228(5,323,227   1.190906E-06
+       232(5,324,228(5,324,227   1.190906E-06
+       233(5,324,228(5,325,228   1.190906E-06
+       234(5,324,229(5,325,229   1.190906E-06
+       235(5,325,230(5,325,229   1.190906E-06
+       236(5,326,230(5,326,229   1.190906E-06
+       237(5,326,230(5,327,230   1.190906E-06
+       238(5,327,231(5,327,230   1.190906E-06
+       239(5,327,231(5,328,231   1.190906E-06
+       240(5,328,232(5,328,231   1.190906E-06
+       241(5,328,232(5,329,232   1.190906E-06
+       242(5,329,233(5,329,232   1.190906E-06
+       243(5,329,233(5,330,233   1.190906E-06
+       244(5,330,234(5,330,233   1.190906E-06
+       245(5,330,234(5,331,234   1.190906E-06
+       246(6,304,225(6,304,224   4.174209E-06
+       247(6,305,225(6,305,224   4.174209E-06
+       248(6,306,225(6,306,224   4.174209E-06
+       249(6,306,225(6,307,225   4.174209E-06
+       250(6,307,226(6,307,225   4.174209E-06
+       251(6,308,226(6,308,225   4.174209E-06
+       252(6,309,226(6,309,225   4.174209E-06
+       253(6,310,226(6,310,225   4.174209E-06
+       254(6,310,226(6,311,226   4.174209E-06
+       255(6,310,227(6,311,227   4.174209E-06
+       256(6,311,228(6,311,227   4.174209E-06
+       257(6,312,228(6,312,227   4.174209E-06
+       258(6,313,228(6,313,227   4.174209E-06
+       259(6,313,228(6,314,228   4.174209E-06
+       260(6,314,229(6,314,228   4.174209E-06
+       261(6,315,229(6,315,228   4.174209E-06
+       262(6,316,229(6,316,228   4.174209E-06
+       263(6,317,229(6,317,228   4.174209E-06
+       264(6,318,229(6,318,228   4.174209E-06
+       265(6,319,229(6,319,228   4.174209E-06
+       266(6,320,229(6,320,228   4.174209E-06
+       267(6,321,228(6,320,228   4.174209E-06
+       268(6,321,228(6,321,227   4.174209E-06
+       269(6,322,228(6,322,227   4.174209E-06
+       270(6,323,228(6,323,227   4.174209E-06
+       271(6,324,228(6,324,227   4.174209E-06
+       272(6,324,228(6,325,228   4.174209E-06
+       273(6,324,229(6,325,229   4.174209E-06
+       274(6,325,230(6,325,229   4.174209E-06
+       275(6,326,230(6,326,229   4.174209E-06
+       276(6,326,230(6,327,230   4.174209E-06
+       277(6,327,231(6,327,230   4.174209E-06
+       278(6,327,231(6,328,231   4.174209E-06
+       279(6,328,232(6,328,231   4.174209E-06
+       280(6,328,232(6,329,232   4.174209E-06
+       281(6,329,233(6,329,232   4.174209E-06
+       282(6,329,233(6,330,233   4.174209E-06
+       283(6,330,234(6,330,233   4.174209E-06
+       284(6,330,234(6,331,234   4.174209E-06
+   284 HFBs READ FOR STRESS PERIOD 1
+ END READING HFB DATA
+
+ BEGIN READING OUTPUT CONTROL FOR STRESS PERIOD 1
+      ALL TIME STEPS WILL BE PRINTED
+      ALL TIME STEPS WILL BE SAVED
+
+ END READING OUTPUT CONTROL FOR STRESS PERIOD 1
+
+
+ UPDATING STORAGE VALUES
+ END UPDATING STORAGE VALUES
+
+
+ STRESS PERIOD 1 IS TRANSIENT
+
+ #lay row  col  elev    cond          d_cond_mult  boundname
+ #lay row  col  elev    cond          d_cond_mult  boundname
+
+ OPENED external_files/rch/rch_layers.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1085   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/rch/rch_ss.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1086   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/rch/rch_mult.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1087   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+    THE RECHARGE ARRAY IS BEING MULTIPLED BY THE AUXILIARY ARRAY WITH THE NAME: RCH_MULT        
+ # RECHARGE
+ #lay row  col  rate          irr_eff        boundname
+ #lay row  col  rch_rate_ftd  mult         boundname
+ 
+ # lay row  col  rch_rate_ftd              mult              boundname
+ # ET stress period data
+
+ OPENED external_files/evt/evt_layers.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1088   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/evt/evt_ss_seasons.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1089   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/evt/evt_extdp.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1090   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/evt/evt_surf.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1091   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED external_files/evt/evt_mult.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1092   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+    THE ET RATE ARRAY IS BEING MULTIPLED BY THE AUXILIARY ARRAY WITH THE NAME: ET_MULT         
+ #  rno    sfrsetting idiv ts_names
+
+              SFR (STREAMS_SFR)   PERIOD 1   STEP 1
+ BOUNDARY        1  CELL          (1,206,308)   RATE     0.00000      #
+ BOUNDARY        2  CELL          (1,206,307)   RATE     0.00000      #
+ BOUNDARY        3  CELL          (1,206,306)   RATE    -949.327      #
+ BOUNDARY        4  CELL          (1,207,307)   RATE    -8969.70      #
+ BOUNDARY        5  CELL          (1,207,306)   RATE    -10393.7      #
+ BOUNDARY        6  CELL          (1,207,306)   RATE    -5833.14      #
+ BOUNDARY        7  CELL          (1,207,305)   RATE    -21507.4      #
+ BOUNDARY        8  CELL          (1,207,304)   RATE    -24291.4      #
+ BOUNDARY        9  CELL          (1,206,304)   RATE    -1311.52      #
+ BOUNDARY       10  CELL          (1,206,303)   RATE    -5627.96      #
+ BOUNDARY       11  CELL          (1,207,303)   RATE    -11564.2      #
+ BOUNDARY       12  CELL          (1,208,303)   RATE    -8052.63      #
+ BOUNDARY       13  CELL          (1,208,304)   RATE    -25524.6      #
+ BOUNDARY       14  CELL          (1,209,304)   RATE    -35107.7      #
+ BOUNDARY       15  CELL          (1,209,303)   RATE    -35402.6      #
+ BOUNDARY       16  CELL          (1,209,302)   RATE    -6967.00      #
+ BOUNDARY       17  CELL          (1,208,302)   RATE    -29248.4      #
+ BOUNDARY       18  CELL          (1,208,301)   RATE    -16246.2      #
+ BOUNDARY       19  CELL          (1,208,300)   RATE    -14091.7      #
+ BOUNDARY       20  CELL          (1,208,299)   RATE    -12895.3      #
+ BOUNDARY       21  CELL          (1,207,298)   RATE     0.00000      #
+ BOUNDARY       22  CELL          (1,208,298)   RATE    -382.756      #
+ BOUNDARY       23  CELL          (1,208,299)   RATE    -552.324      #
+ BOUNDARY       24  CELL          (1,208,299)   RATE    -9569.71      #
+ BOUNDARY       25  CELL          (1,208,298)   RATE    -6610.74      #
+ BOUNDARY       26  CELL          (1,209,298)   RATE    -105731.      #
+ BOUNDARY       27  CELL          (1,209,297)   RATE    -130835.      #
+ BOUNDARY       28  CELL          (1,209,296)   RATE    -15801.0      #
+ BOUNDARY       29  CELL          (1,209,297)   RATE    -5226.15      #
+ BOUNDARY       30  CELL          (1,209,297)   RATE    -9866.80      #
+ BOUNDARY       31  CELL          (1,209,296)   RATE    -21672.5      #
+ BOUNDARY       32  CELL          (1,210,296)   RATE    -67682.4      #
+ BOUNDARY       33  CELL          (1,210,295)   RATE    -84584.8      #
+ BOUNDARY       34  CELL          (1,210,294)   RATE    -58297.6      #
+ BOUNDARY       35  CELL          (1,211,294)   RATE    -25016.0      #
+ BOUNDARY       36  CELL          (1,211,293)   RATE    -26536.7      #
+
+
+ HEAD WILL BE SAVED ON UNIT 1075 AT END OF TIME STEP    1, STRESS PERIOD    1
+
+
+
+ SFR (STREAMS_SFR) FLOWS   PERIOD      1   STEP        1
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH           REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+ NAME             NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ #                    1 (1,206,308)            0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+ #                    2 (1,206,307)            0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+ #                    3 (1,206,306)            0.000       0.000       0.000       0.000       949.3       0.000      -949.3       0.000       0.000       0.000     
+ #                    4 (1,207,307)            0.000       949.3       0.000       0.000       8970.       0.000      -9919.       0.000       0.000       0.000     
+ #                    5 (1,207,306)            0.000       9919.       0.000       0.000      0.1039E+05   0.000     -0.2031E+05   0.000       0.000       0.000     
+ #                    6 (1,207,306)            0.000      0.2031E+05   0.000       0.000       5833.       0.000     -0.2615E+05   0.000       0.000       0.000     
+ #                    7 (1,207,305)            0.000      0.2615E+05   0.000       0.000      0.2151E+05   0.000     -0.4765E+05   0.000       0.000       0.000     
+ #                    8 (1,207,304)            0.000      0.4765E+05   0.000       0.000      0.2429E+05   0.000     -0.7194E+05   0.000       0.000       0.000     
+ #                    9 (1,206,304)            0.000      0.7194E+05   0.000       0.000       1312.       0.000     -0.7326E+05   0.000       0.000       0.000     
+ #                   10 (1,206,303)            0.000      0.7326E+05   0.000       0.000       5628.       0.000     -0.7888E+05   0.000       0.000       0.000     
+ #                   11 (1,207,303)            0.000      0.7888E+05   0.000       0.000      0.1156E+05   0.000     -0.9045E+05   0.000       0.000       0.000     
+ #                   12 (1,208,303)            0.000      0.9045E+05   0.000       0.000       8053.       0.000     -0.9850E+05   0.000       0.000       0.000     
+ #                   13 (1,208,304)            0.000      0.9850E+05   0.000       0.000      0.2552E+05   0.000     -0.1240E+06   0.000       0.000       0.000     
+ #                   14 (1,209,304)            0.000      0.1240E+06   0.000       0.000      0.3511E+05   0.000     -0.1591E+06   0.000       0.000       0.000     
+ #                   15 (1,209,303)            0.000      0.1591E+06   0.000       0.000      0.3540E+05   0.000     -0.1945E+06   0.000       0.000       0.000     
+ #                   16 (1,209,302)            0.000      0.1945E+06   0.000       0.000       6967.       0.000     -0.2015E+06   0.000       0.000       0.000     
+ #                   17 (1,208,302)            0.000      0.2015E+06   0.000       0.000      0.2925E+05   0.000     -0.2308E+06   0.000       0.000       0.000     
+ #                   18 (1,208,301)            0.000      0.2308E+06   0.000       0.000      0.1625E+05   0.000     -0.2470E+06   0.000       0.000       0.000     
+ #                   19 (1,208,300)            0.000      0.2470E+06   0.000       0.000      0.1409E+05   0.000     -0.2611E+06   0.000       0.000       0.000     
+ #                   20 (1,208,299)            0.000      0.2611E+06   0.000       0.000      0.1290E+05   0.000     -0.2740E+06   0.000       0.000       0.000     
+ #                   21 (1,207,298)            0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+ #                   22 (1,208,298)            0.000       0.000       0.000       0.000       382.8       0.000      -382.8       0.000       0.000       0.000     
+ #                   23 (1,208,299)            0.000       382.8       0.000       0.000       552.3       0.000      -935.1       0.000       0.000       0.000     
+ #                   24 (1,208,299)            0.000      0.2749E+06   0.000       0.000       9570.       0.000     -0.2845E+06   0.000       0.000       0.000     
+ #                   25 (1,208,298)            0.000      0.2845E+06   0.000       0.000       6611.       0.000     -0.2911E+06   0.000       0.000       0.000     
+ #                   26 (1,209,298)            0.000      0.2911E+06   0.000       0.000      0.1057E+06   0.000     -0.3968E+06   0.000       0.000       0.000     
+ #                   27 (1,209,297)            0.000      0.3968E+06   0.000       0.000      0.1308E+06   0.000     -0.5277E+06   0.000       0.000       0.000     
+ #                   28 (1,209,296)            0.000       0.000       0.000       0.000      0.1580E+05   0.000     -0.1580E+05   0.000       0.000       0.000     
+ #                   29 (1,209,297)            0.000      0.1580E+05   0.000       0.000       5226.       0.000     -0.2103E+05   0.000       0.000       0.000     
+ #                   30 (1,209,297)            0.000      0.5487E+06   0.000       0.000       9867.       0.000     -0.5586E+06   0.000       0.000       0.000     
+ #                   31 (1,209,296)            0.000      0.5586E+06   0.000       0.000      0.2167E+05   0.000     -0.5802E+06   0.000       0.000       0.000     
+ #                   32 (1,210,296)            0.000      0.5802E+06   0.000       0.000      0.6768E+05   0.000     -0.6479E+06   0.000       0.000       0.000     
+ #                   33 (1,210,295)            0.000      0.6479E+06   0.000       0.000      0.8458E+05   0.000     -0.7325E+06   0.000       0.000       0.000     
+ #                   34 (1,210,294)            0.000      0.7325E+06   0.000       0.000      0.5830E+05   0.000     -0.7908E+06   0.000       0.000       0.000     
+ #                   35 (1,211,294)            0.000      0.7908E+06   0.000       0.000      0.2502E+05   0.000     -0.8158E+06   0.000       0.000       0.000     
+ #                   36 (1,211,293)            0.000      0.8158E+06   0.000       0.000      0.2654E+05   0.000     -0.8424E+06   0.000       0.000       0.000     
+ 
+
+  STREAMS_SFR BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE STREAMS_SFR      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =   700673456.6994                   GWF =    22602369.5709
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =   700673456.6994              TOTAL IN =    22602369.5709
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =    93383953.7584                   GWF =     3012385.6051
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =   607289502.9410           EXT-OUTFLOW =    19589983.9658
+
+           TOTAL OUT =   700673456.6994             TOTAL OUT =    22602369.5709
+
+            IN - OUT =       1.1921E-07              IN - OUT =       3.7253E-09
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =  1344130280.2114                STO-SS =    43359041.2971     STORAGE         
+              STO-SY =   862526400.4471                STO-SY =    27823432.2725     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WELLS           
+                 DRN =           0.0000                   DRN =           0.0000     EPHEMERAL_DRN   
+                 DRN =           0.0000                   DRN =           0.0000     PERENNIAL_DRN   
+                 RCH =  1132033805.8141                   RCH =    36517219.5424     AREAL_RCH       
+                 RCH =           0.0000                   RCH =           0.0000     PARADISE_RCH    
+                 RCH =           0.0000                   RCH =           0.0000     GUMBOOT_RCH     
+                 RCH =           0.0000                   RCH =           0.0000     MINES_RCH       
+                 EVT =           0.0000                   EVT =           0.0000     ETG             
+                 SFR =    93383953.3986                   SFR =     3012385.5935     STREAMS_SFR     
+
+            TOTAL IN =  3432074439.8712              TOTAL IN =   110712078.7055
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =    40761091.3750                STO-SS =     1314873.9153     STORAGE         
+              STO-SY =    79255501.6444                STO-SY =     2556629.0853     STORAGE         
+                 WEL =     5719597.5189                   WEL =      184503.1458     WELLS           
+                 DRN =    42520140.6194                   DRN =     1371617.4393     EPHEMERAL_DRN   
+                 DRN =   104351919.7869                   DRN =     3366190.9609     PERENNIAL_DRN   
+                 RCH =           0.0000                   RCH =           0.0000     AREAL_RCH       
+                 RCH =           0.0000                   RCH =           0.0000     PARADISE_RCH    
+                 RCH =           0.0000                   RCH =           0.0000     GUMBOOT_RCH     
+                 RCH =           0.0000                   RCH =           0.0000     MINES_RCH       
+                 EVT =  2458792475.4208                   EVT =    79315886.3039     ETG             
+                 SFR =   700673461.9406                   SFR =    22602369.7400     STREAMS_SFR     
+
+           TOTAL OUT =  3432074188.3060             TOTAL OUT =   110712070.5905
+
+            IN - OUT =         251.5652              IN - OUT =           8.1150
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH 2.67840E+06  44640.      744.00      31.000     8.48734E-02
+ STRESS PERIOD TIME 2.67840E+06  44640.      744.00      31.000     8.48734E-02
+         TOTAL TIME 2.67840E+06  44640.      744.00      31.000     8.48734E-02
+
+ REUSING HFBS FROM LAST STRESS PERIOD
+
+ END OF FILE DETECTED IN OUTPUT CONTROL.
+ CURRENT OUTPUT CONTROL SETTINGS WILL BE 
+ REPEATED UNTIL THE END OF THE SIMULATION.
+
+ OUTPUT CONTROL FOR STRESS PERIOD 2 IS REPEATED USING SETTINGS FROM A PREVIOUS STRESS PERIOD.
+
+
+ STRESS PERIOD 2 IS TRANSIENT
+
+
+ REUSING DRNS FROM LAST STRESS PERIOD
+
+ REUSING DRNS FROM LAST STRESS PERIOD
+
+ OPENED external_files/rch/rch_wy1961_01.txt
+ FILE TYPE:OPEN/CLOSE   UNIT 1093   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+    THE RECHARGE ARRAY IS BEING MULTIPLED BY THE AUXILIARY ARRAY WITH THE NAME: RCH_MULT        
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ OPENED external_files/evt/evt_tr_nonirr_season.dat
+ FILE TYPE:OPEN/CLOSE   UNIT 1094   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+    THE ET RATE ARRAY IS BEING MULTIPLED BY THE AUXILIARY ARRAY WITH THE NAME: ET_MULT         
+
+ REUSING SFRS FROM LAST STRESS PERIOD
+
+              SFR (STREAMS_SFR)   PERIOD 2   STEP 1
+ BOUNDARY        1  CELL          (1,206,308)   RATE     628.299      #
+ BOUNDARY        2  CELL          (1,206,307)   RATE     3945.40      #
+ BOUNDARY        3  CELL          (1,206,306)   RATE     227.507      #
+ BOUNDARY        4  CELL          (1,207,307)   RATE    -8077.57      #
+ BOUNDARY        5  CELL          (1,207,306)   RATE    -9361.88      #
+ BOUNDARY        6  CELL          (1,207,306)   RATE    -5214.63      #
+ BOUNDARY        7  CELL          (1,207,305)   RATE    -18022.8      #
+ BOUNDARY        8  CELL          (1,207,304)   RATE    -20953.6      #
+ BOUNDARY        9  CELL          (1,206,304)   RATE    -1224.70      #
+ BOUNDARY       10  CELL          (1,206,303)   RATE    -5010.97      #
+ BOUNDARY       11  CELL          (1,207,303)   RATE    -9384.02      #
+ BOUNDARY       12  CELL          (1,208,303)   RATE    -7151.13      #
+ BOUNDARY       13  CELL          (1,208,304)   RATE    -23618.8      #
+ BOUNDARY       14  CELL          (1,209,304)   RATE    -33016.4      #
+ BOUNDARY       15  CELL          (1,209,303)   RATE    -31249.3      #
+ BOUNDARY       16  CELL          (1,209,302)   RATE    -6564.52      #
+ BOUNDARY       17  CELL          (1,208,302)   RATE    -26527.3      #
+ BOUNDARY       18  CELL          (1,208,301)   RATE    -24002.8      #
+ BOUNDARY       19  CELL          (1,208,300)   RATE    -19355.0      #
+ BOUNDARY       20  CELL          (1,208,299)   RATE    -15028.8      #
+ BOUNDARY       21  CELL          (1,207,298)   RATE     385.635      #
+ BOUNDARY       22  CELL          (1,208,298)   RATE    -260.587      #
+ BOUNDARY       23  CELL          (1,208,299)   RATE    -658.113      #
+ BOUNDARY       24  CELL          (1,208,299)   RATE    -11286.2      #
+ BOUNDARY       25  CELL          (1,208,298)   RATE    -4164.61      #
+ BOUNDARY       26  CELL          (1,209,298)   RATE    -93949.4      #
+ BOUNDARY       27  CELL          (1,209,297)   RATE    -123959.      #
+ BOUNDARY       28  CELL          (1,209,296)   RATE    -16975.4      #
+ BOUNDARY       29  CELL          (1,209,297)   RATE    -4905.47      #
+ BOUNDARY       30  CELL          (1,209,297)   RATE    -9282.92      #
+ BOUNDARY       31  CELL          (1,209,296)   RATE    -23520.2      #
+ BOUNDARY       32  CELL          (1,210,296)   RATE    -60674.2      #
+ BOUNDARY       33  CELL          (1,210,295)   RATE    -75493.6      #
+ BOUNDARY       34  CELL          (1,210,294)   RATE    -51601.3      #
+ BOUNDARY       35  CELL          (1,211,294)   RATE    -21220.0      #
+ BOUNDARY       36  CELL          (1,211,293)   RATE    -21806.1      #
+
+
+ HEAD WILL BE SAVED ON UNIT 1075 AT END OF TIME STEP    1, STRESS PERIOD    2
+
+
+
+ SFR (STREAMS_SFR) FLOWS   PERIOD      2   STEP        1
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH           REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+ NAME             NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ #                    1 (1,206,308)           0.1708E+07   0.000       0.000       0.000      -628.3       0.000     -0.1708E+07   0.000       0.000       0.000     
+ #                    2 (1,206,307)            0.000      0.1708E+07   0.000       0.000      -3945.       0.000     -0.1704E+07   0.000       0.000       0.000     
+ #                    3 (1,206,306)            0.000      0.1704E+07   0.000       0.000      -227.5       0.000     -0.1703E+07   0.000       0.000       0.000     
+ #                    4 (1,207,307)            0.000      0.1703E+07   0.000       0.000       8078.       0.000     -0.1711E+07   0.000       0.000       0.000     
+ #                    5 (1,207,306)            0.000      0.1711E+07   0.000       0.000       9362.       0.000     -0.1721E+07   0.000       0.000       0.000     
+ #                    6 (1,207,306)            0.000      0.1721E+07   0.000       0.000       5215.       0.000     -0.1726E+07   0.000       0.000       0.000     
+ #                    7 (1,207,305)            0.000      0.1726E+07   0.000       0.000      0.1802E+05   0.000     -0.1744E+07   0.000       0.000       0.000     
+ #                    8 (1,207,304)            0.000      0.1744E+07   0.000       0.000      0.2095E+05   0.000     -0.1765E+07   0.000       0.000       0.000     
+ #                    9 (1,206,304)            0.000      0.1765E+07   0.000       0.000       1225.       0.000     -0.1766E+07   0.000       0.000       0.000     
+ #                   10 (1,206,303)            0.000      0.1766E+07   0.000       0.000       5011.       0.000     -0.1771E+07   0.000       0.000       0.000     
+ #                   11 (1,207,303)            0.000      0.1771E+07   0.000       0.000       9384.       0.000     -0.1781E+07   0.000       0.000       0.000     
+ #                   12 (1,208,303)            0.000      0.1781E+07   0.000       0.000       7151.       0.000     -0.1788E+07   0.000       0.000       0.000     
+ #                   13 (1,208,304)            0.000      0.1788E+07   0.000       0.000      0.2362E+05   0.000     -0.1811E+07   0.000       0.000       0.000     
+ #                   14 (1,209,304)            0.000      0.1811E+07   0.000       0.000      0.3302E+05   0.000     -0.1844E+07   0.000       0.000       0.000     
+ #                   15 (1,209,303)            0.000      0.1844E+07   0.000       0.000      0.3125E+05   0.000     -0.1876E+07   0.000       0.000       0.000     
+ #                   16 (1,209,302)            0.000      0.1876E+07   0.000       0.000       6565.       0.000     -0.1882E+07   0.000       0.000       0.000     
+ #                   17 (1,208,302)            0.000      0.1882E+07   0.000       0.000      0.2653E+05   0.000     -0.1909E+07   0.000       0.000       0.000     
+ #                   18 (1,208,301)            0.000      0.1909E+07   0.000       0.000      0.2400E+05   0.000     -0.1933E+07   0.000       0.000       0.000     
+ #                   19 (1,208,300)            0.000      0.1933E+07   0.000       0.000      0.1936E+05   0.000     -0.1952E+07   0.000       0.000       0.000     
+ #                   20 (1,208,299)            0.000      0.1952E+07   0.000       0.000      0.1503E+05   0.000     -0.1967E+07   0.000       0.000       0.000     
+ #                   21 (1,207,298)           0.1882E+06   0.000       0.000       0.000      -385.6       0.000     -0.1879E+06   0.000       0.000       0.000     
+ #                   22 (1,208,298)            0.000      0.1879E+06   0.000       0.000       260.6       0.000     -0.1881E+06   0.000       0.000       0.000     
+ #                   23 (1,208,299)            0.000      0.1881E+06   0.000       0.000       658.1       0.000     -0.1888E+06   0.000       0.000       0.000     
+ #                   24 (1,208,299)            0.000      0.2156E+07   0.000       0.000      0.1129E+05   0.000     -0.2167E+07   0.000       0.000       0.000     
+ #                   25 (1,208,298)            0.000      0.2167E+07   0.000       0.000       4165.       0.000     -0.2171E+07   0.000       0.000       0.000     
+ #                   26 (1,209,298)            0.000      0.2171E+07   0.000       0.000      0.9395E+05   0.000     -0.2265E+07   0.000       0.000       0.000     
+ #                   27 (1,209,297)            0.000      0.2265E+07   0.000       0.000      0.1240E+06   0.000     -0.2389E+07   0.000       0.000       0.000     
+ #                   28 (1,209,296)           0.3982E+06   0.000       0.000       0.000      0.1698E+05   0.000     -0.4152E+06   0.000       0.000       0.000     
+ #                   29 (1,209,297)            0.000      0.4152E+06   0.000       0.000       4905.       0.000     -0.4201E+06   0.000       0.000       0.000     
+ #                   30 (1,209,297)            0.000      0.2809E+07   0.000       0.000       9283.       0.000     -0.2819E+07   0.000       0.000       0.000     
+ #                   31 (1,209,296)            0.000      0.2819E+07   0.000       0.000      0.2352E+05   0.000     -0.2842E+07   0.000       0.000       0.000     
+ #                   32 (1,210,296)            0.000      0.2842E+07   0.000       0.000      0.6067E+05   0.000     -0.2903E+07   0.000       0.000       0.000     
+ #                   33 (1,210,295)            0.000      0.2903E+07   0.000       0.000      0.7549E+05   0.000     -0.2978E+07   0.000       0.000       0.000     
+ #                   34 (1,210,294)            0.000      0.2978E+07   0.000       0.000      0.5160E+05   0.000     -0.3030E+07   0.000       0.000       0.000     
+ #                   35 (1,211,294)            0.000      0.3030E+07   0.000       0.000      0.2122E+05   0.000     -0.3051E+07   0.000       0.000       0.000     
+ #                   36 (1,211,293)            0.000      0.3051E+07   0.000       0.000      0.2181E+05   0.000     -0.3073E+07   0.000       0.000       0.000     
+
+  STREAMS_SFR BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE STREAMS_SFR      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =   131609473.8400            EXT-INFLOW =     4386982.4613
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =  1157506269.1891                   GWF =    15227760.4163
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =  1289115743.0291              TOTAL IN =    19614742.8777
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =   211635046.8635                   GWF =     3941703.1035
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =  1077480696.1656           EXT-OUTFLOW =    15673039.7742
+
+           TOTAL OUT =  1289115743.0291             TOTAL OUT =    19614742.8777
+
+            IN - OUT =       7.1526E-07              IN - OUT =       1.1176E-08
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =  2310008902.9850                STO-SS =    32195954.0925     STORAGE         
+              STO-SY =  1970336289.2060                STO-SY =    36926996.2920     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WELLS           
+                 DRN =           0.0000                   DRN =           0.0000     EPHEMERAL_DRN   
+                 DRN =           0.0000                   DRN =           0.0000     PERENNIAL_DRN   
+                 RCH =  1288976289.8741                   RCH =     5231416.1353     AREAL_RCH       
+                 RCH =           0.0000                   RCH =           0.0000     PARADISE_RCH    
+                 RCH =           0.0000                   RCH =           0.0000     GUMBOOT_RCH     
+                 RCH =           0.0000                   RCH =           0.0000     MINES_RCH       
+                 EVT =           0.0000                   EVT =           0.0000     ETG             
+                 SFR =   211635045.6670                   SFR =     3941703.0756     STREAMS_SFR     
+
+            TOTAL IN =  5780956527.7321              TOTAL IN =    78296069.5954
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =   281576586.5221                STO-SS =     8027183.1716     STORAGE         
+              STO-SY =   227769379.6230                STO-SY =     4950462.5993     STORAGE         
+                 WEL =    11493873.1601                   WEL =      192475.8547     WELLS           
+                 DRN =    73981900.9430                   DRN =     1048725.3441     EPHEMERAL_DRN   
+                 DRN =   195489108.4581                   DRN =     3037906.2890     PERENNIAL_DRN   
+                 RCH =           0.0000                   RCH =           0.0000     AREAL_RCH       
+                 RCH =           0.0000                   RCH =           0.0000     PARADISE_RCH    
+                 RCH =           0.0000                   RCH =           0.0000     GUMBOOT_RCH     
+                 RCH =           0.0000                   RCH =           0.0000     MINES_RCH       
+                 EVT =  3833139244.0059                   EVT =    45811558.9528     ETG             
+                 SFR =  1157506275.6676                   SFR =    15227760.4576     STREAMS_SFR     
+
+           TOTAL OUT =  5780956368.3798             TOTAL OUT =    78296072.6691
+
+            IN - OUT =         159.3523              IN - OUT =          -3.0738
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =          -0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    2
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH 2.59200E+06  43200.      720.00      30.000     8.21355E-02
+ STRESS PERIOD TIME 2.59200E+06  43200.      720.00      30.000     8.21355E-02
+         TOTAL TIME 5.27040E+06  87840.      1464.0      61.000     0.16701    
+
+ REUSING HFBS FROM LAST STRESS PERIOD
+
+ OUTPUT CONTROL FOR STRESS PERIOD 3 IS REPEATED USING SETTINGS FROM A PREVIOUS STRESS PERIOD.
+
+
+ STRESS PERIOD 3 IS TRANSIENT
+
+
+ REUSING DRNS FROM LAST STRESS PERIOD
+
+ REUSING DRNS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING EVTS FROM LAST STRESS PERIOD
+
+ REUSING SFRS FROM LAST STRESS PERIOD
+
+              SFR (STREAMS_SFR)   PERIOD 3   STEP 1
+ BOUNDARY        1  CELL          (1,206,308)   RATE     632.677      #
+ BOUNDARY        2  CELL          (1,206,307)   RATE     3972.91      #
+ BOUNDARY        3  CELL          (1,206,306)   RATE     602.526      #
+ BOUNDARY        4  CELL          (1,207,307)   RATE    -7695.42      #
+ BOUNDARY        5  CELL          (1,207,306)   RATE    -8864.32      #
+ BOUNDARY        6  CELL          (1,207,306)   RATE    -4933.63      #
+ BOUNDARY        7  CELL          (1,207,305)   RATE    -16651.7      #
+ BOUNDARY        8  CELL          (1,207,304)   RATE    -19459.5      #
+ BOUNDARY        9  CELL          (1,206,304)   RATE    -1222.44      #
+ BOUNDARY       10  CELL          (1,206,303)   RATE    -4845.43      #
+ BOUNDARY       11  CELL          (1,207,303)   RATE    -8746.39      #
+ BOUNDARY       12  CELL          (1,208,303)   RATE    -6846.83      #
+ BOUNDARY       13  CELL          (1,208,304)   RATE    -22797.0      #
+ BOUNDARY       14  CELL          (1,209,304)   RATE    -32074.2      #
+ BOUNDARY       15  CELL          (1,209,303)   RATE    -29056.2      #
+ BOUNDARY       16  CELL          (1,209,302)   RATE    -6473.28      #
+ BOUNDARY       17  CELL          (1,208,302)   RATE    -25529.6      #
+ BOUNDARY       18  CELL          (1,208,301)   RATE    -23609.9      #
+ BOUNDARY       19  CELL          (1,208,300)   RATE    -18918.6      #
+ BOUNDARY       20  CELL          (1,208,299)   RATE    -14681.6      #
+ BOUNDARY       21  CELL          (1,207,298)   RATE     362.486      #
+ BOUNDARY       22  CELL          (1,208,298)   RATE    -236.800      #
+ BOUNDARY       23  CELL          (1,208,299)   RATE    -664.676      #
+ BOUNDARY       24  CELL          (1,208,299)   RATE    -11081.7      #
+ BOUNDARY       25  CELL          (1,208,298)   RATE    -3218.89      #
+ BOUNDARY       26  CELL          (1,209,298)   RATE    -87413.2      #
+ BOUNDARY       27  CELL          (1,209,297)   RATE    -121409.      #
+ BOUNDARY       28  CELL          (1,209,296)   RATE    -16610.5      #
+ BOUNDARY       29  CELL          (1,209,297)   RATE    -4878.11      #
+ BOUNDARY       30  CELL          (1,209,297)   RATE    -9114.41      #
+ BOUNDARY       31  CELL          (1,209,296)   RATE    -22686.8      #
+ BOUNDARY       32  CELL          (1,210,296)   RATE    -57738.5      #
+ BOUNDARY       33  CELL          (1,210,295)   RATE    -73584.0      #
+ BOUNDARY       34  CELL          (1,210,294)   RATE    -50424.6      #
+ BOUNDARY       35  CELL          (1,211,294)   RATE    -21080.1      #
+ BOUNDARY       36  CELL          (1,211,293)   RATE    -20906.4      #
+
+ HEAD WILL BE SAVED ON UNIT 1075 AT END OF TIME STEP    1, STRESS PERIOD    3

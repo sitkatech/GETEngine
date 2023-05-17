@@ -1,0 +1,27 @@
+
+begin options
+  BOUNDNAMES
+  SAVE_FLOW
+end options
+
+begin dimensions
+  MAXBOUND 2
+end dimensions
+
+#        node      flux    name 
+begin period 1
+         20     -10.00   w01
+         30     -10.00   w02
+end period
+
+begin period 3
+end period
+
+begin period 5
+         20     -15.00   w01
+         30     -15.00   w02
+end period
+
+begin period 6
+         20     -5.00   w01
+end period

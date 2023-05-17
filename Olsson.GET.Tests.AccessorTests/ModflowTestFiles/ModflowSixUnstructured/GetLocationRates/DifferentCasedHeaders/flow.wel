@@ -1,0 +1,26 @@
+
+begin options
+  BOUNDNAMES
+end options
+
+BEGIN dimensions
+  MAXBOUND 2
+end dimensions
+
+#        node      flux    name 
+begin PERIOD 1
+         20     -10.00   w01
+         30     -10.00   w02
+END PERIOD
+
+BEGIN period 3
+end PERIOD
+
+BEGIN PERIOD 5
+         20     -15.00   w01
+         30     -15.00   w02
+end period
+
+BEGIN period 6
+         20     -5.00   w01
+end PERIOD

@@ -1,0 +1,1 @@
+﻿ALTER TABLE [dbo].[Models] ALTER COLUMN RunFileName VARCHAR(50) NULL;

@@ -1,0 +1,1380 @@
+                                   MODFLOW 6
+                U.S. GEOLOGICAL SURVEY MODULAR HYDROLOGIC MODEL
+                          GROUNDWATER FLOW MODEL (GWF)
+                            VERSION 6.0.4 03/13/2019
+
+   MODFLOW 6 compiled Mar 13 2019 12:37:09 with IFORT compiler (ver. 19.0.0)
+
+This software has been approved for release by the U.S. Geological 
+Survey (USGS). Although the software has been subjected to rigorous 
+review, the USGS reserves the right to update the software as needed 
+pursuant to further analysis and review. No warranty, expressed or 
+implied, is made by the USGS or the U.S. Government as to the 
+functionality of the software and related material nor shall the 
+fact of release constitute any such warranty. Furthermore, the 
+software is released on condition that neither the USGS nor the U.S. 
+Government shall be held liable for any damages resulting from its 
+authorized or unauthorized use. Also refer to the USGS Water 
+Resources Software User Rights Notice for complete use, copyright, 
+and distribution information.
+
+
+MODFLOW was compiled using uniform precision.
+Precision of REAL variables: 15
+
+
+ OPENED test1tr.ic
+ FILE TYPE:IC6                    UNIT 1005   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.npf
+ FILE TYPE:NPF6                   UNIT 1006   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.sto
+ FILE TYPE:STO6                   UNIT 1007   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.oc
+ FILE TYPE:OC6                    UNIT 1008   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.dis
+ FILE TYPE:DIS6                   UNIT 1009   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.wel
+ FILE TYPE:WEL6                   UNIT 1010   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.evt
+ FILE TYPE:EVT6                   UNIT 1011   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.rch
+ FILE TYPE:RCH6                   UNIT 1012   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.ghb
+ FILE TYPE:GHB6                   UNIT 1013   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.sfr
+ FILE TYPE:SFR6                   UNIT 1014   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ NAMEFILE OPTIONS:
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+
+ DIS -- STRUCTURED GRID DISCRETIZATION PACKAGE, VERSION 2 : 3/27/2014 - INPUT READ FROM UNIT 1009
+
+
+ PROCESSING DISCRETIZATION OPTIONS
+    MODEL LENGTH UNIT IS FEET
+ END OF DISCRETIZATION OPTIONS
+ PROCESSING DISCRETIZATION DIMENSIONS
+    NLAY =       1
+    NROW =      15
+    NCOL =      10
+ END OF DISCRETIZATION DIMENSIONS
+ PROCESSING GRIDDATA
+
+                     DELR =   5000.000    
+
+                     DELC =   5000.000    
+
+ TOP ELEVATION OF LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1    1105.       1105.       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000    
+   2    1105.       1095.       1105.       0.000       0.000       1100.       1100.       1110.       0.000       0.000    
+   3    0.000       1100.       1085.       1080.       1078.       1076.       1073.       1090.       0.000       0.000    
+   4    1110.       1100.       1090.       1085.       1076.       1080.       1080.       1070.       1100.       0.000    
+   5    1110.       1100.       1085.       1080.       1078.       1074.       1077.       1066.       1075.       1080.    
+   6    1105.       1095.       1080.       1077.       1073.       1069.       1070.       1063.       1085.       1095.    
+   7    1105.       1090.       1075.       1072.       1070.       1065.       1065.       1069.       1090.       0.000    
+   8    0.000       1080.       1070.       1068.       1063.       1060.       1063.       1067.       1090.       0.000    
+   9    0.000       1075.       1065.       1062.       1058.       1052.       1055.       1065.       1090.       0.000    
+  10    0.000       1070.       1060.       1055.       1046.       1046.       1044.       1060.       1088.       1100.    
+  11    0.000       1055.       1050.       1045.       1041.       1042.       1040.       1050.       1075.       0.000    
+  12    1027.       1028.       1028.       1032.       1032.       1033.       1032.       1040.       1060.       0.000    
+  13    997.0       1004.       1008.       1014.       1020.       1027.       1032.       1038.       1050.       0.000    
+  14    0.000       1030.       1040.       1045.       1050.       1050.       1050.       1050.       1044.       0.000    
+  15    0.000       0.000       1080.       1080.       1080.       1080.       0.000       0.000       0.000       0.000    
+
+   MODEL LAYER BOTTOM EL. FOR LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1    1000.       1000.       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000    
+   2    1000.       900.0       900.0       0.000       0.000       950.0       950.0       950.0       0.000       0.000    
+   3    0.000       850.0       670.0       680.0       680.0       770.0       770.0       890.0       0.000       0.000    
+   4    925.0       850.0       650.0       650.0       650.0       680.0       740.0       850.0       950.0       0.000    
+   5    925.0       800.0       650.0       600.0       600.0       600.0       650.0       720.0       850.0       950.0    
+   6    925.0       800.0       650.0       600.0       550.0       600.0       650.0       720.0       850.0       970.0    
+   7    925.0       800.0       650.0       600.0       550.0       600.0       650.0       720.0       950.0       0.000    
+   8    0.000       850.0       700.0       650.0       570.0       600.0       700.0       850.0       950.0       0.000    
+   9    0.000       850.0       700.0       650.0       540.0       580.0       700.0       850.0       950.0       0.000    
+  10    0.000       850.0       700.0       630.0       530.0       580.0       650.0       800.0       900.0       950.0    
+  11    0.000       850.0       700.0       620.0       580.0       620.0       700.0       800.0       900.0       0.000    
+  12    900.0       830.0       710.0       640.0       600.0       650.0       700.0       800.0       900.0       0.000    
+  13    900.0       810.0       750.0       700.0       650.0       700.0       750.0       800.0       900.0       0.000    
+  14    0.000       950.0       850.0       850.0       850.0       850.0       850.0       850.0       850.0       0.000    
+  15    0.000       0.000       950.0       950.0       950.0       950.0       0.000       0.000       0.000       0.000    
+
+                  IDOMAIN FOR LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1            1           1           0           0           0           0           0           0           0           0
+   2            1           1           1           0           0           1           1           1           0           0
+   3            0           1           1           1           1           1           1           1           0           0
+   4            1           1           1           1           1           1           1           1           1           0
+   5            1           1           1           1           1           1           1           1           1           1
+   6            1           1           1           1           1           1           1           1           1           1
+   7            1           1           1           1           1           1           1           1           1           0
+   8            0           1           1           1           1           1           1           1           1           0
+   9            0           1           1           1           1           1           1           1           1           0
+  10            0           1           1           1           1           1           1           1           1           1
+  11            0           1           1           1           1           1           1           1           1           0
+  12            1           1           1           1           1           1           1           1           1           0
+  13            1           1           1           1           1           1           1           1           1           0
+  14            0           1           1           1           1           1           1           1           1           0
+  15            0           0           1           1           1           1           0           0           0           0
+ END PROCESSING GRIDDATA
+
+ THE SPECIFIED IDOMAIN RESULTS IN A REDUCED NUMBER OF CELLS.
+ NUMBER OF USER NODES:     150
+ NUMBER OF NODES IN SOLUTION:     116
+
+
+
+ NPF -- NODE PROPERTY FLOW PACKAGE, VERSION 1, 3/30/2015 INPUT READ FROM UNIT 1006
+
+
+ PROCESSING NPF OPTIONS
+ END OF NPF OPTIONS
+
+ WEL   -- WEL PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1010
+
+ PROCESSING WEL OPTIONS
+    WEL BOUNDARIES HAVE NAMES IN LAST COLUMN.
+ END OF WEL OPTIONS
+
+ PROCESSING WEL DIMENSIONS
+    MAXBOUND =      10
+ END OF WEL DIMENSIONS
+
+ GHB   -- GHB PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1013
+ #option block.  Note -- no comments allowed on auxiliary line
+
+ PROCESSING GHB OPTIONS
+ END OF GHB OPTIONS
+
+ PROCESSING GHB DIMENSIONS
+    MAXBOUND =       2
+ END OF GHB DIMENSIONS
+
+ RCH   -- RCH PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1012
+
+ PROCESSING RCH OPTIONS
+    RECHARGE INPUT WILL BE READ AS ARRAY(S).
+ END OF RCH OPTIONS
+
+ EVT   -- EVT PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1011
+
+ PROCESSING EVT OPTIONS
+    EVAPOTRANSPIRATION INPUT WILL BE READ AS ARRAYS.
+
+ OPENED test1tr.evt.obs
+ FILE TYPE:OBS   UNIT 1016   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+ END OF EVT OPTIONS
+
+ SFR   -- SFR PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM UNIT 1014
+
+ PROCESSING SFR OPTIONS
+    SFR FLOWS WILL BE PRINTED TO LISTING FILE.
+    UNIT CONVERSION VALUE (   1.486000    ) SPECIFIED.
+
+ OPENED test1tr.sfr.obs
+ FILE TYPE:OBS   UNIT 1017   STATUS:OLD                 
+ FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
+ ACTION:READ                
+
+
+ OPENED test1tr.sfr.stage.bin
+ FILE TYPE:DATA(BINARY)   UNIT 1018   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    SFR  STAGE  WILL BE SAVED TO FILE: test1tr.sfr.stage.bin                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    OPENED ON UNIT:    1018
+
+ OPENED test1tr.sfr.cbc
+ FILE TYPE:DATA(BINARY)   UNIT 1019   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    SFR  BUDGET  WILL BE SAVED TO FILE: test1tr.sfr.cbc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    OPENED ON UNIT:    1019
+ END OF SFR OPTIONS
+ #dimension block is required
+
+ PROCESSING SFR DIMENSIONS
+    NREACHES = 36
+ END OF SFR DIMENSIONS
+
+ IC -- INITIAL CONDITIONS PACKAGE, VERSION 8, 3/28/2015 INPUT READ FROM UNIT 1005
+ PROCESSING IC OPTIONS
+ END OF IC OPTIONS
+ PROCESSING GRIDDATA
+
+     INITIAL HEAD FOR LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1    1093.       1089.       6999.       6999.       6999.       6999.       6999.       6999.       6999.       6999.    
+   2    1090.       1087.       1081.       6999.       6999.       1072.       1072.       1071.       6999.       6999.    
+   3    6999.       1079.       1078.       1074.       1072.       1071.       1069.       1068.       6999.       6999.    
+   4    1069.       1071.       1070.       1067.       1066.       1064.       1064.       1066.       1066.       6999.    
+   5    1065.       1064.       1063.       1062.       1061.       1061.       1060.       1062.       1066.       1068.    
+   6    1060.       1058.       1057.       1056.       1056.       1057.       1057.       1059.       1062.       1066.    
+   7    1056.       1053.       1052.       1051.       1051.       1052.       1053.       1056.       1056.       6999.    
+   8    6999.       1046.       1046.       1046.       1046.       1046.       1048.       1050.       1050.       6999.    
+   9    6999.       1039.       1039.       1040.       1040.       1041.       1042.       1043.       1044.       6999.    
+  10    6999.       1031.       1032.       1033.       1034.       1035.       1036.       1038.       1039.       1042.    
+  11    6999.       1021.       1023.       1027.       1029.       1030.       1032.       1034.       1036.       6999.    
+  12    1001.       1009.       1014.       1020.       1023.       1026.       1029.       1030.       1034.       6999.    
+  13    994.5       1000.       1007.       1013.       1019.       1024.       1029.       1034.       1036.       6999.    
+  14    6999.       1004.       1009.       1014.       1019.       1024.       1030.       1035.       1039.       6999.    
+  15    6999.       6999.       1012.       1015.       1019.       1022.       6999.       6999.       6999.       6999.    
+ END PROCESSING GRIDDATA
+ #
+ PROCESSING GRIDDATA
+
+                ICELLTYPE = 1 FOR LAYER 1
+
+                        K FOR LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1   2.0000E-03  2.0000E-03   0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000    
+   2   4.0000E-04  2.0000E-03  2.0000E-03   0.000       0.000      4.0000E-04  4.0000E-04  4.0000E-04   0.000       0.000    
+   3    0.000      4.0000E-04  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04   0.000       0.000    
+   4   4.0000E-04  4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04  4.0000E-04   0.000    
+   5   4.0000E-04  4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03
+   6   4.0000E-04  4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04
+   7   4.0000E-04  4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04   0.000    
+   8    0.000      4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04   0.000    
+   9    0.000      4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04   0.000    
+  10    0.000      4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04  4.0000E-04
+  11    0.000      4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04   0.000    
+  12   4.0000E-04  4.0000E-04  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  4.0000E-04  4.0000E-04   0.000    
+  13   2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03  2.0000E-03   0.000    
+  14    0.000      4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04  2.0000E-03   0.000    
+  15    0.000       0.000      4.0000E-04  4.0000E-04  4.0000E-04  4.0000E-04   0.000       0.000       0.000       0.000    
+
+                      K33 =   1.000000     FOR LAYER 1
+ K22 not provided.  Assuming K22 = K.
+ END PROCESSING GRIDDATA
+
+ STO -- STORAGE PACKAGE, VERSION 1, 5/19/2014 INPUT READ FROM UNIT 1007
+
+
+ #option block.  Note -- no comments allowed on auxiliary line
+ PROCESSING STORAGE OPTIONS
+ END OF STORAGE OPTIONS
+ PROCESSING GRIDDATA
+
+                 ICONVERT = 1 FOR LAYER 1
+
+         SPECIFIC STORAGE =  0.1000000E-05 FOR LAYER 1
+
+           SPECIFIC YIELD FOR LAYER 1
+
+                1           2           3           4           5           6           7           8           9          10
+ ............................................................................................................................
+   1   0.2000      0.2000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000    
+   2   0.1000      0.2000      0.2000       0.000       0.000      0.1000      0.1000      0.1000       0.000       0.000    
+   3    0.000      0.1000      0.2000      0.2000      0.1000      0.1000      0.1000      0.1000       0.000       0.000    
+   4   0.1000      0.1000      0.1000      0.2000      0.2000      0.2000      0.1000      0.1000      0.1000       0.000    
+   5   0.1000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.2000      0.2000      0.2000    
+   6   0.1000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000    
+   7   0.1000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.2000      0.1000       0.000    
+   8    0.000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000       0.000    
+   9    0.000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000       0.000    
+  10    0.000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000      0.1000    
+  11    0.000      0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000       0.000    
+  12   0.1000      0.1000      0.2000      0.2000      0.2000      0.2000      0.2000      0.1000      0.1000       0.000    
+  13   0.2000      0.2000      0.2000      0.2000      0.2000      0.2000      0.2000      0.2000      0.2000       0.000    
+  14    0.000      0.1000      0.1000      0.1000      0.1000      0.1000      0.1000      0.1000      0.2000       0.000    
+  15    0.000       0.000      0.1000      0.1000      0.1000      0.1000       0.000       0.000       0.000       0.000    
+ END PROCESSING GRIDDATA
+    BINARY GRID INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1020
+      FILE NAME: R:\GET\example\mf6.0.4\ForDPL\mf6_example\Structured\test1tr.dis.grb
+
+ OPENED R:\GET\example\mf6.0.4\ForDPL\mf6_example\Structured\test1tr.dis.grb
+ FILE TYPE:DATA(BINARY)   UNIT 1020   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+      THE LAST TIME STEP WILL BE PRINTED
+      THE LAST TIME STEP WILL BE PRINTED
+ PROCESSING OC OPTIONS
+    HEAD INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1021
+      FILE NAME: test1tr.hds
+
+ OPENED test1tr.hds
+ FILE TYPE:DATA(BINARY)   UNIT 1021   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    BUDGET INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 1022
+      FILE NAME: test1tr.cbc
+
+ OPENED test1tr.cbc
+ FILE TYPE:DATA(BINARY)   UNIT 1022   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+ END OF OC OPTIONS
+
+The observation utility is active for "EVT-1"
+
+Processing observation options:
+
+The PRINT_INPUT option has been specified.
+
+
+Observations read from file "test1tr.evt.obs":
+Name                                      Type                             Time         Location data
+----------------------------------------  -------------------------------  -----------  --------------------------
+ET1-1                                     Continuous EVT                   All times    "1  1  1"
+ET1-2                                     Continuous EVT                   All times    "1  1  2"
+ET2-1                                     Continuous EVT                   All times    "1  2  1"
+ET2-2                                     Continuous EVT                   All times    "1  2  2"
+ET2-3                                     Continuous EVT                   All times    "1  2  3"
+ET2-6                                     Continuous EVT                   All times    "1  2  6"
+ET2-7                                     Continuous EVT                   All times    "1  2  7"
+ET2-8                                     Continuous EVT                   All times    "1  2  8"
+ET3-2                                     Continuous EVT                   All times    "1  3  2"
+ET3-3                                     Continuous EVT                   All times    "1  3  3"
+ET3-4                                     Continuous EVT                   All times    "1  3  4"
+ET3-5                                     Continuous EVT                   All times    "1  3  5"
+ET3-6                                     Continuous EVT                   All times    "1  3  6"
+ET3-7                                     Continuous EVT                   All times    "1  3  7"
+ET3-8                                     Continuous EVT                   All times    "1  3  8"
+ET4-1                                     Continuous EVT                   All times    "1  4  1"
+ET4-2                                     Continuous EVT                   All times    "1  4  2"
+ET4-3                                     Continuous EVT                   All times    "1  4  3"
+ET4-4                                     Continuous EVT                   All times    "1  4  4"
+ET4-5                                     Continuous EVT                   All times    "1  4  5"
+ET4-6                                     Continuous EVT                   All times    "1  4  6"
+ET4-7                                     Continuous EVT                   All times    "1  4  7"
+ET4-8                                     Continuous EVT                   All times    "1  4  8"
+ET4-9                                     Continuous EVT                   All times    "1  4  9"
+ET5-1                                     Continuous EVT                   All times    "1  5  1"
+ET5-2                                     Continuous EVT                   All times    "1  5  2"
+ET5-3                                     Continuous EVT                   All times    "1  5  3"
+ET5-4                                     Continuous EVT                   All times    "1  5  4"
+ET5-5                                     Continuous EVT                   All times    "1  5  5"
+ET5-6                                     Continuous EVT                   All times    "1  5  6"
+ET5-7                                     Continuous EVT                   All times    "1  5  7"
+ET5-8                                     Continuous EVT                   All times    "1  5  8"
+ET5-9                                     Continuous EVT                   All times    "1  5  9"
+ET5-10                                    Continuous EVT                   All times    "1  5 10"
+ET6-1                                     Continuous EVT                   All times    "1  6  1"
+ET6-2                                     Continuous EVT                   All times    "1  6  2"
+ET6-3                                     Continuous EVT                   All times    "1  6  3"
+ET6-4                                     Continuous EVT                   All times    "1  6  4"
+ET6-5                                     Continuous EVT                   All times    "1  6  5"
+ET6-6                                     Continuous EVT                   All times    "1  6  6"
+ET6-7                                     Continuous EVT                   All times    "1  6  7"
+ET6-8                                     Continuous EVT                   All times    "1  6  8"
+ET6-9                                     Continuous EVT                   All times    "1  6  9"
+ET6-10                                    Continuous EVT                   All times    "1  6 10"
+ET7-1                                     Continuous EVT                   All times    "1  7  1"
+ET7-2                                     Continuous EVT                   All times    "1  7  2"
+ET7-3                                     Continuous EVT                   All times    "1  7  3"
+ET7-4                                     Continuous EVT                   All times    "1  7  4"
+ET7-5                                     Continuous EVT                   All times    "1  7  5"
+ET7-6                                     Continuous EVT                   All times    "1  7  6"
+ET7-7                                     Continuous EVT                   All times    "1  7  7"
+ET7-8                                     Continuous EVT                   All times    "1  7  8"
+ET7-9                                     Continuous EVT                   All times    "1  7  9"
+ET8-2                                     Continuous EVT                   All times    "1  8  2"
+ET8-3                                     Continuous EVT                   All times    "1  8  3"
+ET8-4                                     Continuous EVT                   All times    "1  8  4"
+ET8-5                                     Continuous EVT                   All times    "1  8  5"
+ET8-6                                     Continuous EVT                   All times    "1  8  6"
+ET8-7                                     Continuous EVT                   All times    "1  8  7"
+ET8-8                                     Continuous EVT                   All times    "1  8  8"
+ET8-9                                     Continuous EVT                   All times    "1  8  9"
+ET9-2                                     Continuous EVT                   All times    "1  9  2"
+ET9-3                                     Continuous EVT                   All times    "1  9  3"
+ET9-4                                     Continuous EVT                   All times    "1  9  4"
+ET9-5                                     Continuous EVT                   All times    "1  9  5"
+ET9-6                                     Continuous EVT                   All times    "1  9  6"
+ET9-7                                     Continuous EVT                   All times    "1  9  7"
+ET9-8                                     Continuous EVT                   All times    "1  9  8"
+ET9-9                                     Continuous EVT                   All times    "1  9  9"
+ET10-2                                    Continuous EVT                   All times    "1 10  2"
+ET10-3                                    Continuous EVT                   All times    "1 10  3"
+ET10-4                                    Continuous EVT                   All times    "1 10  4"
+ET10-5                                    Continuous EVT                   All times    "1 10  5"
+ET10-6                                    Continuous EVT                   All times    "1 10  6"
+ET10-7                                    Continuous EVT                   All times    "1 10  7"
+ET10-8                                    Continuous EVT                   All times    "1 10  8"
+ET10-9                                    Continuous EVT                   All times    "1 10  9"
+ET10-10                                   Continuous EVT                   All times    "1 10 10"
+ET11-2                                    Continuous EVT                   All times    "1 11  2"
+ET11-3                                    Continuous EVT                   All times    "1 11  3"
+ET11-4                                    Continuous EVT                   All times    "1 11  4"
+ET11-5                                    Continuous EVT                   All times    "1 11  5"
+ET11-6                                    Continuous EVT                   All times    "1 11  6"
+ET11-7                                    Continuous EVT                   All times    "1 11  7"
+ET11-8                                    Continuous EVT                   All times    "1 11  8"
+ET11-9                                    Continuous EVT                   All times    "1 11  9"
+ET12-1                                    Continuous EVT                   All times    "1 12  1"
+ET12-2                                    Continuous EVT                   All times    "1 12  2"
+ET12-3                                    Continuous EVT                   All times    "1 12  3"
+ET12-4                                    Continuous EVT                   All times    "1 12  4"
+ET12-5                                    Continuous EVT                   All times    "1 12  5"
+ET12-6                                    Continuous EVT                   All times    "1 12  6"
+ET12-7                                    Continuous EVT                   All times    "1 12  7"
+ET12-8                                    Continuous EVT                   All times    "1 12  8"
+ET12-9                                    Continuous EVT                   All times    "1 12  9"
+ET13-1                                    Continuous EVT                   All times    "1 13  1"
+ET13-2                                    Continuous EVT                   All times    "1 13  2"
+ET13-3                                    Continuous EVT                   All times    "1 13  3"
+ET13-4                                    Continuous EVT                   All times    "1 13  4"
+ET13-5                                    Continuous EVT                   All times    "1 13  5"
+ET13-6                                    Continuous EVT                   All times    "1 13  6"
+ET13-7                                    Continuous EVT                   All times    "1 13  7"
+ET13-8                                    Continuous EVT                   All times    "1 13  8"
+ET13-9                                    Continuous EVT                   All times    "1 13  9"
+ET14-2                                    Continuous EVT                   All times    "1 14  2"
+ET14-3                                    Continuous EVT                   All times    "1 14  3"
+ET14-4                                    Continuous EVT                   All times    "1 14  4"
+ET14-5                                    Continuous EVT                   All times    "1 14  5"
+ET14-6                                    Continuous EVT                   All times    "1 14  6"
+ET14-7                                    Continuous EVT                   All times    "1 14  7"
+ET14-8                                    Continuous EVT                   All times    "1 14  8"
+ET14-9                                    Continuous EVT                   All times    "1 14  9"
+ET15-3                                    Continuous EVT                   All times    "1 15  3"
+ET15-4                                    Continuous EVT                   All times    "1 15  4"
+ET15-5                                    Continuous EVT                   All times    "1 15  5"
+ET15-6                                    Continuous EVT                   All times    "1 15  6"
+
+The observation utility is active for "SFR-1"
+
+Processing observation options:
+
+Text output number of digits of precision set to: 10
+The PRINT_INPUT option has been specified.
+
+
+Observations read from file "test1tr.sfr.obs":
+Name                                      Type                             Time         Location data
+----------------------------------------  -------------------------------  -----------  --------------------------
+GAGE1STAGE                                Continuous STAGE                 All times    "4"
+GAGE2STAGE                                Continuous STAGE                 All times    "7"
+GAGE3STAGE                                Continuous STAGE                 All times    "14"
+GAGE4STAGE                                Continuous STAGE                 All times    "18"
+GAGE5STAGE                                Continuous STAGE                 All times    "22"
+GAGE6STAGE                                Continuous STAGE                 All times    "27"
+GAGE7STAGE                                Continuous STAGE                 All times    "30"
+GAGE8STAGE                                Continuous STAGE                 All times    "36"
+GAGE9STAGE                                Continuous STAGE                 All times    "10"
+QAQ04                                     Continuous SFR                   All times    "4"
+QAQ07                                     Continuous SFR                   All times    "7"
+QAQ14                                     Continuous SFR                   All times    "14"
+QAQ18                                     Continuous SFR                   All times    "18"
+QAQ22                                     Continuous SFR                   All times    "22"
+QAQ27                                     Continuous SFR                   All times    "27"
+QAQ30                                     Continuous SFR                   All times    "30"
+QAQ36                                     Continuous SFR                   All times    "36"
+QAQ10                                     Continuous SFR                   All times    "10"
+USINF10                                   Continuous UPSTREAM-FLOW         All times    "10"
+INF10                                     Continuous INFLOW                All times    "10"
+OUT10                                     Continuous OUTFLOW               All times    "10"
+DS10                                      Continuous DOWNSTREAM-FLOW       All times    "10"
+USINF36                                   Continuous UPSTREAM-FLOW         All times    "36"
+INF36                                     Continuous INFLOW                All times    "36"
+OUT36                                     Continuous OUTFLOW               All times    "36"
+EXTOUT36                                  Continuous EXT-OUTFLOW           All times    "36"
+DS36                                      Continuous DOWNSTREAM-FLOW       All times    "36"
+ #rch    k    i    j   length width          slope     sbot bthick      hk rough nconn ustrf ndiv
+
+ PROCESSING SFR PACKAGEDATA
+ END OF SFR PACKAGEDATA
+
+ PROCESSING SFR CONNECTIONDATA
+ END OF SFR CONNECTIONDATA
+ # ireach idivno ireach2 cprior
+
+ PROCESSING SFR DIVERSIONS
+ END OF SFR DIVERSIONS
+
+ BEGIN READING OUTPUT CONTROL FOR STRESS PERIOD 1
+      ALL TIME STEPS WILL BE PRINTED
+      ALL TIME STEPS WILL BE SAVED
+      ALL TIME STEPS WILL BE PRINTED
+      ALL TIME STEPS WILL BE SAVED
+
+ END READING OUTPUT CONTROL FOR STRESS PERIOD 1
+
+
+ STRESS PERIOD 1 IS TRANSIENT
+
+ #        k         i         j      flux    name
+
+  EVAPOTRANSPIRATION RATE =  0.9500000E-07
+
+         EXTINCTION DEPTH =   15.00000    
+ UBDSV1 SAVING           STO-SS ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV1 SAVING           STO-SY ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              WEL IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE WEL-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              GHB IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE GHB-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              RCH IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE RCH-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              EVT IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE EVT-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              SFR IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      1
+
+              SFR (SFR-1)   PERIOD 1   STEP 1
+ BOUNDARY        1  CELL              (1,1,1)   RATE    0.742600    
+ BOUNDARY        2  CELL              (1,2,2)   RATE     2.13582    
+ BOUNDARY        3  CELL              (1,3,3)   RATE     2.95480    
+ BOUNDARY        4  CELL              (1,3,4)   RATE     2.67133    
+ BOUNDARY        5  CELL              (1,4,5)   RATE     2.77358    
+ BOUNDARY        6  CELL              (1,5,6)   RATE     2.05707    
+ BOUNDARY        7  CELL              (1,6,6)   RATE     1.97882    
+ BOUNDARY        8  CELL              (1,7,6)   RATE     1.43826    
+ BOUNDARY        9  CELL              (1,8,6)   RATE     0.00000    
+ BOUNDARY       10  CELL              (1,3,5)   RATE     1.43175    
+ BOUNDARY       11  CELL              (1,3,6)   RATE    0.759320    
+ BOUNDARY       12  CELL              (1,3,7)   RATE   -6.849489E-02
+ BOUNDARY       13  CELL              (1,4,8)   RATE    0.207762    
+ BOUNDARY       14  CELL              (1,5,8)   RATE    0.821672    
+ BOUNDARY       15  CELL              (1,6,8)   RATE    0.610262    
+ BOUNDARY       16  CELL             (1,5,10)   RATE    0.905253    
+ BOUNDARY       17  CELL              (1,5,9)   RATE     1.78348    
+ BOUNDARY       18  CELL              (1,6,8)   RATE     1.22572    
+ BOUNDARY       19  CELL              (1,6,8)   RATE   -0.285439    
+ BOUNDARY       20  CELL              (1,7,7)   RATE    0.687905    
+ BOUNDARY       21  CELL              (1,8,7)   RATE     1.06876    
+ BOUNDARY       22  CELL              (1,8,6)   RATE    0.117680    
+ BOUNDARY       23  CELL              (1,9,6)   RATE     1.41359    
+ BOUNDARY       24  CELL             (1,10,7)   RATE     1.34745    
+ BOUNDARY       25  CELL             (1,11,7)   RATE     1.22051    
+ BOUNDARY       26  CELL             (1,12,7)   RATE    0.564006    
+ BOUNDARY       27  CELL             (1,13,7)   RATE   -0.657435    
+ BOUNDARY       28  CELL             (1,14,9)   RATE    -2.47584    
+ BOUNDARY       29  CELL             (1,13,8)   RATE    -1.93648    
+ BOUNDARY       30  CELL             (1,13,7)   RATE    -2.14985    
+ BOUNDARY       31  CELL             (1,13,6)   RATE    -3.73709    
+ BOUNDARY       32  CELL             (1,13,5)   RATE    -6.22873    
+ BOUNDARY       33  CELL             (1,13,4)   RATE    -7.87751    
+ BOUNDARY       34  CELL             (1,13,3)   RATE    -7.91111    
+ BOUNDARY       35  CELL             (1,13,2)   RATE    -5.96719    
+ BOUNDARY       36  CELL             (1,13,1)   RATE    -2.32931    
+
+ UBDSV06 SAVING     FLOW-JA-FACE IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              GWF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE GWF_1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING       EXT-INFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING         RAINFALL IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING           RUNOFF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING      EVAPORATION IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING      EXT-OUTFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      1
+1
+  HEAD IN LAYER   1 AT END OF TIME STEP   1 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+            1           2           3           4           5           6           7           8           9          10
+ ........................................................................................................................
+   1    1093.       1089.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+   2    1090.       1087.       1081.      1.0000E+30  1.0000E+30   1072.       1071.       1071.      1.0000E+30  1.0000E+30
+   3   1.0000E+30   1079.       1078.       1074.       1072.       1071.       1069.       1068.      1.0000E+30  1.0000E+30
+   4    1069.       1071.       1070.       1067.       1065.       1064.       1064.       1066.       1066.      1.0000E+30
+   5    1065.       1064.       1063.       1061.       1061.       1061.       1060.       1062.       1066.       1068.    
+   6    1060.       1058.       1057.       1056.       1056.       1057.       1057.       1059.       1062.       1066.    
+   7    1056.       1053.       1052.       1051.       1051.       1052.       1053.       1055.       1056.      1.0000E+30
+   8   1.0000E+30   1046.       1046.       1045.       1046.       1046.       1048.       1050.       1050.      1.0000E+30
+   9   1.0000E+30   1039.       1039.       1039.       1040.       1041.       1042.       1043.       1044.      1.0000E+30
+  10   1.0000E+30   1031.       1032.       1033.       1034.       1035.       1036.       1038.       1039.       1042.    
+  11   1.0000E+30   1021.       1023.       1027.       1029.       1030.       1032.       1034.       1036.      1.0000E+30
+  12    1001.       1009.       1015.       1020.       1023.       1026.       1029.       1030.       1034.      1.0000E+30
+  13    994.5       1000.       1007.       1013.       1019.       1024.       1029.       1034.       1036.      1.0000E+30
+  14   1.0000E+30   1004.       1009.       1014.       1019.       1024.       1029.       1035.       1039.      1.0000E+30
+  15   1.0000E+30  1.0000E+30   1012.       1015.       1019.       1022.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+
+ HEAD WILL BE SAVED ON UNIT 1021 AT END OF TIME STEP    1, STRESS PERIOD    1
+
+
+
+ SFR (SFR-1) FLOWS   PERIOD      1   STEP        1
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+  NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+      1 (1,1,1)                25.00       0.000       0.000       0.000     -0.7426       0.000      -24.26       0.000       0.000       0.000     
+      2 (1,2,2)                0.000       24.26       0.000       0.000      -2.136       0.000      -22.12       0.000       0.000       0.000     
+      3 (1,3,3)                0.000       22.12       0.000       0.000      -2.955       0.000      -19.17       0.000       0.000       0.000     
+      4 (1,3,4)                0.000       19.17       0.000       0.000      -2.671       0.000      -16.50       0.000       0.000       0.000     
+      5 (1,4,5)                0.000       8.248       0.000       0.000      -2.774       0.000      -5.474       0.000       0.000       0.000     
+      6 (1,5,6)                0.000       5.474       0.000       0.000      -2.057       0.000      -3.417       0.000       0.000       0.000     
+      7 (1,6,6)                0.000       3.417       0.000       0.000      -1.979       0.000      -1.438       0.000       0.000       0.000     
+      8 (1,7,6)                0.000       1.438       0.000       0.000      -1.438       0.000       0.000       0.000       0.000       0.000     
+      9 (1,8,6)                0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+     10 (1,3,5)                0.000       8.248       0.000       0.000      -1.432       0.000      -6.816       0.000       0.000       0.000     
+     11 (1,3,6)                0.000       6.816       0.000       0.000     -0.7593       0.000      -6.057       0.000       0.000       0.000     
+     12 (1,3,7)                0.000       6.057       0.000       0.000      0.6849E-01   0.000      -6.125       0.000       0.000       0.000     
+     13 (1,4,8)                0.000       6.125       0.000       0.000     -0.2078       0.000      -5.917       0.000       0.000       0.000     
+     14 (1,5,8)                0.000       5.917       0.000       0.000     -0.8217       0.000      -5.096       0.000       0.000       0.000     
+     15 (1,6,8)                0.000       5.096       0.000       0.000     -0.6103       0.000      -4.485       0.000       0.000       0.000     
+     16 (1,5,10)               10.00       0.000       0.000       0.000     -0.9053       0.000      -9.095       0.000       0.000       0.000     
+     17 (1,5,9)                0.000       9.095       0.000       0.000      -1.783       0.000      -7.311       0.000       0.000       0.000     
+     18 (1,6,8)                0.000       7.311       0.000       0.000      -1.226       0.000      -6.086       0.000       0.000       0.000     
+     19 (1,6,8)                0.000       10.57       0.000       0.000      0.2854       0.000      -10.86       0.000       0.000       0.000     
+     20 (1,7,7)                0.000       10.86       0.000       0.000     -0.6879       0.000      -10.17       0.000       0.000       0.000     
+     21 (1,8,7)                0.000       10.17       0.000       0.000      -1.069       0.000      -9.100       0.000       0.000       0.000     
+     22 (1,8,6)                0.000       9.100       0.000       0.000     -0.1177       0.000      -8.982       0.000       0.000       0.000     
+     23 (1,9,6)                0.000       8.982       0.000       0.000      -1.414       0.000      -7.569       0.000       0.000       0.000     
+     24 (1,10,7)               0.000       7.569       0.000       0.000      -1.347       0.000      -6.221       0.000       0.000       0.000     
+     25 (1,11,7)               0.000       6.221       0.000       0.000      -1.221       0.000      -5.001       0.000       0.000       0.000     
+     26 (1,12,7)               0.000       5.001       0.000       0.000     -0.5640       0.000      -4.437       0.000       0.000       0.000     
+     27 (1,13,7)               0.000       4.437       0.000       0.000      0.6574       0.000      -5.094       0.000       0.000       0.000     
+     28 (1,14,9)               150.0       0.000       0.000       0.000       2.476       0.000      -152.5       0.000       0.000       0.000     
+     29 (1,13,8)               0.000       152.5       0.000       0.000       1.936       0.000      -154.4       0.000       0.000       0.000     
+     30 (1,13,7)               0.000       154.4       0.000       0.000       2.150       0.000      -156.6       0.000       0.000       0.000     
+     31 (1,13,6)               0.000       161.7       0.000       0.000       3.737       0.000      -165.4       0.000       0.000       0.000     
+     32 (1,13,5)               0.000       165.4       0.000       0.000       6.229       0.000      -171.6       0.000       0.000       0.000     
+     33 (1,13,4)               0.000       171.6       0.000       0.000       7.878       0.000      -179.5       0.000       0.000       0.000     
+     34 (1,13,3)               0.000       179.5       0.000       0.000       7.911       0.000      -187.4       0.000       0.000       0.000     
+     35 (1,13,2)               0.000       187.4       0.000       0.000       5.967       0.000      -193.4       0.000       0.000       0.000     
+     36 (1,13,1)               0.000       193.4       0.000       0.000       2.329       0.000       0.000      -195.7       0.000       0.000     
+
+
+  SFR-1 BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE SFR-1      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =        2730.9524            EXT-INFLOW =         185.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =         614.4567                   GWF =          41.6245
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =        3345.4091              TOTAL IN =         226.6245
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =         456.3995                   GWF =          30.9174
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =        2889.0096           EXT-OUTFLOW =         195.7071
+
+           TOTAL OUT =        3345.4091             TOTAL OUT =         226.6245
+
+            IN - OUT =           0.0000              IN - OUT =           0.0000
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =          15.8293                STO-SS =           1.0723     STORAGE         
+              STO-SY =        2172.9266                STO-SY =         147.1983     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WEL-1           
+                 GHB =           3.1974                   GHB =           0.2166     GHB-1           
+                 RCH =          26.4792                   RCH =           1.7938     RCH-1           
+                 EVT =           0.0000                   EVT =           0.0000     EVT-1           
+                 SFR =         456.3995                   SFR =          30.9174     SFR-1           
+
+            TOTAL IN =        2674.8320              TOTAL IN =         181.1983
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =           0.4020                STO-SS =       2.7230E-02     STORAGE         
+              STO-SY =          51.2665                STO-SY =           3.4729     STORAGE         
+                 WEL =        1476.1905                   WEL =         100.0000     WEL-1           
+                 GHB =           3.6462                   GHB =           0.2470     GHB-1           
+                 RCH =           0.0000                   RCH =           0.0000     RCH-1           
+                 EVT =         528.9304                   EVT =          35.8308     EVT-1           
+                 SFR =         614.4567                   SFR =          41.6245     SFR-1           
+
+           TOTAL OUT =        2674.8923             TOTAL OUT =         181.2024
+
+            IN - OUT =      -6.0311E-02              IN - OUT =      -4.0856E-03
+
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH  14.762     0.24603     4.10053E-03 1.70855E-04 4.67777E-07
+ STRESS PERIOD TIME  14.762     0.24603     4.10053E-03 1.70855E-04 4.67777E-07
+         TOTAL TIME  14.762     0.24603     4.10053E-03 1.70855E-04 4.67777E-07
+ UBDSV1 SAVING           STO-SS ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV1 SAVING           STO-SY ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              WEL IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE WEL-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              GHB IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE GHB-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              RCH IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE RCH-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              EVT IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE EVT-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              SFR IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      1
+
+              SFR (SFR-1)   PERIOD 1   STEP 2
+ BOUNDARY        1  CELL              (1,1,1)   RATE    0.742600    
+ BOUNDARY        2  CELL              (1,2,2)   RATE     2.13582    
+ BOUNDARY        3  CELL              (1,3,3)   RATE     2.95480    
+ BOUNDARY        4  CELL              (1,3,4)   RATE     2.67133    
+ BOUNDARY        5  CELL              (1,4,5)   RATE     2.77358    
+ BOUNDARY        6  CELL              (1,5,6)   RATE     2.05707    
+ BOUNDARY        7  CELL              (1,6,6)   RATE     1.97882    
+ BOUNDARY        8  CELL              (1,7,6)   RATE     1.43826    
+ BOUNDARY        9  CELL              (1,8,6)   RATE     0.00000    
+ BOUNDARY       10  CELL              (1,3,5)   RATE     1.43175    
+ BOUNDARY       11  CELL              (1,3,6)   RATE    0.759322    
+ BOUNDARY       12  CELL              (1,3,7)   RATE   -6.849332E-02
+ BOUNDARY       13  CELL              (1,4,8)   RATE    0.207764    
+ BOUNDARY       14  CELL              (1,5,8)   RATE    0.821672    
+ BOUNDARY       15  CELL              (1,6,8)   RATE    0.610261    
+ BOUNDARY       16  CELL             (1,5,10)   RATE    0.905253    
+ BOUNDARY       17  CELL              (1,5,9)   RATE     1.78348    
+ BOUNDARY       18  CELL              (1,6,8)   RATE     1.22572    
+ BOUNDARY       19  CELL              (1,6,8)   RATE   -0.285440    
+ BOUNDARY       20  CELL              (1,7,7)   RATE    0.687904    
+ BOUNDARY       21  CELL              (1,8,7)   RATE     1.06876    
+ BOUNDARY       22  CELL              (1,8,6)   RATE    0.117680    
+ BOUNDARY       23  CELL              (1,9,6)   RATE     1.41359    
+ BOUNDARY       24  CELL             (1,10,7)   RATE     1.34745    
+ BOUNDARY       25  CELL             (1,11,7)   RATE     1.22051    
+ BOUNDARY       26  CELL             (1,12,7)   RATE    0.564006    
+ BOUNDARY       27  CELL             (1,13,7)   RATE   -0.657431    
+ BOUNDARY       28  CELL             (1,14,9)   RATE    -2.47575    
+ BOUNDARY       29  CELL             (1,13,8)   RATE    -1.93636    
+ BOUNDARY       30  CELL             (1,13,7)   RATE    -2.14977    
+ BOUNDARY       31  CELL             (1,13,6)   RATE    -3.73703    
+ BOUNDARY       32  CELL             (1,13,5)   RATE    -6.22867    
+ BOUNDARY       33  CELL             (1,13,4)   RATE    -7.87746    
+ BOUNDARY       34  CELL             (1,13,3)   RATE    -7.91106    
+ BOUNDARY       35  CELL             (1,13,2)   RATE    -5.96714    
+ BOUNDARY       36  CELL             (1,13,1)   RATE    -2.32930    
+
+ UBDSV06 SAVING     FLOW-JA-FACE IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              GWF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE GWF_1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING       EXT-INFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING         RAINFALL IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING           RUNOFF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING      EVAPORATION IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING      EXT-OUTFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      1
+1
+  HEAD IN LAYER   1 AT END OF TIME STEP   2 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+            1           2           3           4           5           6           7           8           9          10
+ ........................................................................................................................
+   1    1093.       1089.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+   2    1090.       1087.       1081.      1.0000E+30  1.0000E+30   1072.       1071.       1071.      1.0000E+30  1.0000E+30
+   3   1.0000E+30   1079.       1078.       1074.       1072.       1071.       1069.       1068.      1.0000E+30  1.0000E+30
+   4    1069.       1071.       1070.       1067.       1065.       1064.       1064.       1066.       1066.      1.0000E+30
+   5    1065.       1064.       1063.       1061.       1061.       1061.       1060.       1062.       1066.       1068.    
+   6    1060.       1058.       1057.       1056.       1056.       1057.       1057.       1059.       1062.       1066.    
+   7    1056.       1053.       1052.       1051.       1051.       1052.       1053.       1055.       1056.      1.0000E+30
+   8   1.0000E+30   1046.       1046.       1045.       1046.       1046.       1048.       1050.       1050.      1.0000E+30
+   9   1.0000E+30   1039.       1039.       1039.       1040.       1041.       1042.       1043.       1044.      1.0000E+30
+  10   1.0000E+30   1031.       1032.       1033.       1034.       1035.       1036.       1038.       1039.       1042.    
+  11   1.0000E+30   1021.       1023.       1027.       1029.       1030.       1032.       1034.       1036.      1.0000E+30
+  12    1001.       1009.       1015.       1020.       1023.       1026.       1029.       1030.       1034.      1.0000E+30
+  13    994.5       1000.       1007.       1013.       1019.       1024.       1029.       1034.       1036.      1.0000E+30
+  14   1.0000E+30   1004.       1009.       1014.       1019.       1024.       1029.       1035.       1039.      1.0000E+30
+  15   1.0000E+30  1.0000E+30   1012.       1015.       1019.       1022.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+
+ HEAD WILL BE SAVED ON UNIT 1021 AT END OF TIME STEP    2, STRESS PERIOD    1
+
+
+
+ SFR (SFR-1) FLOWS   PERIOD      1   STEP        2
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+  NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+      1 (1,1,1)                25.00       0.000       0.000       0.000     -0.7426       0.000      -24.26       0.000       0.000       0.000     
+      2 (1,2,2)                0.000       24.26       0.000       0.000      -2.136       0.000      -22.12       0.000       0.000       0.000     
+      3 (1,3,3)                0.000       22.12       0.000       0.000      -2.955       0.000      -19.17       0.000       0.000       0.000     
+      4 (1,3,4)                0.000       19.17       0.000       0.000      -2.671       0.000      -16.50       0.000       0.000       0.000     
+      5 (1,4,5)                0.000       8.248       0.000       0.000      -2.774       0.000      -5.474       0.000       0.000       0.000     
+      6 (1,5,6)                0.000       5.474       0.000       0.000      -2.057       0.000      -3.417       0.000       0.000       0.000     
+      7 (1,6,6)                0.000       3.417       0.000       0.000      -1.979       0.000      -1.438       0.000       0.000       0.000     
+      8 (1,7,6)                0.000       1.438       0.000       0.000      -1.438       0.000       0.000       0.000       0.000       0.000     
+      9 (1,8,6)                0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+     10 (1,3,5)                0.000       8.248       0.000       0.000      -1.432       0.000      -6.816       0.000       0.000       0.000     
+     11 (1,3,6)                0.000       6.816       0.000       0.000     -0.7593       0.000      -6.057       0.000       0.000       0.000     
+     12 (1,3,7)                0.000       6.057       0.000       0.000      0.6849E-01   0.000      -6.125       0.000       0.000       0.000     
+     13 (1,4,8)                0.000       6.125       0.000       0.000     -0.2078       0.000      -5.917       0.000       0.000       0.000     
+     14 (1,5,8)                0.000       5.917       0.000       0.000     -0.8217       0.000      -5.096       0.000       0.000       0.000     
+     15 (1,6,8)                0.000       5.096       0.000       0.000     -0.6103       0.000      -4.485       0.000       0.000       0.000     
+     16 (1,5,10)               10.00       0.000       0.000       0.000     -0.9053       0.000      -9.095       0.000       0.000       0.000     
+     17 (1,5,9)                0.000       9.095       0.000       0.000      -1.783       0.000      -7.311       0.000       0.000       0.000     
+     18 (1,6,8)                0.000       7.311       0.000       0.000      -1.226       0.000      -6.086       0.000       0.000       0.000     
+     19 (1,6,8)                0.000       10.57       0.000       0.000      0.2854       0.000      -10.86       0.000       0.000       0.000     
+     20 (1,7,7)                0.000       10.86       0.000       0.000     -0.6879       0.000      -10.17       0.000       0.000       0.000     
+     21 (1,8,7)                0.000       10.17       0.000       0.000      -1.069       0.000      -9.100       0.000       0.000       0.000     
+     22 (1,8,6)                0.000       9.100       0.000       0.000     -0.1177       0.000      -8.982       0.000       0.000       0.000     
+     23 (1,9,6)                0.000       8.982       0.000       0.000      -1.414       0.000      -7.569       0.000       0.000       0.000     
+     24 (1,10,7)               0.000       7.569       0.000       0.000      -1.347       0.000      -6.221       0.000       0.000       0.000     
+     25 (1,11,7)               0.000       6.221       0.000       0.000      -1.221       0.000      -5.001       0.000       0.000       0.000     
+     26 (1,12,7)               0.000       5.001       0.000       0.000     -0.5640       0.000      -4.437       0.000       0.000       0.000     
+     27 (1,13,7)               0.000       4.437       0.000       0.000      0.6574       0.000      -5.094       0.000       0.000       0.000     
+     28 (1,14,9)               150.0       0.000       0.000       0.000       2.476       0.000      -152.5       0.000       0.000       0.000     
+     29 (1,13,8)               0.000       152.5       0.000       0.000       1.936       0.000      -154.4       0.000       0.000       0.000     
+     30 (1,13,7)               0.000       154.4       0.000       0.000       2.150       0.000      -156.6       0.000       0.000       0.000     
+     31 (1,13,6)               0.000       161.7       0.000       0.000       3.737       0.000      -165.4       0.000       0.000       0.000     
+     32 (1,13,5)               0.000       165.4       0.000       0.000       6.229       0.000      -171.6       0.000       0.000       0.000     
+     33 (1,13,4)               0.000       171.6       0.000       0.000       7.877       0.000      -179.5       0.000       0.000       0.000     
+     34 (1,13,3)               0.000       179.5       0.000       0.000       7.911       0.000      -187.4       0.000       0.000       0.000     
+     35 (1,13,2)               0.000       187.4       0.000       0.000       5.967       0.000      -193.4       0.000       0.000       0.000     
+     36 (1,13,1)               0.000       193.4       0.000       0.000       2.329       0.000       0.000      -195.7       0.000       0.000     
+
+
+  SFR-1 BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    2, STRESS PERIOD   1
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE SFR-1      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =        5735.0000            EXT-INFLOW =         185.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =        1290.3494                   GWF =          41.6239
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =        7025.3494              TOTAL IN =         226.6239
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =         958.4390                   GWF =          30.9174
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =        6066.9105           EXT-OUTFLOW =         195.7065
+
+           TOTAL OUT =        7025.3494             TOTAL OUT =         226.6239
+
+            IN - OUT =       9.0949E-13              IN - OUT =           0.0000
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    2, STRESS PERIOD   1
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =          33.2415                STO-SS =           1.0723     STORAGE         
+              STO-SY =        4563.1304                STO-SY =         147.1973     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WEL-1           
+                 GHB =           6.7146                   GHB =           0.2166     GHB-1           
+                 RCH =          55.6063                   RCH =           1.7938     RCH-1           
+                 EVT =           0.0000                   EVT =           0.0000     EVT-1           
+                 SFR =         958.4389                   SFR =          30.9174     SFR-1           
+
+            TOTAL IN =        5617.1317              TOTAL IN =         181.1973
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =           0.8441                STO-SS =       2.7228E-02     STORAGE         
+              STO-SY =         107.6550                STO-SY =           3.4726     STORAGE         
+                 WEL =        3100.0000                   WEL =         100.0000     WEL-1           
+                 GHB =           7.6570                   GHB =           0.2470     GHB-1           
+                 RCH =           0.0000                   RCH =           0.0000     RCH-1           
+                 EVT =        1110.7528                   EVT =          35.8307     EVT-1           
+                 SFR =        1290.3495                   SFR =          41.6239     SFR-1           
+
+           TOTAL OUT =        5617.2584             TOTAL OUT =         181.2014
+
+            IN - OUT =          -0.1267              IN - OUT =      -4.0858E-03
+
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    2 IN STRESS PERIOD    1
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH  16.238     0.27063     4.51058E-03 1.87941E-04 5.14554E-07
+ STRESS PERIOD TIME  31.000     0.51667     8.61111E-03 3.58796E-04 9.82331E-07
+         TOTAL TIME  31.000     0.51667     8.61111E-03 3.58796E-04 9.82331E-07
+
+ BEGIN READING OUTPUT CONTROL FOR STRESS PERIOD 2
+      ALL TIME STEPS WILL BE PRINTED
+      ALL TIME STEPS WILL BE SAVED
+      ALL TIME STEPS WILL BE PRINTED
+      ALL TIME STEPS WILL BE SAVED
+
+ END READING OUTPUT CONTROL FOR STRESS PERIOD 2
+
+
+ STRESS PERIOD 2 IS TRANSIENT
+
+
+ REUSING GHBS FROM LAST STRESS PERIOD
+
+ REUSING RCHS FROM LAST STRESS PERIOD
+
+ REUSING EVTS FROM LAST STRESS PERIOD
+
+ REUSING SFRS FROM LAST STRESS PERIOD
+ UBDSV1 SAVING           STO-SS ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV1 SAVING           STO-SY ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              WEL IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE WEL-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              GHB IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE GHB-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              RCH IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE RCH-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              EVT IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE EVT-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              SFR IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1022 AT TIME STEP      1, STRESS PERIOD      2
+
+              SFR (SFR-1)   PERIOD 2   STEP 1
+ BOUNDARY        1  CELL              (1,1,1)   RATE    0.742600    
+ BOUNDARY        2  CELL              (1,2,2)   RATE     2.13582    
+ BOUNDARY        3  CELL              (1,3,3)   RATE     2.95480    
+ BOUNDARY        4  CELL              (1,3,4)   RATE     2.67133    
+ BOUNDARY        5  CELL              (1,4,5)   RATE     2.77358    
+ BOUNDARY        6  CELL              (1,5,6)   RATE     2.05707    
+ BOUNDARY        7  CELL              (1,6,6)   RATE     1.97882    
+ BOUNDARY        8  CELL              (1,7,6)   RATE     1.43826    
+ BOUNDARY        9  CELL              (1,8,6)   RATE     0.00000    
+ BOUNDARY       10  CELL              (1,3,5)   RATE     1.43175    
+ BOUNDARY       11  CELL              (1,3,6)   RATE    0.759325    
+ BOUNDARY       12  CELL              (1,3,7)   RATE   -6.849190E-02
+ BOUNDARY       13  CELL              (1,4,8)   RATE    0.207766    
+ BOUNDARY       14  CELL              (1,5,8)   RATE    0.821671    
+ BOUNDARY       15  CELL              (1,6,8)   RATE    0.610261    
+ BOUNDARY       16  CELL             (1,5,10)   RATE    0.905253    
+ BOUNDARY       17  CELL              (1,5,9)   RATE     1.78348    
+ BOUNDARY       18  CELL              (1,6,8)   RATE     1.22572    
+ BOUNDARY       19  CELL              (1,6,8)   RATE   -0.285440    
+ BOUNDARY       20  CELL              (1,7,7)   RATE    0.687904    
+ BOUNDARY       21  CELL              (1,8,7)   RATE     1.06876    
+ BOUNDARY       22  CELL              (1,8,6)   RATE    0.117680    
+ BOUNDARY       23  CELL              (1,9,6)   RATE     1.41359    
+ BOUNDARY       24  CELL             (1,10,7)   RATE     1.34745    
+ BOUNDARY       25  CELL             (1,11,7)   RATE     1.22051    
+ BOUNDARY       26  CELL             (1,12,7)   RATE    0.564006    
+ BOUNDARY       27  CELL             (1,13,7)   RATE   -0.657427    
+ BOUNDARY       28  CELL             (1,14,9)   RATE    -2.47566    
+ BOUNDARY       29  CELL             (1,13,8)   RATE    -1.93626    
+ BOUNDARY       30  CELL             (1,13,7)   RATE    -2.14969    
+ BOUNDARY       31  CELL             (1,13,6)   RATE    -3.73697    
+ BOUNDARY       32  CELL             (1,13,5)   RATE    -6.22862    
+ BOUNDARY       33  CELL             (1,13,4)   RATE    -7.87741    
+ BOUNDARY       34  CELL             (1,13,3)   RATE    -7.91101    
+ BOUNDARY       35  CELL             (1,13,2)   RATE    -5.96710    
+ BOUNDARY       36  CELL             (1,13,1)   RATE    -2.32929    
+
+ UBDSV06 SAVING     FLOW-JA-FACE IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING              GWF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE GWF_1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING       EXT-INFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING         RAINFALL IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING           RUNOFF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING      EVAPORATION IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+ UBDSV06 SAVING      EXT-OUTFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      1, STRESS PERIOD      2
+1
+  HEAD IN LAYER   1 AT END OF TIME STEP   1 IN STRESS PERIOD    2
+  ---------------------------------------------------------------------------
+
+            1           2           3           4           5           6           7           8           9          10
+ ........................................................................................................................
+   1    1093.       1089.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+   2    1090.       1087.       1081.      1.0000E+30  1.0000E+30   1072.       1071.       1071.      1.0000E+30  1.0000E+30
+   3   1.0000E+30   1079.       1078.       1074.       1072.       1071.       1069.       1068.      1.0000E+30  1.0000E+30
+   4    1069.       1071.       1070.       1067.       1065.       1064.       1064.       1066.       1066.      1.0000E+30
+   5    1065.       1064.       1063.       1061.       1061.       1061.       1060.       1062.       1066.       1068.    
+   6    1060.       1058.       1057.       1056.       1056.       1057.       1057.       1059.       1062.       1066.    
+   7    1056.       1053.       1052.       1051.       1051.       1052.       1053.       1055.       1056.      1.0000E+30
+   8   1.0000E+30   1046.       1046.       1045.       1046.       1046.       1048.       1050.       1050.      1.0000E+30
+   9   1.0000E+30   1039.       1039.       1039.       1040.       1041.       1042.       1043.       1044.      1.0000E+30
+  10   1.0000E+30   1031.       1032.       1033.       1034.       1035.       1036.       1038.       1039.       1042.    
+  11   1.0000E+30   1021.       1023.       1027.       1029.       1030.       1032.       1034.       1036.      1.0000E+30
+  12    1001.       1009.       1015.       1020.       1023.       1026.       1029.       1030.       1034.      1.0000E+30
+  13    994.5       1000.       1007.       1013.       1019.       1024.       1029.       1034.       1036.      1.0000E+30
+  14   1.0000E+30   1004.       1009.       1014.       1019.       1024.       1029.       1035.       1039.      1.0000E+30
+  15   1.0000E+30  1.0000E+30   1012.       1015.       1019.       1022.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+
+ HEAD WILL BE SAVED ON UNIT 1021 AT END OF TIME STEP    1, STRESS PERIOD    2
+
+
+
+ SFR (SFR-1) FLOWS   PERIOD      2   STEP        1
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+  NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+      1 (1,1,1)                25.00       0.000       0.000       0.000     -0.7426       0.000      -24.26       0.000       0.000       0.000     
+      2 (1,2,2)                0.000       24.26       0.000       0.000      -2.136       0.000      -22.12       0.000       0.000       0.000     
+      3 (1,3,3)                0.000       22.12       0.000       0.000      -2.955       0.000      -19.17       0.000      0.3553E-14  0.1606E-13 
+      4 (1,3,4)                0.000       19.17       0.000       0.000      -2.671       0.000      -16.50       0.000       0.000       0.000     
+      5 (1,4,5)                0.000       8.248       0.000       0.000      -2.774       0.000      -5.474       0.000       0.000       0.000     
+      6 (1,5,6)                0.000       5.474       0.000       0.000      -2.057       0.000      -3.417       0.000       0.000       0.000     
+      7 (1,6,6)                0.000       3.417       0.000       0.000      -1.979       0.000      -1.438       0.000       0.000       0.000     
+      8 (1,7,6)                0.000       1.438       0.000       0.000      -1.438       0.000       0.000       0.000       0.000       0.000     
+      9 (1,8,6)                0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+     10 (1,3,5)                0.000       8.248       0.000       0.000      -1.432       0.000      -6.816       0.000       0.000       0.000     
+     11 (1,3,6)                0.000       6.816       0.000       0.000     -0.7593       0.000      -6.057       0.000       0.000       0.000     
+     12 (1,3,7)                0.000       6.057       0.000       0.000      0.6849E-01   0.000      -6.125       0.000       0.000       0.000     
+     13 (1,4,8)                0.000       6.125       0.000       0.000     -0.2078       0.000      -5.917       0.000       0.000       0.000     
+     14 (1,5,8)                0.000       5.917       0.000       0.000     -0.8217       0.000      -5.096       0.000       0.000       0.000     
+     15 (1,6,8)                0.000       5.096       0.000       0.000     -0.6103       0.000      -4.485       0.000      0.8882E-15  0.1743E-13 
+     16 (1,5,10)               10.00       0.000       0.000       0.000     -0.9053       0.000      -9.095       0.000       0.000       0.000     
+     17 (1,5,9)                0.000       9.095       0.000       0.000      -1.783       0.000      -7.311       0.000       0.000       0.000     
+     18 (1,6,8)                0.000       7.311       0.000       0.000      -1.226       0.000      -6.086       0.000       0.000       0.000     
+     19 (1,6,8)                0.000       10.57       0.000       0.000      0.2854       0.000      -10.86       0.000       0.000       0.000     
+     20 (1,7,7)                0.000       10.86       0.000       0.000     -0.6879       0.000      -10.17       0.000       0.000       0.000     
+     21 (1,8,7)                0.000       10.17       0.000       0.000      -1.069       0.000      -9.100       0.000       0.000       0.000     
+     22 (1,8,6)                0.000       9.100       0.000       0.000     -0.1177       0.000      -8.982       0.000       0.000       0.000     
+     23 (1,9,6)                0.000       8.982       0.000       0.000      -1.414       0.000      -7.568       0.000       0.000       0.000     
+     24 (1,10,7)               0.000       7.568       0.000       0.000      -1.347       0.000      -6.221       0.000       0.000       0.000     
+     25 (1,11,7)               0.000       6.221       0.000       0.000      -1.221       0.000      -5.001       0.000       0.000       0.000     
+     26 (1,12,7)               0.000       5.001       0.000       0.000     -0.5640       0.000      -4.437       0.000       0.000       0.000     
+     27 (1,13,7)               0.000       4.437       0.000       0.000      0.6574       0.000      -5.094       0.000       0.000       0.000     
+     28 (1,14,9)               150.0       0.000       0.000       0.000       2.476       0.000      -152.5       0.000       0.000       0.000     
+     29 (1,13,8)               0.000       152.5       0.000       0.000       1.936       0.000      -154.4       0.000       0.000       0.000     
+     30 (1,13,7)               0.000       154.4       0.000       0.000       2.150       0.000      -156.6       0.000       0.000       0.000     
+     31 (1,13,6)               0.000       161.7       0.000       0.000       3.737       0.000      -165.4       0.000       0.000       0.000     
+     32 (1,13,5)               0.000       165.4       0.000       0.000       6.229       0.000      -171.6       0.000       0.000       0.000     
+     33 (1,13,4)               0.000       171.6       0.000       0.000       7.877       0.000      -179.5       0.000       0.000       0.000     
+     34 (1,13,3)               0.000       179.5       0.000       0.000       7.911       0.000      -187.4       0.000       0.000       0.000     
+     35 (1,13,2)               0.000       187.4       0.000       0.000       5.967       0.000      -193.4       0.000       0.000       0.000     
+     36 (1,13,1)               0.000       193.4       0.000       0.000       2.329       0.000       0.000      -195.7       0.000       0.000     
+
+
+  SFR-1 BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE SFR-1      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =        8465.9524            EXT-INFLOW =         185.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =        1904.7895                   GWF =          41.6234
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =       10370.7419              TOTAL IN =         226.6234
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =        1414.8386                   GWF =          30.9174
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =        8955.9033           EXT-OUTFLOW =         195.7060
+
+           TOTAL OUT =       10370.7419             TOTAL OUT =         226.6234
+
+            IN - OUT =       1.8190E-12              IN - OUT =           0.0000
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =          38.1047                STO-SS =           0.3294     STORAGE         
+              STO-SY =        5277.5358                STO-SY =          48.3952     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WEL-1           
+                 GHB =           9.9121                   GHB =           0.2166     GHB-1           
+                 RCH =          82.0854                   RCH =           1.7938     RCH-1           
+                 EVT =           0.0000                   EVT =           0.0000     EVT-1           
+                 SFR =        1414.8386                   SFR =          30.9174     SFR-1           
+
+            TOTAL IN =        6822.4765              TOTAL IN =          81.6524
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =           1.2957                STO-SS =       3.0592E-02     STORAGE         
+              STO-SY =         165.5530                STO-SY =           3.9221     STORAGE         
+                 WEL =        3100.0000                   WEL =           0.0000     WEL-1           
+                 GHB =          11.3032                   GHB =           0.2470     GHB-1           
+                 RCH =           0.0000                   RCH =           0.0000     RCH-1           
+                 EVT =        1639.6818                   EVT =          35.8307     EVT-1           
+                 SFR =        1904.7896                   SFR =          41.6234     SFR-1           
+
+           TOTAL OUT =        6822.6234             TOTAL OUT =          81.6538
+
+            IN - OUT =          -0.1468              IN - OUT =      -1.3657E-03
+
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    2
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH  14.762     0.24603     4.10053E-03 1.70855E-04 4.67777E-07
+ STRESS PERIOD TIME  14.762     0.24603     4.10053E-03 1.70855E-04 4.67777E-07
+         TOTAL TIME  45.762     0.76270     1.27116E-02 5.29652E-04 1.45011E-06
+ UBDSV1 SAVING           STO-SS ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV1 SAVING           STO-SY ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              WEL IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE WEL-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              GHB IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE GHB-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              RCH IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE RCH-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              EVT IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE EVT-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              SFR IN MODEL GWF_1            PACKAGE GWF_1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1022 AT TIME STEP      2, STRESS PERIOD      2
+
+              SFR (SFR-1)   PERIOD 2   STEP 2
+ BOUNDARY        1  CELL              (1,1,1)   RATE    0.742600    
+ BOUNDARY        2  CELL              (1,2,2)   RATE     2.13582    
+ BOUNDARY        3  CELL              (1,3,3)   RATE     2.95480    
+ BOUNDARY        4  CELL              (1,3,4)   RATE     2.67133    
+ BOUNDARY        5  CELL              (1,4,5)   RATE     2.77358    
+ BOUNDARY        6  CELL              (1,5,6)   RATE     2.05707    
+ BOUNDARY        7  CELL              (1,6,6)   RATE     1.97882    
+ BOUNDARY        8  CELL              (1,7,6)   RATE     1.43826    
+ BOUNDARY        9  CELL              (1,8,6)   RATE     0.00000    
+ BOUNDARY       10  CELL              (1,3,5)   RATE     1.43176    
+ BOUNDARY       11  CELL              (1,3,6)   RATE    0.759327    
+ BOUNDARY       12  CELL              (1,3,7)   RATE   -6.849034E-02
+ BOUNDARY       13  CELL              (1,4,8)   RATE    0.207767    
+ BOUNDARY       14  CELL              (1,5,8)   RATE    0.821670    
+ BOUNDARY       15  CELL              (1,6,8)   RATE    0.610261    
+ BOUNDARY       16  CELL             (1,5,10)   RATE    0.905253    
+ BOUNDARY       17  CELL              (1,5,9)   RATE     1.78348    
+ BOUNDARY       18  CELL              (1,6,8)   RATE     1.22572    
+ BOUNDARY       19  CELL              (1,6,8)   RATE   -0.285441    
+ BOUNDARY       20  CELL              (1,7,7)   RATE    0.687904    
+ BOUNDARY       21  CELL              (1,8,7)   RATE     1.06876    
+ BOUNDARY       22  CELL              (1,8,6)   RATE    0.117680    
+ BOUNDARY       23  CELL              (1,9,6)   RATE     1.41359    
+ BOUNDARY       24  CELL             (1,10,7)   RATE     1.34745    
+ BOUNDARY       25  CELL             (1,11,7)   RATE     1.22051    
+ BOUNDARY       26  CELL             (1,12,7)   RATE    0.564006    
+ BOUNDARY       27  CELL             (1,13,7)   RATE   -0.657423    
+ BOUNDARY       28  CELL             (1,14,9)   RATE    -2.47557    
+ BOUNDARY       29  CELL             (1,13,8)   RATE    -1.93615    
+ BOUNDARY       30  CELL             (1,13,7)   RATE    -2.14960    
+ BOUNDARY       31  CELL             (1,13,6)   RATE    -3.73691    
+ BOUNDARY       32  CELL             (1,13,5)   RATE    -6.22857    
+ BOUNDARY       33  CELL             (1,13,4)   RATE    -7.87735    
+ BOUNDARY       34  CELL             (1,13,3)   RATE    -7.91096    
+ BOUNDARY       35  CELL             (1,13,2)   RATE    -5.96704    
+ BOUNDARY       36  CELL             (1,13,1)   RATE    -2.32927    
+
+ UBDSV06 SAVING     FLOW-JA-FACE IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING              GWF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE GWF_1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING       EXT-INFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING         RAINFALL IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING           RUNOFF IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING      EVAPORATION IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+ UBDSV06 SAVING      EXT-OUTFLOW IN MODEL GWF_1            PACKAGE SFR-1           CONNECTED TO MODEL GWF_1            PACKAGE SFR-1            ON UNIT   1019 AT TIME STEP      2, STRESS PERIOD      2
+1
+  HEAD IN LAYER   1 AT END OF TIME STEP   2 IN STRESS PERIOD    2
+  ---------------------------------------------------------------------------
+
+            1           2           3           4           5           6           7           8           9          10
+ ........................................................................................................................
+   1    1093.       1089.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+   2    1090.       1087.       1081.      1.0000E+30  1.0000E+30   1072.       1071.       1071.      1.0000E+30  1.0000E+30
+   3   1.0000E+30   1079.       1078.       1074.       1072.       1071.       1069.       1068.      1.0000E+30  1.0000E+30
+   4    1069.       1071.       1070.       1067.       1065.       1064.       1064.       1066.       1066.      1.0000E+30
+   5    1065.       1064.       1063.       1061.       1061.       1061.       1060.       1062.       1066.       1068.    
+   6    1060.       1058.       1057.       1056.       1056.       1057.       1057.       1059.       1062.       1066.    
+   7    1056.       1053.       1052.       1051.       1051.       1052.       1053.       1055.       1056.      1.0000E+30
+   8   1.0000E+30   1046.       1046.       1045.       1046.       1046.       1048.       1050.       1050.      1.0000E+30
+   9   1.0000E+30   1039.       1039.       1039.       1040.       1041.       1042.       1043.       1044.      1.0000E+30
+  10   1.0000E+30   1031.       1032.       1033.       1034.       1035.       1036.       1038.       1039.       1042.    
+  11   1.0000E+30   1021.       1023.       1027.       1029.       1030.       1032.       1034.       1036.      1.0000E+30
+  12    1001.       1009.       1015.       1020.       1023.       1026.       1029.       1030.       1034.      1.0000E+30
+  13    994.5      1000.0       1007.       1013.       1019.       1024.       1029.       1034.       1036.      1.0000E+30
+  14   1.0000E+30   1004.       1009.       1014.       1019.       1024.       1029.       1035.       1039.      1.0000E+30
+  15   1.0000E+30  1.0000E+30   1012.       1015.       1019.       1022.      1.0000E+30  1.0000E+30  1.0000E+30  1.0000E+30
+
+ HEAD WILL BE SAVED ON UNIT 1021 AT END OF TIME STEP    2, STRESS PERIOD    2
+
+
+
+ SFR (SFR-1) FLOWS   PERIOD      2   STEP        2
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+ REACH  REACH                 EXTERNAL      REACH       REACH       REACH       REACH       REACH       REACH     EXTERNAL      REACH      PERCENT   
+  NO.   (LAYER,ROW,COLUMN)     INFLOW      INFLOW     RAINFALL     RUNOFF      LEAKAGE   EVAPORATION   OUTFLOW     OUTFLOW    IN - OUT   DIFFERENCE  
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+      1 (1,1,1)                25.00       0.000       0.000       0.000     -0.7426       0.000      -24.26       0.000       0.000       0.000     
+      2 (1,2,2)                0.000       24.26       0.000       0.000      -2.136       0.000      -22.12       0.000       0.000       0.000     
+      3 (1,3,3)                0.000       22.12       0.000       0.000      -2.955       0.000      -19.17       0.000       0.000       0.000     
+      4 (1,3,4)                0.000       19.17       0.000       0.000      -2.671       0.000      -16.50       0.000       0.000       0.000     
+      5 (1,4,5)                0.000       8.248       0.000       0.000      -2.774       0.000      -5.474       0.000       0.000       0.000     
+      6 (1,5,6)                0.000       5.474       0.000       0.000      -2.057       0.000      -3.417       0.000       0.000       0.000     
+      7 (1,6,6)                0.000       3.417       0.000       0.000      -1.979       0.000      -1.438       0.000       0.000       0.000     
+      8 (1,7,6)                0.000       1.438       0.000       0.000      -1.438       0.000       0.000       0.000       0.000       0.000     
+      9 (1,8,6)                0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000       0.000     
+     10 (1,3,5)                0.000       8.248       0.000       0.000      -1.432       0.000      -6.816       0.000       0.000       0.000     
+     11 (1,3,6)                0.000       6.816       0.000       0.000     -0.7593       0.000      -6.057       0.000       0.000       0.000     
+     12 (1,3,7)                0.000       6.057       0.000       0.000      0.6849E-01   0.000      -6.125       0.000       0.000       0.000     
+     13 (1,4,8)                0.000       6.125       0.000       0.000     -0.2078       0.000      -5.917       0.000       0.000       0.000     
+     14 (1,5,8)                0.000       5.917       0.000       0.000     -0.8217       0.000      -5.096       0.000       0.000       0.000     
+     15 (1,6,8)                0.000       5.096       0.000       0.000     -0.6103       0.000      -4.485       0.000       0.000       0.000     
+     16 (1,5,10)               10.00       0.000       0.000       0.000     -0.9053       0.000      -9.095       0.000       0.000       0.000     
+     17 (1,5,9)                0.000       9.095       0.000       0.000      -1.783       0.000      -7.311       0.000       0.000       0.000     
+     18 (1,6,8)                0.000       7.311       0.000       0.000      -1.226       0.000      -6.086       0.000       0.000       0.000     
+     19 (1,6,8)                0.000       10.57       0.000       0.000      0.2854       0.000      -10.86       0.000       0.000       0.000     
+     20 (1,7,7)                0.000       10.86       0.000       0.000     -0.6879       0.000      -10.17       0.000       0.000       0.000     
+     21 (1,8,7)                0.000       10.17       0.000       0.000      -1.069       0.000      -9.100       0.000       0.000       0.000     
+     22 (1,8,6)                0.000       9.100       0.000       0.000     -0.1177       0.000      -8.982       0.000       0.000       0.000     
+     23 (1,9,6)                0.000       8.982       0.000       0.000      -1.414       0.000      -7.568       0.000       0.000       0.000     
+     24 (1,10,7)               0.000       7.568       0.000       0.000      -1.347       0.000      -6.221       0.000       0.000       0.000     
+     25 (1,11,7)               0.000       6.221       0.000       0.000      -1.221       0.000      -5.001       0.000       0.000       0.000     
+     26 (1,12,7)               0.000       5.001       0.000       0.000     -0.5640       0.000      -4.437       0.000       0.000       0.000     
+     27 (1,13,7)               0.000       4.437       0.000       0.000      0.6574       0.000      -5.094       0.000       0.000       0.000     
+     28 (1,14,9)               150.0       0.000       0.000       0.000       2.476       0.000      -152.5       0.000       0.000       0.000     
+     29 (1,13,8)               0.000       152.5       0.000       0.000       1.936       0.000      -154.4       0.000       0.000       0.000     
+     30 (1,13,7)               0.000       154.4       0.000       0.000       2.150       0.000      -156.6       0.000       0.000       0.000     
+     31 (1,13,6)               0.000       161.7       0.000       0.000       3.737       0.000      -165.4       0.000       0.000       0.000     
+     32 (1,13,5)               0.000       165.4       0.000       0.000       6.229       0.000      -171.6       0.000       0.000       0.000     
+     33 (1,13,4)               0.000       171.6       0.000       0.000       7.877       0.000      -179.5       0.000       0.000       0.000     
+     34 (1,13,3)               0.000       179.5       0.000       0.000       7.911       0.000      -187.4       0.000       0.000       0.000     
+     35 (1,13,2)               0.000       187.4       0.000       0.000       5.967       0.000      -193.4       0.000       0.000       0.000     
+     36 (1,13,1)               0.000       193.4       0.000       0.000       2.329       0.000       0.000      -195.7       0.000       0.000     
+
+
+  SFR-1 BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    2, STRESS PERIOD   2
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE SFR-1      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+          EXT-INFLOW =       11470.0000            EXT-INFLOW =         185.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =        2580.6640                   GWF =          41.6228
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =           0.0000           EXT-OUTFLOW =           0.0000
+
+            TOTAL IN =       14050.6640              TOTAL IN =         226.6228
+
+          OUT:                                     OUT:
+          ----                                     ----
+          EXT-INFLOW =           0.0000            EXT-INFLOW =           0.0000
+            RAINFALL =           0.0000              RAINFALL =           0.0000
+              RUNOFF =           0.0000                RUNOFF =           0.0000
+                 GWF =        1916.8782                   GWF =          30.9174
+         EVAPORATION =           0.0000           EVAPORATION =           0.0000
+         EXT-OUTFLOW =       12133.7858           EXT-OUTFLOW =         195.7054
+
+           TOTAL OUT =       14050.6640             TOTAL OUT =         226.6228
+
+            IN - OUT =           0.0000              IN - OUT =           0.0000
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    2, STRESS PERIOD   2
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+              STO-SS =          43.4541                STO-SS =           0.3294     STORAGE         
+              STO-SY =        6063.3702                STO-SY =          48.3945     STORAGE         
+                 WEL =           0.0000                   WEL =           0.0000     WEL-1           
+                 GHB =          13.4293                   GHB =           0.2166     GHB-1           
+                 RCH =         111.2125                   RCH =           1.7938     RCH-1           
+                 EVT =           0.0000                   EVT =           0.0000     EVT-1           
+                 SFR =        1916.8782                   SFR =          30.9174     SFR-1           
+
+            TOTAL IN =        8148.3444              TOTAL IN =          81.6517
+
+          OUT:                                     OUT:
+          ----                                     ----
+              STO-SS =           1.7924                STO-SS =       3.0592E-02     STORAGE         
+              STO-SY =         229.2393                STO-SY =           3.9220     STORAGE         
+                 WEL =        3100.0000                   WEL =           0.0000     WEL-1           
+                 GHB =          15.3140                   GHB =           0.2470     GHB-1           
+                 RCH =           0.0000                   RCH =           0.0000     RCH-1           
+                 EVT =        2221.5035                   EVT =          35.8307     EVT-1           
+                 SFR =        2580.6642                   SFR =          41.6228     SFR-1           
+
+           TOTAL OUT =        8148.5134             TOTAL OUT =          81.6531
+
+            IN - OUT =          -0.1690              IN - OUT =      -1.3655E-03
+
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP    2 IN STRESS PERIOD    2
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH  16.238     0.27063     4.51058E-03 1.87941E-04 5.14554E-07
+ STRESS PERIOD TIME  31.000     0.51667     8.61111E-03 3.58796E-04 9.82331E-07
+         TOTAL TIME  62.000      1.0333     1.72222E-02 7.17593E-04 1.96466E-06

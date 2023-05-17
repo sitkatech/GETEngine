@@ -1,0 +1,31 @@
+# MODFLOW-2005 Name File
+LIST  7 cohyst_template.lst
+BAS6  1 cohyst_template.bas
+DIS  19 cohyst_template.dis
+LPF  12 cohyst_template.lpf
+WEL   9 NewWELFile.WEL
+DRN  10 cohyst_template.drn
+RIV   8 cohyst_template.riv
+EVT  35 cohyst_template.evt
+#Parameterized general head boundaries
+GHB  13 cohyst_template.ghb
+DATA 50 arrays/ghb_marginal
+DATA 51 arrays/ghb_bigmac
+DATA 52 arrays/ghb_hbutler
+DATA 53 arrays/ghb_hstrunk
+#Parameterized recharge
+RCH  16 Baseline.RCH
+DATA 32 arrays/ws_deepperc
+DATA 33 arrays/stella_seepage
+OC   22 cohyst_template.oc
+#HOB  25 cohyst_template.obh
+#DATA 74 cohyst_template_obh.out
+GMG  14 cohyst_template.gmg
+SFR  17 cohyst_template.sfr
+DATA 28 cohyst_template_sfr.out
+ZONE 20 cohyst_template.zone
+#ZONE 20 ../COHYST2010_calibration.zone
+MULT 21 cohyst_template.mult
+DATA(BINARY) 40 cohyst_template.cbb
+DATA(BINARY) 30 cohyst_template.hds
+DATA(BINARY) 31 cohyst_template.ddn

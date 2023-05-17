@@ -1,0 +1,7 @@
+version: '3.4'
+
+services:
+    olsson:
+        container_name: olsson
+        build: .
+        image: adjustcohystrch

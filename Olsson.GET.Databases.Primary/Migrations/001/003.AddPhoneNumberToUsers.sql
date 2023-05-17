@@ -1,0 +1,8 @@
+﻿ALTER TABLE Users ADD PhoneNumber CHAR(50);
+GO
+
+UPDATE Users SET PhoneNumber = '(123)456-7890';
+GO
+
+ALTER TABLE Users ALTER COLUMN PhoneNumber CHAR(50) NOT NULL
+GO;

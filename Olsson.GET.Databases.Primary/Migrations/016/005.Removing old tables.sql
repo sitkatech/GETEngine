@@ -1,0 +1,17 @@
+drop table dbo.RunBucketRuns
+drop table dbo.RunBuckets
+drop table dbo.RunGeographies
+drop table dbo.Runs
+drop table dbo.VolumeUnits
+drop table dbo.ScenarioFiles
+drop table dbo.ReportCustomerModelScenarios
+drop table dbo.CustomerModelScenarios
+drop table dbo.ModelScenarios
+drop table dbo.ModelStressPeriodCustomStartDates
+drop table dbo.Scenarios
+drop table dbo.Models
+drop table dbo.Images
+drop table dbo.UserRoles
+drop table dbo.Users
+drop table dbo.Roles
+drop table dbo.Customers

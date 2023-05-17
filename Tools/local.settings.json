@@ -1,0 +1,33 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "BlobStorageModelDataFolder": "model-data",
+    "FromEmail": "get@olsson.com",
+    "GenerateInputsQueueName": "generateinputsqueue",
+    "GenerateOutputsQueueName": "generateoutputsqueue",
+    "RunAnalysisQueueName": "runanalysisqueue",
+    "RunCompletedTemplateId": "9f02bfec-660b-480a-a16d-056e84a4998a",
+    "FunctionClientId": "f9280848-feb5-4470-96b8-1ded72b1182e",
+    "FunctionSecret": "SECRETHERE",
+    "FunctionTenantId": "67ab44a0-4e9f-4c82-b385-c4ec1b2a4505",
+    "ApplicationBaseUrl": "http://localhost:61898/",
+    "FromEmail": "get@olsson.com",
+    "RunCompletedTemplateId": "9f02bfec-660b-480a-a16d-056e84a4998a",
+    "RunErroredTemplateId": "079bdad5-4408-4c90-ac85-1f7a12da7464",
+    "GETSupportEmailAddress": "",
+    "SendgridAPIKey": "SECRETHERE"
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "*",
+    "CORSCredentials": false
+  },
+  "ConnectionStrings": {
+    "GetPrimaryDatabase": "Data Source=192.168.50.131,1433;User ID=GETUser;Password=SECRETHERE;Initial Catalog=Get.Primary;",
+    "AzureStorageAccount": "SECRETHERE",
+    "AzureWebJobsDashboard": "SECRETHERE",
+    "AzureWebJobsStorage": "SECRETHERE"
+  }
+}

@@ -1,0 +1,2 @@
+﻿ALTER TABLE Scenarios 
+ADD [ImageName] NVARCHAR(256)
