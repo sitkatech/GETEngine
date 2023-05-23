@@ -112,6 +112,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj">
       <Project>{7a7f836b-a31b-4d1e-829e-3b548618eb17}</Project>
       <Name>Shared</Name>
