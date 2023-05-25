@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using log4net;
 using Olsson.GET.Accessors.EntityFramework;
@@ -17,7 +16,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         List<RunResultDetails> CalculateImpactToBaseflow(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, int outputVolumeUnitID, bool isDifferentialRun);
     }
 
-    internal class ImpactToBaseflowFileOutputSubEngine : IImpactToBaseflowFileOutputSubEngine
+    public class ImpactToBaseflowFileOutputSubEngine : IImpactToBaseflowFileOutputSubEngine
     {
         public ImpactToBaseflowFileOutputSubEngine(Model model)
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Olsson.GET.Accessors.FileIO;
 
 namespace Olsson.GET.Tests.AccessorTests

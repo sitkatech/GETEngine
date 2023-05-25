@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Shared;
 using Olsson.GET.Common.Utilities;
-using Olsson.GET.Common.Shared.Enums;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
+[assembly: InternalsVisibleTo("Olsson.GET.Tests.EngineTests.ModelInputOutputEngines")]
 
 namespace Olsson.GET.Engines.ModelInputOutputEngines
 {

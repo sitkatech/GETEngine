@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Olsson.GET.Common.Utilities
 {

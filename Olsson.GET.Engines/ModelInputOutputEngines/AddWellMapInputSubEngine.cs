@@ -18,7 +18,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         StressPeriodsLocationRates UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run);
     }
 
-    internal class AddWellMapInputSubEngine : IAddWellMapInputSubEngine
+    public class AddWellMapInputSubEngine : IAddWellMapInputSubEngine
     {
         public AddWellMapInputSubEngine(Model model)
         {

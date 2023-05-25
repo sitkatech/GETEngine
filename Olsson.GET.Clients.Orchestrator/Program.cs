@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Olsson.GET.Common.Shared.Extensions;
+﻿using Microsoft.Azure.WebJobs;
 
 namespace Olsson.GET.Clients.Orchestrator
 {

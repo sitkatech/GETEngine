@@ -18,21 +18,21 @@ namespace Olsson.GET.Accessors.Queue
         {
             var queue = GetQueue(ConfigurationHelper.AppSettings.GenerateInputsQueueName);
             var message = new CloudQueueMessage(runId.ToString());
-            queue.AddMessage(message, initialVisibilityDelay: delay);
+            queue.AddMessageAsync(message, null, delay, null, null);
         }
 
         public void CreateRunAnalysisMessage(int runId, TimeSpan? delay)
         {
             var queue = GetQueue(ConfigurationHelper.AppSettings.RunAnalysisQueueName);
             var message = new CloudQueueMessage(runId.ToString());
-            queue.AddMessage(message, initialVisibilityDelay: delay);
+            queue.AddMessageAsync(message, null, delay, null, null);
         }
 
         public void CreateGenerateOutputsMessage(int runId, TimeSpan? delay)
         {
             var queue = GetQueue(ConfigurationHelper.AppSettings.GenerateOutputsQueueName);
             var message = new CloudQueueMessage(runId.ToString());
-            queue.AddMessage(message, initialVisibilityDelay: delay);
+            queue.AddMessageAsync(message, null, delay, null, null);
         }
 
         private static CloudQueue GetQueue(string queueName)
@@ -40,7 +40,7 @@ namespace Olsson.GET.Accessors.Queue
             var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
             var queueClient = storageAccount.CreateCloudQueueClient();
             var queue = queueClient.GetQueueReference(queueName);
-            queue.CreateIfNotExists();
+            queue.CreateIfNotExistsAsync();
 
             return queue;
         }

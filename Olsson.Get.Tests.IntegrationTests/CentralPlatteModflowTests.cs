@@ -12,7 +12,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Telerik.JustMock.Helpers;
 using Olsson.GET.Tests.EngineTests;
-using System.Data.Entity.SqlServer;
 using Olsson.GET.Accessors.EntityFramework;
 using SqlServerTypes;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
@@ -59,7 +58,8 @@ namespace IntegrationTests
         public void InitTypes()
         {
             Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
+            // todo: assembly?
+            //SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
         }
 
         [TestMethod]

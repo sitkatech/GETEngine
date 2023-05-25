@@ -1,9 +1,5 @@
 ﻿using log4net;
-using Microsoft.Azure.Management.ContainerInstance.Fluent;
-using Microsoft.Azure.Management.ContainerInstance.Fluent.Models;
-using Microsoft.Azure.Management.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
+
 using Olsson.GET.Common.DataContracts.Container;
 using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Utilities;
@@ -13,6 +9,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.Management.ContainerInstance.Fluent;
+using Microsoft.Azure.Management.ContainerInstance.Fluent.Models;
+using Microsoft.Azure.Management.Fluent;
+using Microsoft.Azure.Management.ResourceManager.Fluent;
+using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 
 namespace Olsson.GET.Accessors.Containers
 {
@@ -153,7 +154,7 @@ namespace Olsson.GET.Accessors.Containers
                     ConfigurationHelper.AppSettings.FunctionTenantId,
                     AzureEnvironment.AzureGlobalCloud);
 
-            azure = Azure.Authenticate(credentials).WithDefaultSubscription();
+            azure = Microsoft.Azure.Management.Fluent.Azure.Authenticate(credentials).WithDefaultSubscription();
 
             return azure;
         }

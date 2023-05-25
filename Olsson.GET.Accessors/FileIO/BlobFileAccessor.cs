@@ -1,8 +1,5 @@
 ﻿using log4net;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage.DataMovement;
-using Microsoft.WindowsAzure.Storage.File;
+
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.DataMovement;
+using Microsoft.WindowsAzure.Storage.File;
+
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -20,11 +22,11 @@ namespace Olsson.GET.Accessors.FileIO
         {
             var blockBlob = GetBlockBlobReference(fileLocation, filePath);
 
-            if (blockBlob.Exists())
+            if (blockBlob.ExistsAsync().Result)
             {
                 using (var ms = new MemoryStream())
                 {
-                    blockBlob.DownloadToStream(ms);
+                    blockBlob.DownloadToStreamAsync(ms);
                     return ms.ToArray();
                 }
             }
@@ -56,19 +58,36 @@ namespace Olsson.GET.Accessors.FileIO
             task.Wait();
         }
 
-        public List<string> GetFilesInDirectory(string directoryPath, string fileLocation)
+        public async Task<List<string>> GetFilesInDirectory(string directoryPath, string fileLocation)
         {
             var container = GetCloudBlobContainer(fileLocation);
             var directory = container.GetDirectoryReference(directoryPath);
-            return directory.ListBlobs().OfType<CloudBlockBlob>().Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
+
+            BlobContinuationToken blobContinuationToken = null;
+            var files = new List<IListBlobItem>();
+            do
+            {
+                var resultSegment = await directory.ListBlobsSegmentedAsync(
+                    useFlatBlobListing: true,
+                    blobListingDetails: BlobListingDetails.All,
+                    maxResults: null,
+                    currentToken: blobContinuationToken,
+                    options: null,
+                    operationContext: null,
+                    cancellationToken: CancellationToken.None);
+
+                // Get the value of the continuation token returned by the listing call.
+                blobContinuationToken = resultSegment.ContinuationToken;
+                files.AddRange(resultSegment.Results);
+            } while (blobContinuationToken != null);
+
+            return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
         public void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null)
         {
             var blockBlob = GetBlockBlobReference(fileLocation, filePath);
-
-            if (blockBlob.Exists())
-                blockBlob.DeleteIfExists();
+            blockBlob.DeleteIfExistsAsync();
 
             if (!string.IsNullOrEmpty(contentType))
             {
@@ -77,7 +96,7 @@ namespace Olsson.GET.Accessors.FileIO
 
             using (var ms = new MemoryStream(fileContent))
             {
-                blockBlob.UploadFromStream(ms);
+                blockBlob.UploadFromStreamAsync(ms);
             }
         }
 
@@ -86,7 +105,7 @@ namespace Olsson.GET.Accessors.FileIO
             var blockBlob = GetBlockBlobReference(fileLocation, destinationFilePath);
 
             // DataMovement will throw an error if file is not deleted
-            blockBlob.DeleteIfExists();
+            blockBlob.DeleteIfExistsAsync();
 
             // Setup the number of the concurrent operations
             TransferManager.Configurations.ParallelOperations = 64;
@@ -101,25 +120,39 @@ namespace Olsson.GET.Accessors.FileIO
         public void DeleteFile(string filePath, string fileLocation)
         {
             var blockBlob = GetBlockBlobReference(fileLocation, filePath);
-
-            if (blockBlob.Exists())
-            {
-                blockBlob.DeleteIfExists();
-            }
+            blockBlob.DeleteIfExistsAsync();
         }
 
         public void CreateFileShare(string shareName)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(shareName);
-            cloudFileShare.CreateIfNotExists();
+            cloudFileShare.CreateIfNotExistsAsync();
         }
 
-        public List<string> GetFilesInShareDirectory(string fileLocation)
+        public async Task<List<string>> GetFilesInShareDirectory(string fileLocation)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(fileLocation);
 
             var directory = cloudFileShare.GetRootDirectoryReference();
-            return directory.ListFilesAndDirectories().Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
+            
+            FileContinuationToken fileContinuationToken = null;
+            var files = new List<IListFileItem>();
+            do
+            {
+                var resultSegment = await directory.ListFilesAndDirectoriesSegmentedAsync(
+                    
+                    maxResults: null,
+                    currentToken: fileContinuationToken,
+                    options: null,
+                    operationContext: null,
+                    cancellationToken: CancellationToken.None);
+
+                // Get the value of the continuation token returned by the listing call.
+                fileContinuationToken = resultSegment.ContinuationToken;
+                files.AddRange(resultSegment.Results);
+            } while (fileContinuationToken != null);
+
+            return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
         public void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)
@@ -151,11 +184,11 @@ namespace Olsson.GET.Accessors.FileIO
 
             var destFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(destFilePath);
 
-            destFile.StartCopy(srcblockBlob);
+            destFile.StartCopyAsync(srcblockBlob);
 
             if (deleteSrc)
             {
-                srcblockBlob.Delete();
+                srcblockBlob.DeleteAsync();
             }
         }
 
@@ -176,13 +209,13 @@ namespace Olsson.GET.Accessors.FileIO
 
             var destBlockBlob = GetBlockBlobReference(destFileLocation, destFilePath);
 
-            destBlockBlob.DeleteIfExists();
+            destBlockBlob.DeleteIfExistsAsync();
 
-            destBlockBlob.StartCopy(fileSasUri);
+            destBlockBlob.StartCopyAsync(fileSasUri);
 
             if (deleteSrc)
             {
-                srcFile.Delete();
+                srcFile.DeleteAsync();
             }
         }
 
@@ -190,10 +223,7 @@ namespace Olsson.GET.Accessors.FileIO
         {
             var cloudFileShare = GetCloudFileShare(fileLocator);
 
-            if (cloudFileShare.Exists())
-            {
-                cloudFileShare.Delete();
-            }
+            cloudFileShare.DeleteIfExistsAsync();
         }
 
         #region Private Methods
@@ -209,7 +239,7 @@ namespace Olsson.GET.Accessors.FileIO
             var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
             var blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(containerName);
-            container.CreateIfNotExists();
+            container.CreateIfNotExistsAsync();
             return container;
         }
 

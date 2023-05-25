@@ -1,6 +1,6 @@
-﻿using System.Transactions;
+﻿using System.Configuration;
+using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Olsson.GET.Accessors.Containers;
 
 namespace Olsson.GET.Tests.AccessorTests
 {

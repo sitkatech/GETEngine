@@ -1,12 +1,9 @@
-using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Customers;
 using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Common.Utilities;
 using Image = Olsson.GET.Common.DataContracts.Models.Image;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using ModelDocumentationImage = Olsson.GET.Common.DataContracts.Models.ModelDocumentationImage;

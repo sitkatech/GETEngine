@@ -5,7 +5,6 @@ using Olsson.GET.Common.DataContracts.Runs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity.SqlServer;
 using System.IO;
 using System.Linq;
 using Olsson.GET.Accessors.EntityFramework;
@@ -1973,7 +1972,8 @@ namespace Olsson.GET.Tests.AccessorTests
         public void InitTypes()
         {
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
+            // todo: assembly?
+            //SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
         }
 
         [TestMethod]

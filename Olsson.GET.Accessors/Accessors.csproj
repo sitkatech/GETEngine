@@ -1,203 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85F41A7D-0D02-4DB7-A7FC-880ED15C6618}</ProjectGuid>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Olsson.GET.Accessors</RootNamespace>
     <AssemblyName>Olsson.GET.Accessors</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <ImportWindowsDesktopTargets>false</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EntityFramework\Generated\BaseflowTableProcessingConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\BaseflowTableProcessingConfigurationConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Customer.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\CustomerConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\CustomerModelScenario.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\CustomerModelScenarioConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ExternalMapLayer.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ExternalMapLayerConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ExternalMapLayerCustomerModel.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ExternalMapLayerCustomerModelConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ExternalMapLayerType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\FileResourceData.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\FileResourceDataConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\FileResourceInfo.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\FileResourceInfoConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\FileResourceMimeType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\GETPage.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\GETPageConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\GETPageImage.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\GETPageImageConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\GETPageType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Image.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ImageConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\MeasurementType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Model.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelDocumentationImage.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelDocumentationImageConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelEngineType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelExecutable.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelExecutableConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelGridType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelInputZoneData.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelInputZoneDataConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelMapAreaBoundary.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelMapAreaBoundaryConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelOutputZoneData.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelOutputZoneDataConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelScenario.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelScenarioConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelStressPeriodCustomStartDate.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ModelStressPeriodCustomStartDateConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\PrimaryDBContext.Context.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplate.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateCustomerModelScenario.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateCustomerModelScenarioConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateModel.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateModelConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateModelType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ReportTemplateModelTypeConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Role.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Run.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunBucket.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunBucketConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunBucketRun.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunBucketRunConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunGeography.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunGeographyConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\RunStatus.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\Scenario.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ScenarioConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ScenarioDocumentationImage.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ScenarioDocumentationImageConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ScenarioFile.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\ScenarioFileConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\TimeframeType.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\User.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\UserConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\UserRole.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\UserRoleConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\vModelAndScenarioCountForCustomerID.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\vModelAndScenarioCountForCustomerIDConfiguration.Binding.cs" />
-    <Compile Include="EntityFramework\Generated\VolumeUnit.Binding.cs" />
-    <Compile Include="EntityFramework\ExternalMapLayerExtensionMethods.cs" />
-    <Compile Include="EntityFramework\ExternalMapLayerCustomerModelExtensionMethods.cs" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Olsson.GET.Common.DataContracts\DataContracts.csproj" />
+    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
+    <ProjectReference Include="..\Olsson.GET.Common.Utilities\Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessorFactory.cs" />
-    <Compile Include="APIFunctions\APIFunctionsAccessor.cs" />
-    <Compile Include="APIFunctions\IAPIFunctionsAccessor.cs" />
-    <Compile Include="BaseTableAccessor.cs" />
-    <Compile Include="Containers\ContainerAccessor.cs" />
-    <Compile Include="Containers\IContainerAccessor.cs" />
-    <Compile Include="Customers\CustomerAccessor.cs" />
-    <Compile Include="Customers\ICustomerAccessor.cs" />
-    <Compile Include="DatabaseFactory.cs" />
-    <Compile Include="DtoMapper.cs" />
-    <Compile Include="ExternalMapLayerAccessor.cs" />
-    <Compile Include="FileIO\BlobFileAccessor.cs" />
-    <Compile Include="FileIO\FileAccessor.cs" />
-    <Compile Include="FileIO\FileFormatter.cs" />
-    <Compile Include="FileIO\IFileAccessor.cs" />
-    <Compile Include="FileIO\ModelSettings.cs" />
-    <Compile Include="FileIO\IFileFormatter.cs" />
-    <Compile Include="FileIO\IBlobFileAccessor.cs" />
-    <Compile Include="FileIO\IModelFileAccessor.cs" />
-    <Compile Include="FileIO\IModelFileAccessorFactory.cs" />
-    <Compile Include="FileIO\ModelFileAccessor.cs" />
-    <Compile Include="FileIO\ModelFileAccessorFactory.cs" />
-    <Compile Include="FileIO\ModflowSixFileAccessor.cs" />
-    <Compile Include="FileIO\ModflowSixStructuredFileFormatter.cs" />
-    <Compile Include="FileIO\ModflowSixUnstructuredFileFormatter.cs" />
-    <Compile Include="FileIO\UnstructuredModflowSixFileAccessor.cs" />
-    <Compile Include="FileIO\StructuredModflowSixFileAccessor.cs" />
-    <Compile Include="FileIO\StructuredModflowFileAccessor.cs" />
-    <Compile Include="FileIO\UnstructuredModflowFileAccessor.cs" />
-    <Compile Include="FileResource\FileResourceAccessor.cs" />
-    <Compile Include="FileResource\IFileResourceAccessor.cs" />
-    <Compile Include="GETPageAccessor.cs" />
-    <Compile Include="ICanDeleteFull.cs" />
-    <Compile Include="IHavePrimaryKey.cs" />
-    <Compile Include="ModelObjectHelpers.cs" />
-    <Compile Include="Models\IModelAccessor.cs" />
-    <Compile Include="Models\ModelAccessor.cs" />
-    <Compile Include="Notification\EmailAccessor.cs" />
-    <Compile Include="Notification\IEmailAccessor.cs" />
-    <Compile Include="EntityFramework\PrimaryDbContext.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Authentication\IUserAccessor.cs" />
-    <Compile Include="Authentication\UserAccessor.cs" />
-    <Compile Include="Queue\IQueueAccessor.cs" />
-    <Compile Include="Queue\QueueAccessor.cs" />
-    <Compile Include="ReportTemplate\IReportTemplateAccessor.cs" />
-    <Compile Include="ReportTemplate\ReportTemplateAccessor.cs" />
-    <Compile Include="Runs\IRunAccessor.cs" />
-    <Compile Include="Runs\RunAccessor.cs" />
-    <Compile Include="Scenarios\IScenarioAccessor.cs" />
-    <Compile Include="Scenarios\ScenarioAccessor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Olsson.GET.Common.DataContracts\DataContracts.csproj">
-      <Project>{C643FD42-A686-483F-880D-9150A57D9292}</Project>
-      <Name>DataContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj">
-      <Project>{7A7F836B-A31B-4D1E-829E-3B548618EB17}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Olsson.GET.Common.Utilities\Utilities.csproj">
-      <Project>{B9884D79-6B0C-4C44-8551-3C7DDB812A5B}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Olsson.GET.Tests.AccessorTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Olsson.GET.Tests.EngineTests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modflow\" />
@@ -206,6 +27,7 @@
     <PackageReference Include="AutoMapper">
       <Version>6.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
     <PackageReference Include="CsvHelper">
       <Version>5.0.0.1</Version>
     </PackageReference>
@@ -218,21 +40,21 @@
     <PackageReference Include="Docker.DotNet.X509">
       <Version>3.125.0</Version>
     </PackageReference>
-    <PackageReference Include="EntityFramework">
-      <Version>6.4.4</Version>
-    </PackageReference>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="GeoJSON4EntityFramework">
       <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.Management.Fluent">
       <Version>1.25.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Storage.DataMovement">
       <Version>0.6.4</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
       <Version>5.2.0</Version>
     </PackageReference>
@@ -242,9 +64,12 @@
     <PackageReference Include="Sendgrid">
       <Version>9.9.0</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.ValueTuple">
       <Version>4.4.0</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

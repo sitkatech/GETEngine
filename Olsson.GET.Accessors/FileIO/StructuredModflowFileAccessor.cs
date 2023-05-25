@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CsvHelper;
-using Microsoft.SqlServer.Types;
-using Newtonsoft.Json;
 using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Common.DataContracts.Runs;
 
 namespace Olsson.GET.Accessors.FileIO
 {

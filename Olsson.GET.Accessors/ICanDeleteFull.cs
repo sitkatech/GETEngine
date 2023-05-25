@@ -1,6 +1,4 @@
-﻿using Olsson.GET.Accessors.EntityFramework;
-
-namespace Olsson.GET.Accessors
+﻿namespace Olsson.GET.Accessors
 {
     public interface ICanDeleteFull
     {

@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Engines.ModelInputOutputEngines;
-using Olsson.GET.Accessors.Runs;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using FluentAssertions;

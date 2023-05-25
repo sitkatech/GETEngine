@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Olsson.GET.Accessors;
 using Olsson.GET.Accessors.Authentication;

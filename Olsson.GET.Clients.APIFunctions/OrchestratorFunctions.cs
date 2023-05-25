@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -6,24 +7,34 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
 using Microsoft.Extensions.Logging;
-using Autofac;
+using Microsoft.AspNetCore.WebUtilities;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Newtonsoft.Json;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
-    public static class OrchestratorFunctions
+    public class OrchestratorFunctions
     {
-        [FunctionName("RunAnalysis")]
-        public static HttpResponseMessage RunAnalysis([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, ILogger logger)
+        private readonly ILogger _logger;
+        private readonly ManagerFactory _managerFactory;
+
+        public OrchestratorFunctions(ILogger logger, ManagerFactory managerFactory)
         {
-            Dependency.CreateContainer(logger);
-            logger.LogInformation("Test to see if changes are being propagated");
-            logger.LogInformation("C# HTTP trigger function processed a request: Run Analysis.");
+            _logger = logger;
+            _managerFactory = managerFactory;
+        }
+
+        [FunctionName("RunAnalysis")]
+        public HttpResponseMessage RunAnalysis([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
+        {
+            _logger.LogInformation("Test to see if changes are being propagated");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Run Analysis.");
 
             // parse query parameter
-            string runIdStr = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Compare(q.Key, "RunId", true) == 0)
+            var queryParams = QueryHelpers.ParseQuery(req.RequestUri?.Query);
+
+            string runIdStr = queryParams
+                .FirstOrDefault(q => String.Compare(q.Key, "RunId", StringComparison.OrdinalIgnoreCase) == 0)
                 .Value;
 
             int runId;
@@ -33,8 +44,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateResponse(HttpStatusCode.BadRequest, "Please pass a valid run id on the query string or in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             runManager.QueueRunAnalysis(runId);
 
@@ -48,17 +58,17 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GenerateOutputs")]
-        public static HttpResponseMessage GenerateOutputs(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, 
-            ILogger logger)
+        public HttpResponseMessage GenerateOutputs(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
 
-            logger.LogInformation("C# HTTP trigger function processed a request: Generate Outputs.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Generate Outputs.");
 
             // parse query parameter
-            string runIdStr = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Compare(q.Key, "RunId", true) == 0)
+            // parse query parameter
+            var queryParams = QueryHelpers.ParseQuery(req.RequestUri?.Query);
+            string runIdStr = queryParams
+                .FirstOrDefault(q => String.Compare(q.Key, "RunId", StringComparison.OrdinalIgnoreCase) == 0)
                 .Value;
 
             int runId;
@@ -68,8 +78,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateResponse(HttpStatusCode.BadRequest, "Please pass a valid run id on the query string or in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             runManager.QueueGenerateOutput(runId);
 
@@ -83,11 +92,9 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("SendRunCompletedNotification")]
-        public static HttpResponseMessage SendRunCompletedNotification([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage SendRunCompletedNotification([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Send Run Completed Notification.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Send Run Completed Notification.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<NotificationModel>(requestBody);
@@ -102,8 +109,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             runManager.SendNotification(data.RunId.Value, data.IsSystemFailure, data.Exception);
 

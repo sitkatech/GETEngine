@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Olsson.GET.Common.DataContracts.APIFunctionModels
+﻿namespace Olsson.GET.Common.DataContracts.APIFunctionModels
 {
     public class RetrieveResultModel
     {

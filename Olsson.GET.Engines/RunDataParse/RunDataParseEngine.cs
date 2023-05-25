@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Olsson.GET.Common.DataContracts.Runs;
-using CsvHelper.TypeConversion;
 using Olsson.GET.Common.Utilities;
 using CsvHelper;
 using System.IO;
 using CsvHelper.Configuration;
 using log4net;
-using Olsson.GET.Accessors.Models;
 using Olsson.GET.Common.DataContracts.Models;
-using System.Data;
-using Olsson.GET.Accessors.FileIO;
 
 namespace Olsson.GET.Engines.RunDataParse
 {

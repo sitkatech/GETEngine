@@ -7,7 +7,6 @@ using Olsson.GET.Common.DataContracts.Customers;
 using Olsson.GET.Common.DataContracts.ReportTemplate;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.DataContracts.Scenarios;
-using Olsson.GET.Common.Utilities;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
 using CustomerModelScenario = Olsson.GET.Common.DataContracts.Customers.CustomerModelScenario;
 using Image = Olsson.GET.Common.DataContracts.Models.Image;

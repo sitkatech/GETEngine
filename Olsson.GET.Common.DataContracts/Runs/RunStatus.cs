@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Runtime.Serialization;
 
 namespace Olsson.GET.Common.DataContracts.Runs
 {

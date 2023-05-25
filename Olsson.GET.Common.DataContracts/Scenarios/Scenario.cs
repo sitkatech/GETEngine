@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
 using Olsson.GET.Common.DataContracts.Customers;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
+using Microsoft.AspNetCore.Html;
 
 namespace Olsson.GET.Common.DataContracts.Scenarios
 {

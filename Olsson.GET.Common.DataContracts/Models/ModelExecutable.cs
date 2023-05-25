@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
-using Olsson.GET.Common.DataContracts.Customers;
-using Olsson.GET.Common.DataContracts.Scenarios;
-
-namespace Olsson.GET.Common.DataContracts.Models
+﻿namespace Olsson.GET.Common.DataContracts.Models
 {
     public class ModelExecutable
     {

@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Olsson.GET.Common.DataContracts.Runs;
-using Olsson.GET.Engines.ModelInputOutputEngines;
 
 namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
 {

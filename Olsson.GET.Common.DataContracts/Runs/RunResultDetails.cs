@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
 using Olsson.GET.Common.DataContracts.Models;
 
 namespace Olsson.GET.Common.DataContracts.Runs

@@ -1,6 +1,5 @@
 ﻿using Olsson.GET.Common.DataContracts.Runs;
 using System.Collections.Generic;
-using Olsson.GET.Common.Shared.Enums;
 
 namespace Olsson.GET.Common.DataContracts.APIFunctionModels
 {

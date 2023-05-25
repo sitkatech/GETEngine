@@ -1,13 +1,10 @@
 ﻿using log4net;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
-using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Olsson.GET.Accessors.EntityFramework;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;
 

@@ -1,6 +1,5 @@
 ﻿using Olsson.GET.Common.DataContracts.Runs;
 using System.Collections.Generic;
-using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Scenarios;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;

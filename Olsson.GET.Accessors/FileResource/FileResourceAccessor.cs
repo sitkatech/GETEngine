@@ -1,7 +1,6 @@
 ﻿using Olsson.GET.Common.DataContracts.FileResource;
 using System;
 using System.Linq;
-using Olsson.GET.Accessors.EntityFramework;
 using FileResourceData = Olsson.GET.Common.DataContracts.FileResource.FileResourceData;
 using FileResourceInfo = Olsson.GET.Common.DataContracts.FileResource.FileResourceInfo;
 using FileResourceMimeType = Olsson.GET.Common.DataContracts.FileResource.FileResourceMimeType;

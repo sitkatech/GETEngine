@@ -1,10 +1,7 @@
 ﻿using log4net;
 using log4net.Config;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Olsson.GET.Common.Utilities
 {
@@ -13,7 +10,7 @@ namespace Olsson.GET.Common.Utilities
         static Logging()
         {
             GlobalContext.Properties["assemblyName"] = System.AppDomain.CurrentDomain.FriendlyName;
-            XmlConfigurator.Configure();
+            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetEntryAssembly()));
         }
 
         public static ILog GetLogger(Type type)
@@ -23,7 +20,7 @@ namespace Olsson.GET.Common.Utilities
 
         public static ILog GetLogger(Type type, string subType)
         {
-            return LogManager.GetLogger(type.FullName + "." + subType);
+            return LogManager.GetLogger(Assembly.GetEntryAssembly(),type.FullName + "." + subType);
         }
     }
 }

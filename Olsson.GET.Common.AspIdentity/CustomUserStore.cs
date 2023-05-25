@@ -5,9 +5,7 @@ using Olsson.GET.Managers.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Olsson.GET.Common.AspIdentity
 {
@@ -201,28 +199,6 @@ namespace Olsson.GET.Common.AspIdentity
         {
             return;
         }
-
-        private static string RequestIpAddress()
-        {
-            var context = HttpContext.Current;
-
-            if (context?.Request.Headers["X-Forwarded-For"] != null)
-            {
-                var clientIp = context.Request.Headers.GetValues("X-Forwarded-For").FirstOrDefault();
-
-                if (context.Request.Headers["X-Forwarded-For-Port"] != null)
-                {
-                    var port = context.Request.Headers.GetValues("X-Forwarded-For-Port").FirstOrDefault();
-
-                    clientIp += ":" + port;
-                }
-
-                return clientIp;
-            }
-
-            return "Cannot get request IP Address";
-        }
-
 
         private ApplicationUser ConvertToApplicationUser(User user)
         {

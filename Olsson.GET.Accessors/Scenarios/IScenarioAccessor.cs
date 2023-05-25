@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Olsson.GET.Common.DataContracts.Scenarios;
 using Scenario =  Olsson.GET.Common.DataContracts.Scenarios.Scenario;
 
 namespace Olsson.GET.Accessors.Scenarios

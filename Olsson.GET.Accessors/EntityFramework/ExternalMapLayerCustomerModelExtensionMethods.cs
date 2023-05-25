@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-
-namespace Olsson.GET.Accessors.EntityFramework
+﻿namespace Olsson.GET.Accessors.EntityFramework
 {
     public  static partial class ExternalMapLayerCustomerModelExtensionMethods
     {

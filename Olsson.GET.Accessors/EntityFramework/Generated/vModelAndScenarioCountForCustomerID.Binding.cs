@@ -2,12 +2,6 @@
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[vModelAndScenarioCountForCustomerID]
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-
 
 namespace Olsson.GET.Accessors.EntityFramework
 {

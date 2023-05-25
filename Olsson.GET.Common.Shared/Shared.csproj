@@ -1,131 +1,92 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A7F836B-A31B-4D1E-829E-3B548618EB17}</ProjectGuid>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Olsson.GET.Common.Shared</RootNamespace>
     <AssemblyName>Olsson.GET.Common.Shared</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Olsson.GET.Common.Shared</AssemblyTitle>
+    <Product>Olsson.GET.Common.Shared</Product>
+    <Copyright>Copyright ©  2017</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
     <OutputPath>bin\QA\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Enums\AgentProcessType.cs" />
-    <Compile Include="Extensions\ExceptionExtensions.cs" />
-    <Compile Include="FactoryBase.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageLocations.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.VisualStudio.SlowCheetah">
       <Version>3.0.61</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configs\AppSettings.config">
+    <None Update="Configs\AppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TransformOnBuild>true</TransformOnBuild>
       <SubType>Designer</SubType>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\AppSettings.QA.config">
+    <None Update="Configs\AppSettings.QA.config">
       <DependentUpon>AppSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\AppSettings.Release.config">
+    <None Update="Configs\AppSettings.Release.config">
       <DependentUpon>AppSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\AppSettings.Tests.config">
+    <None Update="Configs\AppSettings.Tests.config">
       <DependentUpon>AppSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\AppSettings.Debug.config">
+    <None Update="Configs\AppSettings.Debug.config">
       <DependentUpon>AppSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\AppSettings.Debug.config.template">
+    <None Update="Configs\AppSettings.Debug.config.template">
       <DependentUpon>AppSettings.config</DependentUpon>
       <IsTransformFile>false</IsTransformFile>
     </None>
-    <None Include="Configs\ConnectionStrings.config">
+    <None Update="Configs\ConnectionStrings.config">
       <TransformOnBuild>true</TransformOnBuild>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\ConnectionStrings.QA.config">
+    <None Update="Configs\ConnectionStrings.QA.config">
       <DependentUpon>ConnectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\ConnectionStrings.Release.config">
+    <None Update="Configs\ConnectionStrings.Release.config">
       <DependentUpon>ConnectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\ConnectionStrings.Debug.config">
+    <None Update="Configs\ConnectionStrings.Debug.config">
       <DependentUpon>ConnectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\ConnectionStrings.Debug.config.template">
+    <None Update="Configs\ConnectionStrings.Debug.config.template">
       <DependentUpon>ConnectionStrings.config</DependentUpon>
       <IsTransformFile>false</IsTransformFile>
     </None>
-    <None Include="Configs\ConnectionStrings.Tests.config">
+    <None Update="Configs\ConnectionStrings.Tests.config">
       <DependentUpon>ConnectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <None Include="Configs\Logger.config">
+    <None Update="Configs\Logger.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TransformOnBuild>true</TransformOnBuild>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configs\Logger.Release.config">
+    <None Update="Configs\Logger.Release.config">
       <DependentUpon>Logger.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,7 +12,6 @@ namespace Olsson.GET.Accessors
             System.Data.Entity.Database.SetInitializer<T>(null);
 
             EntityConnectionStringBuilder connectionString = new EntityConnectionStringBuilder();
-            connectionString.Provider = "System.Data.SqlClient";
             connectionString.ProviderConnectionString = ConfigurationHelper.ConnectionStrings.GetPrimaryConnectionString;
 
             T ret = Activator.CreateInstance(typeof(T)) as T;

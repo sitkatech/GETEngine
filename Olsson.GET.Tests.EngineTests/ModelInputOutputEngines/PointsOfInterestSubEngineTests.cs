@@ -5,13 +5,9 @@ using Olsson.GET.Common.DataContracts.Models;
 using Telerik.JustMock;
 using Olsson.GET.Engines.ModelInputOutputEngines;
 using Telerik.JustMock.Helpers;
-using Newtonsoft.Json;
 using Olsson.GET.Common.DataContracts.Runs;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 using System.Linq;
-using Olsson.GET.Common.Shared.Enums;
 using FluentAssertions;
 
 namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines

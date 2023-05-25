@@ -2,13 +2,12 @@
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[GETPage]
-using System;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
-using System.Data.Entity.Spatial;
 using System.Linq;
-using System.Web;
+using Microsoft.AspNetCore.Html;
 
 
 namespace Olsson.GET.Accessors.EntityFramework

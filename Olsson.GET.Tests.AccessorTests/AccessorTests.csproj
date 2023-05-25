@@ -1,26 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B5C50493-0CA3-4CA8-A612-4598F5355DA4}</ProjectGuid>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Olsson.GET.Tests.AccessorTests</RootNamespace>
     <AssemblyName>Olsson.GET.Tests.AccessorTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -30,72 +17,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tests|AnyCPU'">
     <OutputPath>bin\Tests\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.5.0.0-beta0003\lib\net451\FluentAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="MSTestExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTestExtensions.4.0.0\lib\MSTestExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BaseAccessorTest.cs" />
-    <Compile Include="CustomerAccessorTests.cs" />
-    <Compile Include="FileFormatterTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunAccessorTests.cs" />
-    <Compile Include="ModelFileAccessorTests.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="UserAccessorTests.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.config">
       <Link>AppSettings.config</Link>
@@ -139,163 +67,160 @@
       <DependentUpon>Logger.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
     </None>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6\mfsim.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6\test.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow2005\test.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6\mfsim.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6\test.nam">
+    <None Update="ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetFriendlyZoneBudgetName\BasicTest\ZoneBudgetNames.csv">
+    <None Update="ModflowTestFiles\GetFriendlyZoneBudgetName\BasicTest\ZoneBudgetNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetPointsOfInterest\BasicTest\PointsOfInterest.csv">
+    <None Update="ModflowTestFiles\GetPointsOfInterest\BasicTest\PointsOfInterest.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedPointsOfInterest\Differential\Observed.PointsOfInterest.Differential.csv">
+    <None Update="ModflowTestFiles\GetObservedPointsOfInterest\Differential\Observed.PointsOfInterest.Differential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedPointsOfInterest\NonDifferential\Observed.PointsOfInterest.NonDifferential.csv">
+    <None Update="ModflowTestFiles\GetObservedPointsOfInterest\NonDifferential\Observed.PointsOfInterest.NonDifferential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedZoneBudget\Differential\Observed.ZoneBudget.Differential.csv">
+    <None Update="ModflowTestFiles\GetObservedZoneBudget\Differential\Observed.ZoneBudget.Differential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedZoneBudget\NonDifferential\Observed.ZoneBudget.NonDifferential.csv">
+    <None Update="ModflowTestFiles\GetObservedZoneBudget\NonDifferential\Observed.ZoneBudget.NonDifferential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedImpactToBaseflow\Differential\Observed.ImpactToBaseflow.Differential.csv">
+    <None Update="ModflowTestFiles\GetObservedImpactToBaseflow\Differential\Observed.ImpactToBaseflow.Differential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedImpactToBaseflow\MultiWordDataSeries\Observed.ImpactToBaseflow.NonDifferential.csv">
+    <None Update="ModflowTestFiles\GetObservedImpactToBaseflow\MultiWordDataSeries\Observed.ImpactToBaseflow.NonDifferential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetObservedImpactToBaseflow\NonDifferential\Observed.ImpactToBaseflow.NonDifferential.csv">
+    <None Update="ModflowTestFiles\GetObservedImpactToBaseflow\NonDifferential\Observed.ImpactToBaseflow.NonDifferential.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetRunZoneBudgetItems\HasRecords\Scenario.2.csv">
+    <None Update="ModflowTestFiles\GetRunZoneBudgetItems\HasRecords\Scenario.2.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetRunZoneBudgetItems\HasUndefinedValue\Scenario.2.csv">
+    <None Update="ModflowTestFiles\GetRunZoneBudgetItems\HasUndefinedValue\Scenario.2.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetRunZoneBudgetItems\NoData\Scenario.2.csv">
+    <None Update="ModflowTestFiles\GetRunZoneBudgetItems\NoData\Scenario.2.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetBaselineZoneBudgetItems\HasRecords\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\GetBaselineZoneBudgetItems\HasRecords\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetBaselineZoneBudgetItems\HasUndefinedValue\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\GetBaselineZoneBudgetItems\HasUndefinedValue\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetBaselineZoneBudgetItems\NoData\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\GetBaselineZoneBudgetItems\NoData\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile\AsrDataNameMap.ZoneBudget.csv">
+    <None Update="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile\AsrDataNameMap.ZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile\AsrDataNameMap.csv">
+    <None Update="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile\AsrDataNameMap.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData\AsrDataNameMap.csv">
+    <None Update="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData\AsrDataNameMap.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData\AsrDataNameMap.ZoneBudget.csv">
+    <None Update="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData\AsrDataNameMap.ZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\MissingZoneSpecificFile\AsrDataNameMap.csv">
+    <None Update="ModflowTestFiles\GetZoneBudgetAsrDataNameMap\MissingZoneSpecificFile\AsrDataNameMap.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\StructuredModFlow2005\test.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\StructuredModFlow6\mfsim.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\StructuredModFlow6\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\StructuredModFlow6\test.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\StructuredModFlow6\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow2005\test.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6\mfsim.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6\test.nam">
+    <None Update="ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetAsrDataNameMap\BasicTest\AsrDataNameMap.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetAsrDataNameMap\BasicTest\AsrDataNameMap.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\test1tr.wel">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasEmptyOptions\test1tr.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\test1tr.wel">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\HasNoOptions\test1tr.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\test1tr.wel">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\DifferentCasedHeaders\test1tr.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\test1tr.wel">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetLocationRates\BasicTest\test1tr.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetMapData\Baseline.hds">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetMapData\Baseline.hds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetMapData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetMapData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetMapData\test1tr.hds">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetMapData\test1tr.hds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetMapData\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetMapData\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\Baseline_Reach_Name_Column.lst">
@@ -307,462 +232,452 @@
     <Content Include="ModflowTestFiles\ModflowSixStructured\GetRunListFileLines\mfsim.lst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetSegmentReachZones\BasicTest\SegRchZones.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetSegmentReachZones\BasicTest\SegRchZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\zbud.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\zbud.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\ZoneBudgetNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\ZoneBudgetNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\ZoneNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\BasicTest\ZoneNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\simulation.tdis">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\simulation.tdis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\GetStressPeriodData\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\zbud.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\zbud.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\ZoneBudgetNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\ZoneBudgetNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\ZoneNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixStructured\ZoneBudgetItems\MultiplePackageNames\ZoneNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetAquiferFlowData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetAsrDataNameMap\BasicTest\AsrDataNameMap.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetAsrDataNameMap\BasicTest\AsrDataNameMap.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\flow.wel">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\flow.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasNoOptions\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\flow.wel">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\flow.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\HasEmptyOptions\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\flow.wel">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\flow.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\DifferentCasedHeaders\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\test1tr.nam">
+    <None Update="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\test1tr.wel">
+    <None Update="ModflowTestFiles\ModflowSixStructured\UpdateLocationRates\BasicTest\test1tr.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetMapData\Baseline.hds">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetMapData\Baseline.hds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetMapData\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetMapData\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetMapData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetMapData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.sfr">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\flow.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\flow.tdis">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\flow.tdis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetStressPeriodData\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\flow.wel">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\GetLocationRates\BasicTest\flow.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\flow.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\flow.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\zbud.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\zbud.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\flow.wel">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\flow.wel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\mfsim.nam">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\UpdateLocationRates\BasicTest\mfsim.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\ZoneBudgetNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\ZoneBudgetNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\ZoneNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\BasicTest\ZoneNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\zbud.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\zbud.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\BaselineZoneBudget.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\BaselineZoneBudget.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\ZoneBudgetNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\ZoneBudgetNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\ZoneNames.csv">
+    <None Update="ModflowTestFiles\ModflowSixUnstructured\ZoneBudgetItems\MultiplePackageNames\ZoneNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Modpath\COHYST.mpsim">
+    <None Update="ModflowTestFiles\Modpath\COHYST.mpsim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Modpath\COHYST2010_28b_14_28.timeseries7">
+    <None Update="ModflowTestFiles\Modpath\COHYST2010_28b_14_28.timeseries7">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetBaselineData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetBaselineData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\FindWellLocations\NoPumpingWellData\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\FindWellLocations\NoPumpingWellData\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\FindWellLocations\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\FindWellLocations\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetBaselineData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetBaselineData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnTrue\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnTrue\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnTrue\name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnTrue\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\HasMultipleValues\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\HasMultipleValues\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\HasMultipleValues\name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\HasMultipleValues\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnFalse\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnFalse\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnFalse\name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\ClnColumnFalse\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\HasSingleValue\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\HasSingleValue\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationProportions\HasSingleValue\name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationProportions\HasSingleValue\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationRates\MultipleWellGroups\Name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationRates\MultipleWellGroups\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationRates\MultipleWellGroups\Well.WEL">
+    <None Update="ModflowTestFiles\Structured\GetLocationRates\MultipleWellGroups\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationZones\InputLocationZonesCsv\InputLocationZones.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationZones\InputLocationZonesCsv\InputLocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationZones\MultipleZonesFound\LocationZones.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationZones\MultipleZonesFound\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationZones\SingleZoneFound\LocationZones.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationZones\SingleZoneFound\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationZones\NodeNotInFile\LocationZones.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationZones\NodeNotInFile\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetOutputData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetOutputData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetOutputLocationZones\Valid\OutputLocationZones.csv">
+    <None Update="ModflowTestFiles\Structured\GetOutputLocationZones\Valid\OutputLocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetStressPeriodData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetStressPeriodData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\ReduceMapCells\HugeTest\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\ReduceMapCells\HugeTest\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetBaselineData\BasicTest\Baseline.dat">
+    <None Update="ModflowTestFiles\Unstructured\GetBaselineData\BasicTest\Baseline.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetBaselineData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetBaselineData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetFriendlyZoneName\BasicTest\ZoneNames.csv">
+    <None Update="ModflowTestFiles\GetFriendlyZoneName\BasicTest\ZoneNames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\FindWellLocations\NoPumpingWellData\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\FindWellLocations\NoPumpingWellData\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\FindWellLocations\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\FindWellLocations\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetBaselineData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetBaselineData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnTrue\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnTrue\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnTrue\name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnTrue\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\HasMultipleValues\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\HasMultipleValues\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\HasMultipleValues\name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\HasMultipleValues\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnFalse\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnFalse\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnFalse\name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\ClnColumnFalse\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\HasSingleValue\LocationFlowProportions.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\HasSingleValue\LocationFlowProportions.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationProportions\HasSingleValue\name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationProportions\HasSingleValue\name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationRates\BasicTest\Name.nam">
+    <None Update="ModflowTestFiles\Structured\GetLocationRates\BasicTest\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetLocationRates\BasicTest\Well.WEL">
+    <None Update="ModflowTestFiles\Structured\GetLocationRates\BasicTest\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetOutputData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetOutputData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationRates\MultipleWellGroups\Name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationRates\MultipleWellGroups\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationRates\MultipleWellGroups\Well.WEL">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationRates\MultipleWellGroups\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationZones\InputLocationZonesCsv\InputLocationZones.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationZones\InputLocationZonesCsv\InputLocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationZones\MultipleZonesFound\LocationZones.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationZones\MultipleZonesFound\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationZones\NodeNotInFile\LocationZones.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationZones\NodeNotInFile\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationZones\SingleZoneFound\LocationZones.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationZones\SingleZoneFound\LocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetOutputData\BasicTest\BasicTest.dat">
+    <None Update="ModflowTestFiles\Unstructured\GetOutputData\BasicTest\BasicTest.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetOutputData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetOutputData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetOutputData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetOutputData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetOutputLocationZones\Valid\OutputLocationZones.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetOutputLocationZones\Valid\OutputLocationZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetStressPeriodData\NoFile\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetStressPeriodData\NoFile\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetStressPeriodData\BasicTest\test.dis">
+    <None Update="ModflowTestFiles\Unstructured\GetStressPeriodData\BasicTest\test.dis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetStressPeriodData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetStressPeriodData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetStressPeriodData\NotEnoughData\test.dis">
+    <None Update="ModflowTestFiles\Unstructured\GetStressPeriodData\NotEnoughData\test.dis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetStressPeriodData\NotEnoughData\test.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetStressPeriodData\NotEnoughData\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\UpdateLocationRates\BasicTest\Name.nam">
+    <None Update="ModflowTestFiles\Structured\UpdateLocationRates\BasicTest\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\UpdateLocationRates\BasicTest\Well.WEL">
+    <None Update="ModflowTestFiles\Structured\UpdateLocationRates\BasicTest\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\UpdateLocationRates\BasicTest\Name.nam">
+    <None Update="ModflowTestFiles\Unstructured\UpdateLocationRates\BasicTest\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\UpdateLocationRates\BasicTest\Well.WEL">
+    <None Update="ModflowTestFiles\Unstructured\UpdateLocationRates\BasicTest\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationRates\BasicTest\Name.nam">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationRates\BasicTest\Name.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationRates\BasicTest\Well.WEL">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationRates\BasicTest\Well.WEL">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest\test.sfr">
+    <None Update="ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest\test.sfr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetBaselineData\BasicTest\Baseline.dat">
+    <None Update="ModflowTestFiles\Structured\GetBaselineData\BasicTest\Baseline.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetOutputData\BasicTest\BasicTest.dat">
+    <None Update="ModflowTestFiles\Structured\GetOutputData\BasicTest\BasicTest.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetStressPeriodData\NotEnoughData\test.dis">
+    <None Update="ModflowTestFiles\Structured\GetStressPeriodData\NotEnoughData\test.dis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetStressPeriodData\NotEnoughData\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetStressPeriodData\NotEnoughData\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetStressPeriodData\BasicTest\test.dis">
+    <None Update="ModflowTestFiles\Structured\GetStressPeriodData\BasicTest\test.dis">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Structured\GetStressPeriodData\BasicTest\test.nam">
+    <None Update="ModflowTestFiles\Structured\GetStressPeriodData\BasicTest\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\GetSegmentReachZones\BasicTest\SegRchZones.csv">
+    <None Update="ModflowTestFiles\GetSegmentReachZones\BasicTest\SegRchZones.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Olsson.GET.Accessors\Accessors.csproj">
-      <Project>{85f41a7d-0d02-4db7-a7fc-880ed15c6618}</Project>
-      <Name>Accessors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Olsson.GET.Common.DataContracts\DataContracts.csproj">
-      <Project>{C643FD42-A686-483F-880D-9150A57D9292}</Project>
-      <Name>DataContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj">
-      <Project>{7A7F836B-A31B-4D1E-829E-3B548618EB17}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Olsson.GET.Accessors\Accessors.csproj" />
+    <ProjectReference Include="..\Olsson.GET.Common.DataContracts\DataContracts.csproj" />
+    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ModflowTestFiles\Structured\GetLocationPositionMap\BasicTest\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Structured\GetLocationPositionMap\BasicTest\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModflowTestFiles\Unstructured\GetLocationPositionMap\BasicTest\LocationMapCoordinates.csv">
+    <None Update="ModflowTestFiles\Unstructured\GetLocationPositionMap\BasicTest\LocationMapCoordinates.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -811,25 +726,29 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" />
-  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.0.0-beta0003" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
+    <PackageReference Include="Microsoft.SqlServer.Types" Version="14.0.314.76" />
+    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="3.0.61" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="MSTestExtensions" Version="4.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
   <ItemDefinitionGroup>
-      <!-- Default TransformOnBuild values for file types -->
-      <_NoneWithTargetPath>
-          <TransformOnBuild>false</TransformOnBuild>
-      </_NoneWithTargetPath>
-      <ContentWithTargetPath>
-          <TransformOnBuild>false</TransformOnBuild>
-      </ContentWithTargetPath>
+    <_NoneWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </_NoneWithTargetPath>
+    <ContentWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </ContentWithTargetPath>
   </ItemDefinitionGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\testhost.dll.config" Condition="Exists('app.config')" />
+    <Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\ReSharperTestRunner.dll.config" Condition="Exists('app.config')" /> 
+  </Target>
 </Project>

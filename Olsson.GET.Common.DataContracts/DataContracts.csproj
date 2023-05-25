@@ -1,127 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C643FD42-A686-483F-880D-9150A57D9292}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Olsson.GET.Common.DataContracts</RootNamespace>
     <AssemblyName>Olsson.GET.Common.DataContracts</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Olsson.GET.Common.DataContracts</AssemblyTitle>
+    <Product>Olsson.GET.Common.DataContracts</Product>
+    <Copyright>Copyright ©  2017</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
+    <ProjectReference Include="..\Olsson.GET.Common.Utilities\Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIFunctionModels\Requests\CustomerRunModel.cs" />
-    <Compile Include="APIFunctionModels\Requests\NewRunModel.cs" />
-    <Compile Include="APIFunctionModels\Requests\NotificationModel.cs" />
-    <Compile Include="APIFunctionModels\Requests\RetrieveResultModel.cs" />
-    <Compile Include="APIFunctionModels\Requests\RunDetailModel.cs" />
-    <Compile Include="APIFunctionModels\Responses\RunResponseModel.cs" />
-    <Compile Include="APIFunctionModels\Responses\RunResultResponseModel.cs" />
-    <Compile Include="APIFunctionModels\Responses\RunSummaryReponseModel.cs" />
-    <Compile Include="Container\ExitedContainer.cs" />
-    <Compile Include="Customers\CustomerDto.cs" />
-    <Compile Include="Customers\CustomerModelScenario.cs" />
-    <Compile Include="Customers\CustomerModelWithScenariosDto.cs" />
-    <Compile Include="Customers\CustomerScenario.cs" />
-    <Compile Include="FileResource\FileResourceCreateDto.cs" />
-    <Compile Include="FileResource\FileResourceData.cs" />
-    <Compile Include="FileResource\FileResourceInfo.cs" />
-    <Compile Include="FileResource\FileResourceMimeType.cs" />
-    <Compile Include="Models\ModelExecutable.cs" />
-    <Compile Include="Models\ModelSimpleDto.cs" />
-    <Compile Include="Models\ModelTypeEnum.cs" />
-    <Compile Include="ReportTemplate\ReportTemplateCustomerModelScenarioDto.cs" />
-    <Compile Include="ReportTemplate\ReportTemplate.cs" />
-    <Compile Include="Files\FileModel.cs" />
-    <Compile Include="Models\BaseflowTableProcessingConfiguration.cs" />
-    <Compile Include="Models\Coordinate.cs" />
-    <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\InputControlType.cs" />
-    <Compile Include="Models\Model.cs" />
-    <Compile Include="Models\ModelIdValue.cs" />
-    <Compile Include="Models\ModelStressPeriodCustomStartDate.cs" />
-    <Compile Include="Models\Zone.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runs\AsrDataMap.cs" />
-    <Compile Include="Runs\IWFMBudgetGroundwaterPeriod.cs" />
-    <Compile Include="Runs\IWFMBudgetGroundwaterResult.cs" />
-    <Compile Include="Runs\ObservedData.cs" />
-    <Compile Include="Runs\RunBucket.cs" />
-    <Compile Include="Runs\InputDataInvalidException.cs" />
-    <Compile Include="Runs\PointOfInterest.cs" />
-    <Compile Include="Runs\ModpathTimeSeries.cs" />
-    <Compile Include="Runs\OutputDataInvalidException.cs" />
-    <Compile Include="Runs\LocationProportion.cs" />
-    <Compile Include="Runs\LocationRate.cs" />
-    <Compile Include="Runs\OutputData.cs" />
-    <Compile Include="Runs\ParticleLocation.cs" />
-    <Compile Include="Runs\AnalysisResult.cs" />
-    <Compile Include="Runs\Run.cs" />
-    <Compile Include="Runs\RunInput.cs" />
-    <Compile Include="Runs\RunFilter.cs" />
-    <Compile Include="Runs\ActionBucketResultDetails.cs" />
-    <Compile Include="Runs\RunResultDetails.cs" />
-    <Compile Include="Runs\RunResultDisplay.cs" />
-    <Compile Include="Runs\RunSimpleDto.cs" />
-    <Compile Include="Runs\RunStatus.cs" />
-    <Compile Include="Runs\StressPeriod.cs" />
-    <Compile Include="Customers\vModelCountScenarioCountForCustomerID.cs" />
-    <Compile Include="Models\ModelExtensionMethods.cs" />
-    <Compile Include="Models\ModelDocumentationImage.cs" />
-    <Compile Include="Scenarios\Scenario.cs" />
-    <Compile Include="Scenarios\ScenarioDocumentationImage.cs" />
-    <Compile Include="Scenarios\ScenarioExtensionMethods.cs" />
-    <Compile Include="Scenarios\ScenarioFile.cs" />
-    <Compile Include="Scenarios\ScenarioListDto.cs" />
-    <Compile Include="Scenarios\ScenarioSimpleDto.cs" />
-    <Compile Include="Users\Role.cs" />
-    <Compile Include="Users\User.cs" />
-    <Compile Include="Users\UserRole.cs" />
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj">
-      <Project>{7A7F836B-A31B-4D1E-829E-3B548618EB17}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Olsson.GET.Common.Utilities\Utilities.csproj">
-      <Project>{B9884D79-6B0C-4C44-8551-3C7DDB812A5B}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

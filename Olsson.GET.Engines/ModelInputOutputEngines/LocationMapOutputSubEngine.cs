@@ -10,12 +10,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Forms;
-using GeoJSON.Net.Feature;
-using Olsson.GET.Accessors.EntityFramework;
 using static System.String;
 using DataContractsModels = Olsson.GET.Common.DataContracts.Models;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;
@@ -921,7 +916,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 color = value < 0 ? NegativeColor : PostitiveColor;
             }
 
-            return Intern(System.Drawing.ColorTranslator.ToHtml(ControlPaint.Light(color, valueColorScale)));
+            return Intern(System.Drawing.ColorTranslator.ToHtml(ChangeColorBrightness(color, valueColorScale)));
         }
 
         internal static string GetNonDifferentialColor(MapLocationState state, double value, double min, double max)
@@ -949,7 +944,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 roundedRatio = 1;
             }
             var valueColorScale = ((1.0f - roundedRatio) * (MinColorScaleFactor - MaxColorScaleFactor)) + MaxColorScaleFactor;
-            return Intern(System.Drawing.ColorTranslator.ToHtml(ControlPaint.Light(PostitiveColor, valueColorScale)));
+            return Intern(System.Drawing.ColorTranslator.ToHtml(ChangeColorBrightness(PostitiveColor, valueColorScale)));
         }
 
         private string CalculateMapCellLocations(IModelFileAccessor modflowFileAccessor, int stressPeriod, List<MapLocationPositionCellValue> calculatedCellValues)
@@ -971,6 +966,29 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             }
             
             return Model.StartDateTime.AddMonths(currentStressPeriod).ToString("MMMM yyyy");
+        }
+
+        public static Color ChangeColorBrightness(Color color, float correctionFactor)
+        {
+            float red = (float)color.R;
+            float green = (float)color.G;
+            float blue = (float)color.B;
+
+            if (correctionFactor < 0)
+            {
+                correctionFactor = 1 + correctionFactor;
+                red *= correctionFactor;
+                green *= correctionFactor;
+                blue *= correctionFactor;
+            }
+            else
+            {
+                red = (255 - red) * correctionFactor + red;
+                green = (255 - green) * correctionFactor + green;
+                blue = (255 - blue) * correctionFactor + blue;
+            }
+
+            return Color.FromArgb(color.A, (int)red, (int)green, (int)blue);
         }
 
         #region KML

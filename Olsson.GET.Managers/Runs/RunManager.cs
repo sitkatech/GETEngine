@@ -69,7 +69,7 @@ namespace Olsson.GET.Managers.Runs
 
             if (FinishedStatuses.Contains(run.RunStatusID))
             {
-                var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                 run.AvailableRunResults = files.Select(a => FileNameParseRegEx.Match(a))
                                                .Where(a => a.Success)
                                                .Where(a => includeHiddenFiles ? true : string.IsNullOrWhiteSpace(a.Groups["hidden"].Value))
@@ -84,7 +84,7 @@ namespace Olsson.GET.Managers.Runs
             if (run.Scenario.ScenarioFiles != null && run.Scenario.ScenarioFiles.Length > 0)
             {
                 var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator),
-                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
                 foreach (var scenarioFile in run.Scenario.ScenarioFiles)
                 {
@@ -140,7 +140,7 @@ namespace Olsson.GET.Managers.Runs
 
             if (FinishedStatuses.Contains(run.RunStatusID))
             {
-                var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                 run.AvailableRunResults = files.Select(a => FileNameParseRegEx.Match(a))
                                                .Where(a => a.Success)
                                                .Where(a => includeHiddenFiles || string.IsNullOrWhiteSpace(a.Groups["hidden"].Value))
@@ -155,7 +155,7 @@ namespace Olsson.GET.Managers.Runs
             if (run.Scenario.ScenarioFiles != null && run.Scenario.ScenarioFiles.Length > 0)
             {
                 var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator),
-                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
                 foreach (var scenarioFile in run.Scenario.ScenarioFiles)
                 {
@@ -217,7 +217,7 @@ namespace Olsson.GET.Managers.Runs
 
             var result = new List<AvailableRunResult>();
 
-            var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder)
+            var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result
                 .Select(a => new { Match = FileNameParseRegEx.Match(a), FullName = a })
                 .Where(a => a.Match.Success)
                 .Select(a => new
@@ -452,7 +452,7 @@ namespace Olsson.GET.Managers.Runs
 
         private List<IGrouping<string, FileDetailsHelper>> GetFileDetails(IBlobFileAccessor blobFileAccessor, Run run)
         {
-            return blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder)
+            return blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result
                 .Select(a => new { Match = FileNameParseRegEx.Match(a), FullName = a })
                 .Where(a => a.Match.Success)
                 .Select(a => new FileDetailsHelper
@@ -631,7 +631,7 @@ namespace Olsson.GET.Managers.Runs
             {
                 if (FinishedStatuses.Contains(run.RunStatusID))
                 {
-                    var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                    var files = blobFileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(run), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                     run.AvailableRunResults = files.Select(a => FileNameParseRegEx.Match(a))
                                .Where(a => a.Success)
                                .Where(a => string.IsNullOrWhiteSpace(a.Groups["hidden"].Value))
@@ -842,7 +842,7 @@ namespace Olsson.GET.Managers.Runs
         public RunResultDetails FindRunResultDetails(string fileStorageLocator, int runResultId)
         {
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
-            var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(fileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(fileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             var file = files.Select(a => new { Name = a, Match = FileNameParseRegEx.Match(a) })
                 .FirstOrDefault(a => a.Match.Success &&
                 int.Parse(a.Match.Groups["id"].Value) == runResultId &&
@@ -882,7 +882,7 @@ namespace Olsson.GET.Managers.Runs
                 var resultSet = new RunResultSet();
 
                 var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
-                var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(runResult.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(runResult.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                 var file = files.Select(a => new { Name = a, Match = FileNameParseRegEx.Match(a) })
                     .FirstOrDefault(a => a.Match.Success &&
                     int.Parse(a.Match.Groups["id"].Value) == runResult.RunResultId &&
@@ -948,7 +948,7 @@ namespace Olsson.GET.Managers.Runs
         public string GetRunResultData(string fileStorageLocator, int runResultId, string fileExtension = ".json")
         {
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
-            var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(fileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var files = fileAccessor.GetFilesInDirectory(OutputDirectoryPathForRun(fileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             var file = files.Select(a => new { Name = a, Match = FileNameParseRegEx.Match(a) })
                 .FirstOrDefault(a => a.Match.Success &&
                 int.Parse(a.Match.Groups["id"].Value) == runResultId &&
@@ -1040,7 +1040,7 @@ namespace Olsson.GET.Managers.Runs
                 blobFileAccessor.CreateFileShare(run.FileStorageLocator);
 
                 //move input files into file storage
-                var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
                 foreach (var file in files)
                 {
@@ -1222,7 +1222,7 @@ namespace Olsson.GET.Managers.Runs
                 {
                     var modelFiles = fileAccessor.GetFilesInModflowDataFolder();
 
-                    storageFiles = blobFileAccessor.GetFilesInShareDirectory(run.FileStorageLocator);
+                    storageFiles = blobFileAccessor.GetFilesInShareDirectory(run.FileStorageLocator).Result;
 
                     foreach (var file in storageFiles)
                     {
@@ -1239,7 +1239,7 @@ namespace Olsson.GET.Managers.Runs
                 {
                     storageFiles = blobFileAccessor.GetFilesInDirectory(
                         StorageLocations.GenerateInputOutputFolderPath(run.FileStorageLocator),
-                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
                     foreach (var blobFile in storageFiles)
                     {

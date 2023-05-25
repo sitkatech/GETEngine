@@ -1,9 +1,5 @@
 ﻿using Olsson.GET.Common.DataContracts.Runs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Olsson.GET.Common.DataContracts.Models;
 
 namespace Olsson.GET.Engines.RunDataParse

@@ -1,6 +1,5 @@
 ﻿using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Users;
-using Olsson.GET.Common.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;

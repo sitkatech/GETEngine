@@ -1,11 +1,10 @@
-using Autofac;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Customers;
 using Olsson.GET.Managers.Runs;
@@ -14,31 +13,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Olsson.GET.Accessors.EntityFramework;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
-    public static class Functions
+    public class Functions
     {
+        private readonly ILogger _logger;
+        private readonly ManagerFactory _managerFactory;
+
+        public Functions(ILogger<Functions> logger, ManagerFactory managerFactory)
+        {
+            _logger = logger;
+            _managerFactory = managerFactory;
+        }
+
         private const string WaterLevelChangeFileName = "Water Level Change";
 
         //MP 11/17/21 This function should be built out to be a little bit more informative. But for now just use it to see if the API is responsive
         [FunctionName("Health")]
-        public static HttpResponseMessage Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Health.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
 
             return req.CreateResponse(HttpStatusCode.OK, "API is responsive.");
         }
 
         [FunctionName("RetrieveResult")]
-        public static HttpResponseMessage RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, ILogger logger)
         {
-            Dependency.CreateContainer(logger);
-
             logger.LogInformation("C# HTTP trigger function processed a request: Retrieve Result.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
@@ -66,8 +69,7 @@ namespace Olsson.GET.Clients.APIFunctions
 
             var subType = string.IsNullOrWhiteSpace(data.SubType) ? data.FileDate : data.SubType;
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             var runResult = runManager.GetRunResult(data.RunId.Value, data.CustomerId.Value, data.FileName, subType, data.FileExtension);
 
@@ -84,13 +86,10 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("StartRun")]
-        public static HttpResponseMessage StartRun(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req,
-            ILogger logger)
+        public HttpResponseMessage StartRun(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Start Run.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Start Run.");
 
             NewRunModel data = null;
             var inputFiles = new List<InputFile>();
@@ -157,9 +156,8 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid name in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var customerManager = managerFactory.CreateManager<ICustomerManager>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var customerManager = _managerFactory.CreateManager<ICustomerManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             // ensure customer has access to the model requested
             var customerModel = customerManager.FindModelForCustomer(data.CustomerId.Value, data.ModelId.Value, data.ScenarioId.Value);
@@ -305,12 +303,10 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetRunStatus")]
-        public static HttpResponseMessage GetRunStatus(
-          [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage GetRunStatus(
+          [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Get Run Status.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Get Run Status.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RunDetailModel>(requestBody);
@@ -330,8 +326,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             var runStatus = runManager.GetRunStatus(data.RunId.Value, data.CustomerId.Value);
 
@@ -340,7 +335,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateResponse(HttpStatusCode.BadRequest, new RunResponseModel
                 {
                     RunId = data.RunId.Value,
-                    RunStatus  =  null,
+                    RunStatus = null,
                     Message = "There is no run associated with the run id provided or you do not have access to view the status of the run"
                 });
             }
@@ -356,11 +351,9 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetAvailableRunResults")]
-        public static HttpResponseMessage GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Get Available Run Results.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Get Available Run Results.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RunDetailModel>(requestBody);
@@ -380,14 +373,14 @@ namespace Olsson.GET.Clients.APIFunctions
                 return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
             }
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             var availableRunResults = runManager.FindAvailableRunResults(data.RunId.Value, data.CustomerId.Value);
 
             if (availableRunResults == null)
             {
-                return req.CreateResponse(HttpStatusCode.BadRequest, new {
+                return req.CreateResponse(HttpStatusCode.BadRequest, new
+                {
                     RunId = data.RunId.Value,
                     Message = "There is no run associated with the run id provided, the run has not completed, or you do not have access to view the status of the run"
                 });
@@ -411,17 +404,14 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetRuns")]
-        public static HttpResponseMessage GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, ILogger logger)
+        public HttpResponseMessage GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            Dependency.CreateContainer(logger);
-
-            logger.LogInformation("C# HTTP trigger function processed a request: Get Runs.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Get Runs.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<CustomerRunModel>(requestBody);
 
-            var managerFactory = Dependency.Container.Resolve<ManagerFactory>();
-            var runManager = managerFactory.CreateManager<IRunManager>();
+            var runManager = _managerFactory.CreateManager<IRunManager>();
 
             var runs = runManager.GetRuns(data.CustomerId);
 

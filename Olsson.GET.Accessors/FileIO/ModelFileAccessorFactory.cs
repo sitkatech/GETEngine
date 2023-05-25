@@ -1,6 +1,5 @@
 ﻿using System;
 using Olsson.GET.Accessors.EntityFramework;
-using Olsson.GET.Common.DataContracts.Runs;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 
 namespace Olsson.GET.Accessors.FileIO

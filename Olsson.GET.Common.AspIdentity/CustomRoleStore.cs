@@ -3,9 +3,6 @@ using Olsson.GET.Common.DataContracts.Users;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Authentication;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Olsson.GET.Common.AspIdentity

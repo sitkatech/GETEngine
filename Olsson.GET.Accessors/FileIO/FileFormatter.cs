@@ -1,7 +1,6 @@
 ﻿using CsvHelper;
 using Microsoft.SqlServer.Types;
 using Newtonsoft.Json;
-using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using System;
 using System.Collections.Generic;

@@ -20,9 +20,10 @@ namespace Olsson.GET.Clients.Agent
             Logger.Debug("Agent started");
 
             Logger.Info($"Loading Native Assemblies from {AppDomain.CurrentDomain.BaseDirectory}");
+            // todo: native assemblies
             //SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
-
+            //SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
+            var test = ConfigurationHelper.ConnectionStrings;
             if (args == null || args.Length < 1)
             {
                 Logger.Error("No run id specified");

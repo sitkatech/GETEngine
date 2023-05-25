@@ -1,18 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Data.Entity.Spatial;
-using System.Data.Entity.SqlServer;
-using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Olsson.GET.Accessors;
-using Olsson.GET.Accessors.FileIO;
-using Olsson.GET.Accessors.Models;
-using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Common.DataContracts.Runs;
-using Olsson.GET.Engines.ModelInputOutputEngines;
-using Telerik.JustMock;
-using Telerik.JustMock.Helpers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IntegrationTests
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Olsson.GET.Common.DataContracts.Customers;
-using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Users;
 
 namespace Olsson.GET.Accessors.Customers

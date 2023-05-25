@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -10,7 +11,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         void GetFile(string filePath, string fileLocation, string destLocation);
 
-        List<string> GetFilesInDirectory(string directoryPath, string fileLocation);
+        Task<List<string>> GetFilesInDirectory(string directoryPath, string fileLocation);
 
         void SaveFile(string destinationFilePath, string fileLocation, string originFilePath);
 
@@ -18,7 +19,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         void CreateFileShare(string shareName);
 
-        List<string> GetFilesInShareDirectory(string fileLocation);
+        Task<List<string>> GetFilesInShareDirectory(string fileLocation);
 
         void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation);
 
