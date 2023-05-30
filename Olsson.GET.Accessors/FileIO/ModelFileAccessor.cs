@@ -1,8 +1,6 @@
-﻿using alatas.GeoJSON4EntityFramework;
-using CsvHelper;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using log4net;
-using Microsoft.SqlServer.Types;
 using Newtonsoft.Json;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -12,6 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.SqlServer.Types;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using Olsson.GET.Accessors.ExtensionMethods;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -1210,20 +1213,38 @@ namespace Olsson.GET.Accessors.FileIO
                 geography = geography.Reduce(0.5).MakeValid();
 
                 Logger.Debug($"Creating Geography Feature [{stressPeriod}][{color.Color}]");
-                features.Features.Add(CreateGeographicFeature(stressPeriod, geography, color));
+                features.Add(CreateGeographicFeature(stressPeriod, geography, color));
             }
-            return features.Serialize();
+
+            var reduceMapCells = features.Serialize();
+            return reduceMapCells;
         }
 
         private static Feature CreateGeographicFeature(int stressPeriod, SqlGeography geography, MapLocationsPositionCellColor color)
         {
-            var feature = Feature.FromWKTGeography(new string(geography.AsTextZM().Value));
-            feature.Properties["color"] = color.Color;
-            feature.Properties["stressPeriod"] = stressPeriod;
-            if (feature.Geometry is GeometryCollection blah)
+            var feature = SqlGeographyToFeature(geography);
+            feature.Attributes = new AttributesTable(new Dictionary<string, object>());
+            feature.Attributes.Add("color", color.Color);
+            feature.Attributes.Add("stressPeriod", stressPeriod);
+            if (feature.Geometry is GeometryCollection collection)
             {
-                blah.Geometries = blah.Geometries.Where(a => !(a is Point)).ToList();
+                feature.Geometry = new GeometryCollection(collection.Geometries.Where(a => !(a is Point)).ToArray());
             }
+
+            return feature;
+        }
+
+        private static Feature SqlGeographyToFeature(SqlGeography geography)
+        {
+            // Create a WKT reader
+            WKTReader reader = new WKTReader();
+
+            // Parse the WKT string and create a geometry object
+            var wkt = new string(geography.AsTextZM().Value);
+            Geometry geometry = reader.Read(wkt);
+            
+            Feature feature = new Feature(){Geometry = geometry};
+
             return feature;
         }
 
@@ -1247,7 +1268,7 @@ namespace Olsson.GET.Accessors.FileIO
             {
                 var geography = CreateGeography(x.Bounds.Select(y => y.Lat).AsEnumerable(),
                     x.Bounds.Select(y => y.Lng).AsEnumerable()).Reduce(0.5).MakeValid();
-                features.Features.Add(CreateGeographicFeature(geography, x));
+                features.Add(CreateGeographicFeature(geography, x));
             });
 
             return features.Serialize();
@@ -1255,13 +1276,16 @@ namespace Olsson.GET.Accessors.FileIO
 
         private static Feature CreateGeographicFeature(SqlGeography geography, WaterLevelChangeByZoneMapData zone)
         {
-            var feature = Feature.FromWKTGeography(new string(geography.AsTextZM().Value));
-            feature.Properties["color"] = zone.Color;
-            feature.Properties["zoneName"] = zone.ZoneName;
+            var feature = SqlGeographyToFeature(geography);
+            feature.Attributes = new AttributesTable(new Dictionary<string, object>());
+            feature.Attributes.Add("color", zone.Color);
+            feature.Attributes.Add("zoneName", zone.ZoneName);
+
             if (feature.Geometry is GeometryCollection collection)
             {
-                collection.Geometries = collection.Geometries.Where(a => !(a is Point)).ToList();
+                feature.Geometry = new GeometryCollection(collection.Geometries.Where(a => !(a is Point)).ToArray());
             }
+
             return feature;
         }
 
