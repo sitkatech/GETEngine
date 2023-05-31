@@ -18,6 +18,9 @@
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Olsson.GET.Tests.EngineTests</_Parameter1>
+    </AssemblyAttribute> 
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Telerik.JustMock</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <OutputType>Library</OutputType>
+    <TestProjectType>UnitTest</TestProjectType>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Files\CanalDataExtraDate.csv">
@@ -58,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.0.0-beta0003" />
-    <PackageReference Include="JustMock" Version="2017.2.821.1" />
+    <PackageReference Include="JustMock" Version="2023.1.117.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
