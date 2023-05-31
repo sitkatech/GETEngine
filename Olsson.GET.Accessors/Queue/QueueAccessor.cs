@@ -1,8 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
+﻿
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Net;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
+
 
 namespace Olsson.GET.Accessors.Queue
 {

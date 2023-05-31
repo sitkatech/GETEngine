@@ -5,15 +5,19 @@ using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Management.ContainerInstance.Fluent;
-using Microsoft.Azure.Management.ContainerInstance.Fluent.Models;
-using Microsoft.Azure.Management.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
+using Azure;
+using Azure.Core;
+using Azure.Identity;
+using Azure.ResourceManager;
+using Azure.ResourceManager.ContainerInstance;
+using Azure.ResourceManager.ContainerInstance.Models;
+using Azure.ResourceManager.Resources;
+using ContainerEvent = Olsson.GET.Common.DataContracts.Container.ContainerEvent;
 
 namespace Olsson.GET.Accessors.Containers
 {
@@ -23,7 +27,7 @@ namespace Olsson.GET.Accessors.Containers
         private const string CreatedByLabelValue = "Olsson GET Container Accessor";
         private string[] ContainerStatusesNotStart = new string[] { "Creating", "Running", "Failed", "Stopped" };
         private static readonly ILog Logger = Logging.GetLogger(typeof(ContainerAccessor));
-        private Region azureRegion = Region.USCentral;
+        private AzureLocation azureRegion = AzureLocation.CentralUS;
 
         static ContainerAccessor()
         {
@@ -44,7 +48,7 @@ namespace Olsson.GET.Accessors.Containers
             var containerGroupName = $"{fileLocator}-{processType.ToString().ToLower()}";
 
             // Authenticate with Azure
-            IAzure azure = GetAzureContext();
+            var azure = GetAzureContext();
 
             if (CanCreateContainer(azure, containerGroupName))
             {
@@ -63,7 +67,6 @@ namespace Olsson.GET.Accessors.Containers
                 else
                 {
                     RunTaskBasedWindowsContainer(azure,
-                        resourceGroupName,
                         containerGroupName,
                         imageName,
                         cpuCoreSize,
@@ -76,38 +79,53 @@ namespace Olsson.GET.Accessors.Containers
 
         public async Task<List<ExitedContainer>> GetAzureContainers()
         {
-            var resourceGroupContainerGroups = await GetAzureContext().ContainerGroups.ListByResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup, true);
+            var azure =  GetAzureContext();
+            var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
+            var resourceGroupContainerGroups = resourceGroup.GetContainerGroups().GetAll().ToList();
+
             return GetAzureContainers(resourceGroupContainerGroups);
         }
 
         public async Task<List<ExitedContainer>> GetAllAzureContainers()
         {
-            var allContainers = await GetAzureContext().ContainerGroups.ListAsync(true);
-            return GetAzureContainers(allContainers.Where(a => a.Region == azureRegion));
+            var azure = GetAzureContext();
+            var allContainersPageable = azure.GetContainerGroupsAsync();
+
+            var allContainers = new List<ContainerGroupResource>();
+            await foreach (var containerPage in allContainersPageable)
+            {
+                allContainers.Add(containerPage);
+            }
+
+            return GetAzureContainers(allContainers.Where(a => a.Data.Location == azureRegion).ToList());
         }
 
-        private List<ExitedContainer> GetAzureContainers(IEnumerable<IContainerGroup> containerGroups)
+        private List<ExitedContainer> GetAzureContainers(IEnumerable<ContainerGroupResource> containerGroups)
         {
             var exitedContainers = new List<ExitedContainer>();
 
             foreach (var containerGroup in containerGroups)
             {
-                var firstContainerInContainerGroup = containerGroup.Containers.First();
-                exitedContainers.Add(new ExitedContainer
+                var containerGroupInstance = containerGroup.Get().Value;
+
+                var firstContainerInContainerGroup = containerGroupInstance.Data.Containers.First();
+                var newExitedContainer = new ExitedContainer
                 {
-                    Id = containerGroup.Id,
-                    GroupName = containerGroup.Name,
-                    ContainerName = firstContainerInContainerGroup.Key,
-                    State = containerGroup.Inner.InstanceView.State,
-                    Events = firstContainerInContainerGroup.Value.InstanceView?.Events != null && firstContainerInContainerGroup.Value.InstanceView.Events.Any() ?
-                        containerGroup.Containers.First().Value.InstanceView.Events.Select(x => new ContainerEvent
+                    Id = containerGroupInstance.Id,
+                    GroupName = containerGroupInstance.Data.Name,
+                    ContainerName = firstContainerInContainerGroup.Name,
+                    State = containerGroupInstance.Data.InstanceView.State,
+                    Events = firstContainerInContainerGroup.InstanceView?.Events != null &&
+                             firstContainerInContainerGroup.InstanceView.Events.Any()
+                        ? containerGroupInstance.Data.Containers.First().InstanceView.Events.Select(x => new ContainerEvent
                         {
-                            LastTimeStamp = x.LastTimestamp,
+                            LastTimeStamp = x.LastTimestamp?.DateTime,
                             Message = x.Message,
                             Name = x.Name
-                        }).ToList() :
-                        null
-                });
+                        }).ToList()
+                        : null
+                };
+                exitedContainers.Add(newExitedContainer);
             }
 
             return exitedContainers;
@@ -117,50 +135,38 @@ namespace Olsson.GET.Accessors.Containers
         {
             Logger.Info($"Removing container [{id}]");
             var azure = GetAzureContext();
-            await azure.ContainerGroups.DeleteByIdAsync(id);
+            var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
+            var containerGroup = resourceGroup.GetContainerGroups().GetAll().Single(x => x.Id == id);
+            await containerGroup.DeleteAsync(WaitUntil.Started);
         }
 
         public async Task RestartContainerAsync(string id)
         {
             var azure = GetAzureContext();
-
-            var containerGroup = azure.ContainerGroups.GetById(id);
-
-            await ContainerGroupsOperationsExtensions.StartAsync(
-                    containerGroup.Manager.Inner.ContainerGroups,
-                    containerGroup.ResourceGroupName,
-                    containerGroup.Name);
+            var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
+            var containerGroup = resourceGroup.GetContainerGroups().GetAll().Single(x => x.Id == id);
+            await containerGroup.StartAsync(WaitUntil.Started);
         }
 
         public async Task StopContainerAsync(string id)
         {
             var azure = GetAzureContext();
-
-            var containerGroup = azure.ContainerGroups.GetById(id);
-
-            await ContainerGroupsOperationsExtensions.StopAsync(
-                    containerGroup.Manager.Inner.ContainerGroups,
-                    containerGroup.ResourceGroupName,
-                    containerGroup.Name);
+            var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
+            var containerGroup = resourceGroup.GetContainerGroups().GetAll().Single(x => x.Id == id);
+            
+            await containerGroup.StopAsync();
         }
 
-        private IAzure GetAzureContext()
+        private SubscriptionResource GetAzureContext()
         {
-            IAzure azure = null;
+            var credential = new ClientSecretCredential(ConfigurationHelper.AppSettings.FunctionTenantId, ConfigurationHelper.AppSettings.FunctionClientId, ConfigurationHelper.AppSettings.FunctionSecret);
+            ArmClient client = new ArmClient(credential);
 
-            var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(
-                   ConfigurationHelper.AppSettings.FunctionClientId,
-                    ConfigurationHelper.AppSettings.FunctionSecret,
-                    ConfigurationHelper.AppSettings.FunctionTenantId,
-                    AzureEnvironment.AzureGlobalCloud);
-
-            azure = Microsoft.Azure.Management.Fluent.Azure.Authenticate(credentials).WithDefaultSubscription();
-
-            return azure;
+            var defaultSubscription = client.GetDefaultSubscription();
+            return defaultSubscription;
         }
 
-        private void RunTaskBasedWindowsContainer(IAzure azure,
-           string resourceGroupName,
+        private void RunTaskBasedWindowsContainer(SubscriptionResource azure,
            string containerGroupName,
            string containerImage,
            double cpuCoreSize,
@@ -173,30 +179,62 @@ namespace Olsson.GET.Accessors.Containers
 
             var containerInstanceName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
 
-            // Create the container group
-            var containerGroup = azure.ContainerGroups.Define(containerGroupName)
-                .WithRegion(azureRegion)
-                .WithExistingResourceGroup(resourceGroupName)
-                .WithWindows()
-                .WithPrivateImageRegistry(registryServer, registryUsername, registryPassword)
-                .WithoutVolume()
-                .DefineContainerInstance(containerInstanceName)
-                    .WithImage($"{ConfigurationHelper.AppSettings.AzureRegistryServer}/{containerImage}:latest")
-                    .WithExternalTcpPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort))
-                    .WithCpuCoreCount(cpuCoreSize)
-                    .WithMemorySizeInGB(memory)
-                    .WithEnvironmentVariables(envVars)
-                    .Attach()
-                .WithDnsPrefix(containerGroupName)
-                .WithRestartPolicy(ContainerGroupRestartPolicy.Never)
-                .Create();
+            var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
+            
+            var containerEnvironmentVariables = envVars.Select(x => new ContainerEnvironmentVariable(x.Key)
+            {
+                Value = x.Value
+            }).ToList();
 
+
+            var containerInstanceContainers = new List<ContainerInstanceContainer>()
+            {
+                new(
+                    containerInstanceName,
+                    $"{ConfigurationHelper.AppSettings.AzureRegistryServer}/{containerImage}:latest",
+                    new ContainerResourceRequirements(new ContainerResourceRequestsContent(memory, cpuCoreSize))
+                )
+                {
+                    Ports = { new ContainerPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
+                    
+                }
+            };
+
+            containerInstanceContainers.ForEach(container =>
+            {
+                containerEnvironmentVariables.ForEach(envVar =>
+                {
+                    container.EnvironmentVariables.Add(envVar);
+                });
+            });
+
+            var containerGroup =  resourceGroup.GetContainerGroups()
+                .CreateOrUpdateAsync(
+                    WaitUntil.Completed,
+                    containerGroupName,
+                    new ContainerGroupData(azureRegion, containerInstanceContainers, ContainerInstanceOperatingSystemType.Windows)
+                    {
+                        ImageRegistryCredentials = { 
+                            new ContainerGroupImageRegistryCredential(registryServer)
+                            {
+                                Username = registryUsername,
+                                Password = registryPassword
+                            }
+                        },
+                        RestartPolicy = ContainerGroupRestartPolicy.Never,
+                        IPAddress = { 
+                            AddressType = ContainerGroupIPAddressType.Private, 
+                            Ports = { new ContainerGroupPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
+                            DnsNameLabel = containerGroupName
+                        },
+                    }).Result.Value;
+            
             // Print the container's logs
             Console.WriteLine($"Logs for container '{containerInstanceName}':");
-            Console.WriteLine(containerGroup.GetLogContent(containerInstanceName));
+            Console.WriteLine(containerGroup.GetContainerLogs(containerInstanceName).Value.Content);
         }
 
-        private void RunTaskBasedLinuxContainer(IAzure azure,
+        private void RunTaskBasedLinuxContainer(SubscriptionResource azure,
             string resourceGroupName,
             string containerGroupName,
             string containerImage,
@@ -205,38 +243,79 @@ namespace Olsson.GET.Accessors.Containers
             double memory,
             Dictionary<string, string> envVars)
         {
+
+
             var registryServer = ConfigurationHelper.AppSettings.AzureRegistryServer;
             var registryUsername = ConfigurationHelper.AppSettings.AzureRegistryUsername;
             var registryPassword = ConfigurationHelper.AppSettings.AzureRegistryPassword;
 
             var containerInstanceName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
 
-            // Create the container group
-            var containerGroup = azure.ContainerGroups.Define(containerGroupName)
-                .WithRegion(azureRegion)
-                .WithExistingResourceGroup(resourceGroupName)
-                .WithLinux()
-                .WithPrivateImageRegistry(registryServer, registryUsername, registryPassword)
-                .DefineVolume(fileLocator)
-                    .WithExistingReadWriteAzureFileShare(fileLocator)
-                    .WithStorageAccountName(ConfigurationHelper.AppSettings.AzureStorageAccountName)
-                    .WithStorageAccountKey(ConfigurationHelper.AppSettings.AzureStorageAccountKey)
-                    .Attach()
-                .DefineContainerInstance(containerInstanceName)
-                    .WithImage($"{ConfigurationHelper.AppSettings.AzureRegistryServer}/{containerImage}:latest")
-                    .WithExternalTcpPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort))
-                    .WithVolumeMountSetting(fileLocator, $"/{ConfigurationHelper.AppSettings.AzureContainerVolumeName}/")
-                    .WithCpuCoreCount(cpuCoreSize)
-                    .WithMemorySizeInGB(memory)
-                    .WithEnvironmentVariables(envVars)
-                    .Attach()
-                .WithDnsPrefix(containerGroupName)
-                .WithRestartPolicy(ContainerGroupRestartPolicy.Never)
-                .Create();
+            var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
+
+            var containerEnvironmentVariables = envVars.Select(x => new ContainerEnvironmentVariable(x.Key)
+            {
+                Value = x.Value
+            }).ToList();
+
+
+            var containerInstanceContainers = new List<ContainerInstanceContainer>()
+            {
+                new(
+                    containerInstanceName,
+                    $"{ConfigurationHelper.AppSettings.AzureRegistryServer}/{containerImage}:latest",
+                    new ContainerResourceRequirements(new ContainerResourceRequestsContent(memory, cpuCoreSize))
+                )
+                {
+                    Ports = { new ContainerPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
+                    VolumeMounts = { new ContainerVolumeMount(fileLocator, $"/{ConfigurationHelper.AppSettings.AzureContainerVolumeName}/") }
+                }
+            };
+
+            containerInstanceContainers.ForEach(container =>
+            {
+                containerEnvironmentVariables.ForEach(envVar =>
+                {
+                    container.EnvironmentVariables.Add(envVar);
+                });
+            });
+
+            var containerGroup = resourceGroup.GetContainerGroups()
+                .CreateOrUpdateAsync(
+                    WaitUntil.Completed,
+                    containerGroupName,
+                    new ContainerGroupData(azureRegion, containerInstanceContainers, ContainerInstanceOperatingSystemType.Linux)
+                    {
+                        ImageRegistryCredentials = 
+                        {
+                            new ContainerGroupImageRegistryCredential(registryServer)
+                            {
+                                Username = registryUsername,
+                                Password = registryPassword
+                            }
+                        },
+                        Volumes = 
+                        {
+                            new ContainerVolume(fileLocator)
+                            {
+                                AzureFile = new ContainerInstanceAzureFileVolume(fileLocator, ConfigurationHelper.AppSettings.AzureStorageAccountName)
+                                {
+                                    StorageAccountKey = ConfigurationHelper.AppSettings.AzureStorageAccountKey
+                                }
+                            }
+                        },
+                        RestartPolicy = ContainerGroupRestartPolicy.Never,
+                        IPAddress = 
+                        {
+                            AddressType = ContainerGroupIPAddressType.Private,
+                            Ports = { new ContainerGroupPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
+                            DnsNameLabel = containerGroupName
+                        },
+                    }).Result.Value;
 
             // Print the container's logs
             Console.WriteLine($"Logs for container '{containerInstanceName}':");
-            Console.WriteLine(containerGroup.GetLogContent(containerInstanceName));
+            Console.WriteLine(containerGroup.GetContainerLogs(containerInstanceName).Value.Content);
         }
 
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
@@ -281,7 +360,7 @@ namespace Olsson.GET.Accessors.Containers
 
                 return canQueueNewContainer;
             }
-            catch (Microsoft.Rest.Azure.CloudException ex)
+            catch (Exception ex)
             {
                 //this seems to happen pretty commonly when Staging and Prod are fighting for containers.
                 Logger.Warn("An exception occured trying to get the containers.", ex);
@@ -306,14 +385,15 @@ namespace Olsson.GET.Accessors.Containers
             }
         }
 
-        private bool CanCreateContainer(IAzure azure,
+        private bool CanCreateContainer(SubscriptionResource azure,
             string containerGroupName)
         {
-            var containerGroup = azure.ContainerGroups.GetByResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup, containerGroupName);
+            var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
+            var containerGroup = resourceGroup.GetContainerGroup(containerGroupName).Value;
 
             if (containerGroup != null)
             {
-                return !ContainerStatusesNotStart.Contains(containerGroup.Inner.InstanceView.State);
+                return !ContainerStatusesNotStart.Contains(containerGroup.Data.InstanceView.State);
             }
 
             return true;

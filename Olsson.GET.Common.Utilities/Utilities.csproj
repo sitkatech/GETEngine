@@ -15,9 +15,7 @@
     <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="dbup">
-      <Version>3.3.5</Version>
-    </PackageReference>
+    <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
