@@ -14,9 +14,6 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Web" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Olsson.GET.Common.DataContracts\DataContracts.csproj" />
     <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
     <ProjectReference Include="..\Olsson.GET.Managers\Managers.csproj" />
@@ -25,9 +22,7 @@
     <PackageReference Include="AutoMapper">
       <Version>6.1.1</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework">
-      <Version>2.2.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
