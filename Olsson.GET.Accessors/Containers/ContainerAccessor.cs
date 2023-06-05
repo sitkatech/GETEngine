@@ -195,8 +195,7 @@ namespace Olsson.GET.Accessors.Containers
                     new ContainerResourceRequirements(new ContainerResourceRequestsContent(memory, cpuCoreSize))
                 )
                 {
-                    Ports = { new ContainerPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
-                    
+                    Ports = { new ContainerPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) }
                 }
             };
 

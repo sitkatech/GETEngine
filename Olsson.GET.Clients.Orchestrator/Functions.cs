@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.Azure.WebJobs;
 using Olsson.GET.Common.Utilities;
 using log4net;
@@ -7,6 +8,7 @@ using Olsson.GET.Managers.Runs;
 using Olsson.GET.Common.Shared.Extensions;
 using Olsson.GET.Common.Shared.Enums;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
@@ -22,13 +24,11 @@ namespace Olsson.GET.Clients.Orchestrator
         private const string CleanExitedContainersCronSchedule = "0 0 * * * *"; // hourly
         private const string FailLongProcessingRunsCronSchedule = "0 0 * * * *"; // hourly
 #endif
-
         public static async Task GenerateInputs([QueueTrigger("generateinputsqueue")] string runId)
         {
             try
             {
                 Logger.Info($"GenerateInputs Started [{runId}]");
-
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Input);
 
                 Logger.Info($"GenerateInputs Completed [{runId}]");

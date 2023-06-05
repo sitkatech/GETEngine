@@ -1,27 +1,34 @@
-﻿using Microsoft.Azure.WebJobs;
+﻿using log4net;
+using Microsoft.Extensions.Hosting;
+using Olsson.GET.Common.Utilities;
+using System.Threading.Tasks;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
+
     // To learn more about Microsoft Azure WebJobs SDK, please see https://go.microsoft.com/fwlink/?LinkID=320976
     class Program
     {
-        // Please set the following connection strings in app.config for this WebJob to run:
-        // AzureWebJobsDashboard and AzureWebJobsStorage
-        static void Main()
+        private static readonly ILog Logger = Logging.GetLogger(typeof(Program));
+        static async Task Main()
         {
-            var config = new JobHostConfiguration();
+            var builder = new HostBuilder();
 
-            if (config.IsDevelopment)
+#if DEBUG
+            builder.UseEnvironment("Development");
+#endif
+
+            builder.ConfigureWebJobs((context, b) =>
             {
-                config.UseDevelopmentSettings();
+                b.AddAzureStorageQueues();
+            });
+            
+            var host = builder.Build();
+            using (host)
+            {
+                await host.RunAsync();
             }
-
-            config.UseTimers();
-
-            var host = new JobHost(config);
-
-            // The following code ensures that the WebJob will be running continuously
-            host.RunAndBlock();
         }
+        
     }
 }
