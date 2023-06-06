@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
+using Olsson.GET.Common.Utilities;
 using Olsson.GET.Engines.ModelInputOutputEngines;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
@@ -55,7 +55,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_OneLocation()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -113,7 +113,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_OneLocation_ShouldSwitchSign()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>

@@ -25,38 +25,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.config">
-      <Link>AppSettings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.QA.config">
-      <Link>AppSettings.QA.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.Tests.config">
-      <Link>AppSettings.Tests.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.config">
-      <Link>ConnectionStrings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Tests.config">
-      <Link>ConnectionStrings.Tests.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Release.config">
-      <Link>ConnectionStrings.Release.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
       <Link>Logger.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -66,6 +34,10 @@
       <Link>Logger.Release.config</Link>
       <DependentUpon>Logger.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
+    </None>
+    <None Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json">
+      <Link>appsettings.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -746,8 +718,5 @@
       <TransformOnBuild>false</TransformOnBuild>
     </ContentWithTargetPath>
   </ItemDefinitionGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\testhost.dll.config" Condition="Exists('app.config')" />
-    <Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\ReSharperTestRunner.dll.config" Condition="Exists('app.config')" /> 
-  </Target>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/appsscript.json" /></VisualStudio></ProjectExtensions>
 </Project>

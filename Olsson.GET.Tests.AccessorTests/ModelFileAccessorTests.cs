@@ -11,6 +11,7 @@ using Olsson.GET.Accessors.EntityFramework;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using ModelExecutable = Olsson.GET.Common.DataContracts.Models.ModelExecutable;
+using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Tests.AccessorTests
 {
@@ -20,7 +21,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void CreateModflowFileAccessor_IsStructured_IsModFlow6()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow6";
 
             var result = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
             {
@@ -40,7 +41,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void CreateModflowFileAccessor_IsStructured_IsModFlow2005()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005";
 
             var result = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
             {
@@ -60,7 +61,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void CreateModflowFileAccessor_IsUnstructured_IsModFlow6()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow6";
 
             var result = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
             {
@@ -80,7 +81,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void CreateModflowFileAccessor_IsUnstructured_IsModFlow2005()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow2005";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\CreateModflowFileAccessor\UnstructuredModFlow2005";
 
             var result = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
             {
@@ -119,7 +120,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -237,7 +238,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_HasClnWellGroup()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -294,7 +295,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -330,7 +331,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_MultipleWellGroups()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\MultipleWellGroups";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\MultipleWellGroups";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -379,7 +380,7 @@ namespace Olsson.GET.Tests.AccessorTests
         public void ReduceMapCells_HugeTest()
         {
             //this is for testing large amounts of data only - it should not normally be uncommented except for dev testing
-            //ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\Structured\ReduceMapCells\HugeTest";
+            //ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\Structured\ReduceMapCells\HugeTest";
             //var sut = CreateModelFileAccessor(new Model());
 
             //var colors = Enumerable.Range(1, 5).Select(a => a.ToString()).ToList();
@@ -406,7 +407,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void IsStructuredFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\IsStructuredFile\StructuredModFlow2005";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\IsStructuredFile\StructuredModFlow2005";
 
             var result = ModelFileAccessor.IsStructuredFile(new Model
             {
@@ -443,7 +444,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -524,7 +525,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_HasClnWellGroup()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -581,7 +582,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -615,7 +616,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_MultipleWellGroups()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\MultipleWellGroups";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\MultipleWellGroups";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -666,7 +667,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void IsStructuredFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\IsStructuredFile\UnstructuredModFlow2005";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\IsStructuredFile\UnstructuredModFlow2005";
 
             var result = ModelFileAccessor.IsStructuredFile(new Model
             {
@@ -703,7 +704,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetSegmentReachZones_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetSegmentReachZones\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetSegmentReachZones\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             CollectionAssert.AreEquivalent(new[] { "1", "2" }, sut.GetSegmentReachZones(1, 0));
@@ -716,7 +717,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -773,7 +774,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_HasNoOptions()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasNoOptions";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasNoOptions";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -796,7 +797,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_HasEmptyOptions()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasEmptyOptions";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasEmptyOptions";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -819,7 +820,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_DifferentCasedHeaders()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\DifferentCasedHeaders";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\DifferentCasedHeaders";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -875,7 +876,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\BasicTest";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "STO-SS", Name = "SS"},
@@ -915,7 +916,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetRates_MultiplePackageNames()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\MultiplePackageNames";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\MultiplePackageNames";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "STO-SS", Name = "SS"},
@@ -959,7 +960,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetStressPeriodData_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -983,7 +984,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAsrDataNameMap\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAsrDataNameMap\BasicTest";
 
             var sut = CreateModelFileAccessor(new Model
             {
@@ -1011,7 +1012,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineMapData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetMapData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetMapData";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1047,7 +1048,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1194,7 +1195,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineFlowData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var baseflowTableProcessingConfiguration = new BaseflowTableProcessingConfiguration()
             {
@@ -1239,7 +1240,7 @@ namespace Olsson.GET.Tests.AccessorTests
                 return;
             }
 
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var baseflowTableProcessingConfiguration = new BaseflowTableProcessingConfiguration()
             {
@@ -1284,7 +1285,7 @@ namespace Olsson.GET.Tests.AccessorTests
                 return;
             }
 
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var baseflowTableProcessingConfiguration = new BaseflowTableProcessingConfiguration()
             {
@@ -1323,7 +1324,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputFlowData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var baseflowTableProcessingConfiguration = new BaseflowTableProcessingConfiguration()
             {
@@ -1362,7 +1363,7 @@ namespace Olsson.GET.Tests.AccessorTests
 
         public void GetOutputFlowDataSecondKnownConfigurationOfLstFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var baseflowTableProcessingConfiguration = new BaseflowTableProcessingConfiguration()
             {
@@ -1402,7 +1403,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void IsStructuredFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\IsStructuredFile\StructuredModFlow6";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\IsStructuredFile\StructuredModFlow6";
 
             var result = ModelFileAccessor.IsStructuredFile(new Model
             {
@@ -1420,7 +1421,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunListFileLines()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetRunListFileLines";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetRunListFileLines";
             var sut = CreateModelFileAccessor(new Model { ListFileName = "mfsim.lst" });
             var result = sut.GetRunListFileLines().ToList();
             Assert.IsNotNull(result);
@@ -1430,7 +1431,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetNumberOfSegmentReaches_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1448,7 +1449,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetNumberOfSegmentReaches_ExtraSpaces()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\ModflowSixStructured\GetNumberOfSegmentReaches\ExtraSpaces";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1485,7 +1486,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1534,7 +1535,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_HasNoOptions()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasNoOptions";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasNoOptions";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1556,7 +1557,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_HasEmptyOptions()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasEmptyOptions";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\HasEmptyOptions";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1578,7 +1579,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationRates_DifferentCasedHeaders()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\DifferentCasedHeaders";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationRates\DifferentCasedHeaders";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1601,7 +1602,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void UpdateLocationRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\UpdateLocationRates\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1710,7 +1711,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetStressPeriodData_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1738,7 +1739,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetRates_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\ZoneBudgetItems\BasicTest";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "STO-SS", Name = "SS"},
@@ -1778,7 +1779,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAsrDataNameMap\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAsrDataNameMap\BasicTest";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -1797,7 +1798,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineMapData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetMapData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetMapData";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1838,7 +1839,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineFlowData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var sut = CreateModelFileAccessor(new Model
             {
@@ -1866,7 +1867,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputFlowData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetAquiferFlowData";
 
             var sut = CreateModelFileAccessor(new Model
             {
@@ -1897,7 +1898,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void IsStructuredFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\IsStructuredFile\UnstructuredModFlow6";
 
             var result = ModelFileAccessor.IsStructuredFile(new Model
             {
@@ -1915,7 +1916,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunListFileLines()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetRunListFileLines";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetRunListFileLines";
             var sut = CreateModelFileAccessor(new Model { ListFileName = "mfsim.lst" });
             var result = sut.GetRunListFileLines().ToList();
             Assert.IsNotNull(result);
@@ -1925,7 +1926,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetNumberOfSegmentReaches_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1943,7 +1944,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetNumberOfSegmentReaches_ExtraSpaces()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\ModflowSixUnstructured\GetNumberOfSegmentReaches\ExtraSpaces";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -1979,7 +1980,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetSegmentReachZones_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetSegmentReachZones\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetSegmentReachZones\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             CollectionAssert.AreEquivalent(new[] { "1" }, sut.GetSegmentReachZones(1, 1));
@@ -1994,7 +1995,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetSegmentReachZones_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetSegmentReachZones\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetSegmentReachZones\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             CollectionAssert.AreEquivalent(new string[0], sut.GetSegmentReachZones(1, 1));
@@ -2003,7 +2004,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetFriendlyZoneName_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetFriendlyZoneName\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetFriendlyZoneName\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             Assert.AreEqual("Zone A", sut.GetFriendlyInputZoneName("1"));
@@ -2015,7 +2016,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetFriendlyZoneName_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetFriendlyZoneName\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetFriendlyZoneName\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             Assert.AreEqual("", sut.GetFriendlyInputZoneName("1"));
@@ -2027,7 +2028,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetFriendlyZoneBudgetName_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetFriendlyZoneBudgetName\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetFriendlyZoneBudgetName\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             Assert.AreEqual("Zone A", sut.GetFriendlyZoneBudgetName("1"));
@@ -2039,7 +2040,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetFriendlyZoneBudgetName_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetFriendlyZoneBudgetName\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetFriendlyZoneBudgetName\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             Assert.AreEqual("", sut.GetFriendlyZoneBudgetName("1"));
@@ -2051,7 +2052,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetAllZones_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetSegmentReachZones\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetSegmentReachZones\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             CollectionAssert.AreEquivalent(new[] { "1", "2" }, sut.GetAllZones());
@@ -2060,7 +2061,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetAllZones_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetSegmentReachZones\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetSegmentReachZones\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             CollectionAssert.AreEquivalent(new string[0], sut.GetAllZones());
@@ -2069,7 +2070,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetNumberOfSegmentReaches_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetNumberOfSegmentReaches\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2087,7 +2088,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetStressPeriodData_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2111,7 +2112,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetStressPeriodData_NotEnoughData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\NotEnoughData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\NotEnoughData";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2129,7 +2130,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetStressPeriodData_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\NoFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetStressPeriodData\NoFile";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2149,7 +2150,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputData_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
 
             var sut = CreateModelFileAccessor(new Model
             {
@@ -2179,7 +2180,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputData_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\NoFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\NoFile";
             var sut = CreateModelFileAccessor(new Model
             {
                 RunFileName = "BasicTest.dat",
@@ -2199,7 +2200,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputData_RunFileName_Null()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 RunFileName = null,
@@ -2219,7 +2220,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputData_RunFileName_Empty()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 RunFileName = "",
@@ -2239,7 +2240,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputData_RunFileName_Whitespace()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputData\BasicTest";
             var sut = CreateModelFileAccessor(new Model
             {
                 RunFileName = " ",
@@ -2259,7 +2260,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineData_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetBaselineData\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetBaselineData\BasicTest";
 
             var sut = CreateModelFileAccessor(new Model
             {
@@ -2288,7 +2289,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineData_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetBaselineData\NoFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetBaselineData\NoFile";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2307,7 +2308,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_FeatureNotInHeader()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2326,7 +2327,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationPositionMap_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetLocationPositionMap();
@@ -2340,7 +2341,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationPositionMap_IncludesSinglePumpingWellDataWithoutProportion()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesSinglePumpingWellDataWithoutProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetLocationPositionMap();
@@ -2354,7 +2355,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationPositionMap_IncludesSinglePumpingWellDataWithProportion()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesSinglePumpingWellDataWithProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetLocationPositionMap();
@@ -2368,7 +2369,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationPositionMap_IncludesMultiplePumpingWellDataWithoutProportion()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithoutProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetLocationPositionMap();
@@ -2382,7 +2383,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationPositionMap_IncludesMultiplePumpingWellDataWithProportion()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationPositionMap\IncludesMultiplePumpingWellDataWithProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetLocationPositionMap();
@@ -2401,7 +2402,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void FindWellLocations_NoPumpingWellData_PointPresent()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\NoPumpingWellData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\NoPumpingWellData";
             var sut = CreateModelFileAccessor(new Model());
 
             foreach (var point in PointsInFirstWellFileGeometry())
@@ -2418,7 +2419,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void FindWellLocations_IncludesSinglePumpingWellDataWithProportion_PointPresent()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesSinglePumpingWellDataWithProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesSinglePumpingWellDataWithProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             foreach (var point in PointsInFirstWellFileGeometry())
@@ -2435,7 +2436,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void FindWellLocations_IncludesSinglePumpingWellDataWithoutProportion_PointPresent()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesSinglePumpingWellDataWithoutProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             foreach (var point in PointsInFirstWellFileGeometry())
@@ -2452,7 +2453,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void FindWellLocations_IncludesMultiplePumpingWellDataWithProportion_PointPresent()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesMultiplePumpingWellDataWithProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             foreach (var point in PointsInFirstWellFileGeometry())
@@ -2471,7 +2472,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void FindWellLocations_IncludesMultiplePumpingWellDataWithoutProportion_PointPresent()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\IncludesMultiplePumpingWellDataWithoutProportion";
             var sut = CreateModelFileAccessor(new Model());
 
             foreach (var point in PointsInFirstWellFileGeometry())
@@ -2490,7 +2491,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationZones_FileNotFound()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\FileNotFound";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\FileNotFound";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetInputLocationZones(GetLocationValue("1"));
@@ -2502,7 +2503,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationZones_NodeNotInFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\NodeNotInFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\NodeNotInFile";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetInputLocationZones(GetLocationValue("1"));
@@ -2514,7 +2515,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationZones_SingleZoneFound()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\SingleZoneFound";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\SingleZoneFound";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetInputLocationZones(GetLocationValue("1"));
@@ -2527,7 +2528,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationZones_MultipleZonesFound()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\MultipleZonesFound";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\MultipleZonesFound";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetInputLocationZones(GetLocationValue("1"));
@@ -2539,7 +2540,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationZones_MultipleZonesFound_NewFileNameInputLocationZones()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\InputLocationZonesCsv";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationZones\InputLocationZonesCsv";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetInputLocationZones(GetLocationValue("1"));
@@ -2551,7 +2552,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetOutputLocationZones_Valid()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetOutputLocationZones\Valid";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetOutputLocationZones\Valid";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetOutputLocationZones(GetLocationValue("1"));
@@ -2563,7 +2564,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_HasSingleValue()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2588,7 +2589,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_HasMultipleValues()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasMultipleValues";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasMultipleValues";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2616,7 +2617,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_DifferentCasedFeatureName()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\HasSingleValue";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2638,7 +2639,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_HasClnColumn_IsFalse()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\ClnColumnFalse";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\ClnColumnFalse";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2660,7 +2661,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetLocationProportions_HasClnColumn_IsTrue()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\ClnColumnTrue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\GetLocationProportions\ClnColumnTrue";
             var sut = CreateModelFileAccessor(new Model
             {
                 ModelExecutables = new List<ModelExecutable>
@@ -2682,7 +2683,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap_EmptyZoneSpecificFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\EmptyZoneSpecificFile";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -2693,7 +2694,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap_HasZoneSpecificData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\HasZoneSpecificData";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -2707,7 +2708,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap_MissingZoneSpecificFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\MissingZoneSpecificFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\MissingZoneSpecificFile";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -2721,7 +2722,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetZoneBudgetAsrDataNameMap_NoAsrDataAtAll()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\NoAsrDataAtAll";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetZoneBudgetAsrDataNameMap\NoAsrDataAtAll";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -2732,7 +2733,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineZoneBudgetItems_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetBaselineZoneBudgetItems\NoFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetBaselineZoneBudgetItems\NoFile";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2749,7 +2750,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineZoneBudgetItems_NoData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetBaselineZoneBudgetItems\NoData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetBaselineZoneBudgetItems\NoData";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2767,7 +2768,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineZoneBudgetItems_HasRecords()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetBaselineZoneBudgetItems\HasRecords";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetBaselineZoneBudgetItems\HasRecords";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2819,7 +2820,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetBaselineZoneBudgetItems_HasUndefinedValue()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetBaselineZoneBudgetItems\HasUndefinedValue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetBaselineZoneBudgetItems\HasUndefinedValue";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2854,7 +2855,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunZoneBudgetItems_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetRunZoneBudgetItems\NoFile";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetRunZoneBudgetItems\NoFile";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2871,7 +2872,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunZoneBudgetItems_NoData()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetRunZoneBudgetItems\NoData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetRunZoneBudgetItems\NoData";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2889,7 +2890,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunZoneBudgetItems_HasRecords()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetRunZoneBudgetItems\HasRecords";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetRunZoneBudgetItems\HasRecords";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2941,7 +2942,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetRunZoneBudgetItems_HasUndefinedValue()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\GetRunZoneBudgetItems\HasUndefinedValue";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\GetRunZoneBudgetItems\HasUndefinedValue";
             List<AsrDataMap> asrDataMap = new List<AsrDataMap>
             {
                 new AsrDataMap{Key = "KeyA", Name = "NameA"},
@@ -2976,7 +2977,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void ModpathFileNames_Find()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\Modpath";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\Modpath";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -2988,7 +2989,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void ModpathTimeSeries()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\Modpath";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\Modpath";
 
             var sut = CreateModelFileAccessor(new Model());
 
@@ -3015,7 +3016,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void ReduceMapCells_BasicTest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\NoPumpingWellData";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\{ModflowFileType}\FindWellLocations\NoPumpingWellData";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.ReduceMapCells(1, new List<MapLocationsPositionCellColor>
@@ -3033,7 +3034,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedImpactToBaseflow_NonDifferential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedImpactToBaseflow\NonDifferential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedImpactToBaseflow\NonDifferential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3054,7 +3055,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedImpactToBaseflow_Differential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedImpactToBaseflow\Differential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedImpactToBaseflow\Differential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3075,7 +3076,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedImpactToBaseflow_MultiWordDataSeries()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedImpactToBaseflow\MultiWordDataSeries";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedImpactToBaseflow\MultiWordDataSeries";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3096,7 +3097,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedImpactToBaseflow_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedImpactToBaseflow\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedImpactToBaseflow\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetObservedImpactToBaseflow(false);
@@ -3106,7 +3107,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedZoneBudget_NonDifferential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedZoneBudget\NonDifferential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedZoneBudget\NonDifferential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3129,7 +3130,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedZoneBudget_Differential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedZoneBudget\Differential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedZoneBudget\Differential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3152,7 +3153,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedZoneBudget_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedZoneBudget\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedZoneBudget\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetObservedZoneBudget(false);
@@ -3162,7 +3163,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedPointsOfInterest_NonDifferential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedPointsOfInterest\NonDifferential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedPointsOfInterest\NonDifferential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3183,7 +3184,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedPointsOfInterest_Differential()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedPointsOfInterest\Differential";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedPointsOfInterest\Differential";
             var sut = CreateModelFileAccessor(new Model()
             {
                 StartDateTime = new DateTime(2020, 5, 1)
@@ -3204,7 +3205,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetObservedPointsOfInterest_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetObservedPointsOfInterest\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetObservedPointsOfInterest\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetObservedPointsOfInterest(false);
@@ -3214,7 +3215,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetPointsOfInterest()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetPointsOfInterest\BasicTest";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetPointsOfInterest\BasicTest";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetPointsOfInterest().ToList();
@@ -3232,7 +3233,7 @@ namespace Olsson.GET.Tests.AccessorTests
         [TestMethod]
         public void GetPointsOfInterest_NoFile()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = $@"ModflowTestFiles\GetPointsOfInterest\DoesntExist";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = $@"ModflowTestFiles\GetPointsOfInterest\DoesntExist";
             var sut = CreateModelFileAccessor(new Model());
 
             var result = sut.GetPointsOfInterest();

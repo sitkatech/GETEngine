@@ -18,6 +18,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.SlowCheetah">
       <Version>3.0.61</Version>
     </PackageReference>
@@ -25,68 +29,8 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Configs\AppSettings.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-      <SubType>Designer</SubType>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Configs\AppSettings.QA.config">
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Configs\AppSettings.Release.config">
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\AppSettings.Tests.config">
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\AppSettings.Debug.config">
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\AppSettings.Debug.config.template">
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>false</IsTransformFile>
-    </None>
-    <None Update="Configs\ConnectionStrings.config">
-      <TransformOnBuild>true</TransformOnBuild>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Configs\ConnectionStrings.QA.config">
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Configs\ConnectionStrings.Release.config">
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\ConnectionStrings.Debug.config">
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\ConnectionStrings.Debug.config.template">
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>false</IsTransformFile>
-    </None>
-    <None Update="Configs\ConnectionStrings.Tests.config">
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Update="Configs\Logger.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Configs\Logger.Release.config">
-      <DependentUpon>Logger.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
+    <None Update="Configs\appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

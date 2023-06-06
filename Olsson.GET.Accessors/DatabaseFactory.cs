@@ -12,8 +12,7 @@ namespace Olsson.GET.Accessors
             System.Data.Entity.Database.SetInitializer<T>(null);
 
             EntityConnectionStringBuilder connectionString = new EntityConnectionStringBuilder();
-            connectionString.ProviderConnectionString = ConfigurationHelper.ConnectionStrings.GetPrimaryConnectionString;
-
+            connectionString.ProviderConnectionString = ConfigurationHelper.ConnectionStrings.GetPrimaryDatabase;
             T ret = Activator.CreateInstance(typeof(T)) as T;
             ret.Database.Connection.ConnectionString = connectionString.ProviderConnectionString;
             ret.Configuration.ProxyCreationEnabled = false;

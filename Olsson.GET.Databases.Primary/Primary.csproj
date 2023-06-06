@@ -32,17 +32,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.config">
-      <Link>ConnectionStrings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Release.config">
-      <Link>ConnectionStrings.Release.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Update="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
@@ -129,6 +118,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json" Link="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\004\005.ModelMapOutputFiles.sql" />

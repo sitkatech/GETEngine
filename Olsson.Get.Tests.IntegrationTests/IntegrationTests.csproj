@@ -18,38 +18,6 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.config">
-      <Link>AppSettings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.QA.config">
-      <Link>AppSettings.QA.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.Tests.config">
-      <Link>AppSettings.Tests.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.config">
-      <Link>ConnectionStrings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Tests.config">
-      <Link>ConnectionStrings.Tests.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Release.config">
-      <Link>ConnectionStrings.Release.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
       <Link>Logger.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1055,7 +1055,7 @@ namespace Olsson.GET.Managers.Runs
                     Dictionary<string, string> envVars = new Dictionary<string, string>
                     {
                         { "SOURCE_FOLDER", ConfigurationHelper.AppSettings.AzureContainerVolumeName },
-                        { "ANALYSIS_URL", GetAnalysisUrl(runId) },
+                        { "RUNANALYSISURL", GetAnalysisUrl(runId) },
                         { "MODEL_ID", run.ModelID.ToString() }
                     };
 
@@ -1080,14 +1080,14 @@ namespace Olsson.GET.Managers.Runs
             {
                 Dictionary<string, string> envVars = new Dictionary<string, string>
                     {
-                        { "ANALYSIS_URL", ConfigurationHelper.AppSettings.RunAnalysisUrl },
-                        { "API_FUNCTION_CODE", ConfigurationHelper.AppSettings.APIFunctionCode },
+                        { "RUNANALYSISURL", ConfigurationHelper.AppSettings.RunAnalysisUrl },
+                        { "APIFUNCTIONCODE", ConfigurationHelper.AppSettings.APIFunctionCode },
                         { "AZURESTORAGEACCOUNT", ConfigurationHelper.ConnectionStrings.AzureStorageAccount },
                         { "BLOBSTORAGEMODELDATAFOLDER", ConfigurationHelper.AppSettings.BlobStorageModelDataFolder },
-                        { "GETPRIMARYDATABASE", ConfigurationHelper.ConnectionStrings.GetPrimaryConnectionString },
+                        { "GETPRIMARYDATABASE", ConfigurationHelper.ConnectionStrings.GetPrimaryDatabase },
                         { "MODFLOWDATAFOLDER", ConfigurationHelper.AppSettings.ModflowDataFolder },
-                        { "NOTIFICATION_URL", ConfigurationHelper.AppSettings.SendRunCompletedNotificationUrl },
-                        { "OUTPUTS_URL", ConfigurationHelper.AppSettings.GenerateOutputsUrl },
+                        { "SENDRUNCOMPLETEDNOTIFICATIONURL", ConfigurationHelper.AppSettings.SendRunCompletedNotificationUrl },
+                        { "GENERATEOUTPUTSURL", ConfigurationHelper.AppSettings.GenerateOutputsUrl },
                         { "PROCESSTYPE", ((int)processType).ToString()  },
                         { "RUN_ID", runId.ToString() },
                         { "MODEL_ID", run.ModelID.ToString() }

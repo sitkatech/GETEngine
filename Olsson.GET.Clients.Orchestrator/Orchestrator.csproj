@@ -15,38 +15,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.config">
-      <Link>AppSettings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.QA.config">
-      <Link>AppSettings.QA.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\AppSettings.Release.config">
-      <Link>AppSettings.Release.config</Link>
-      <DependentUpon>AppSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.config">
-      <Link>ConnectionStrings.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.QA.config">
-      <Link>ConnectionStrings.QA.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\ConnectionStrings.Release.config">
-      <Link>ConnectionStrings.Release.config</Link>
-      <DependentUpon>ConnectionStrings.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json" Link="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
       <Link>Logger.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -86,10 +57,5 @@
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
