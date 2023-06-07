@@ -1,6 +1,7 @@
 ﻿using log4net;
 using Microsoft.Extensions.Hosting;
 using Olsson.GET.Common.Utilities;
+using System;
 using System.Threading.Tasks;
 
 namespace Olsson.GET.Clients.Orchestrator
@@ -13,10 +14,7 @@ namespace Olsson.GET.Clients.Orchestrator
         static async Task Main()
         {
             var builder = new HostBuilder();
-
-#if DEBUG
-            builder.UseEnvironment("Development");
-#endif
+            builder.UseEnvironment(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
 
             builder.ConfigureWebJobs((context, b) =>
             {

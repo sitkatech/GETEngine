@@ -23,7 +23,7 @@
     <Optimize>true</Optimize>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
+    
   <ItemGroup>
     <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
       <Link>Logger.config</Link>
@@ -34,10 +34,6 @@
       <Link>Logger.Release.config</Link>
       <DependentUpon>Logger.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json">
-      <Link>appsettings.json</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -195,6 +191,12 @@
     <None Update="ModflowTestFiles\ModflowSixStructured\GetMapData\test1tr.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
+    
     <Content Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\Baseline_Reach_Name_Column.lst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -698,11 +700,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.0.0-beta0003" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
     <PackageReference Include="Microsoft.SqlServer.Types" Version="160.1000.6" />
-    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="3.0.61" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -718,5 +721,5 @@
       <TransformOnBuild>false</TransformOnBuild>
     </ContentWithTargetPath>
   </ItemDefinitionGroup>
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/appsscript.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>

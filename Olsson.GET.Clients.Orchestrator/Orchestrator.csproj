@@ -15,7 +15,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json" Link="appsettings.json" />
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
@@ -48,9 +51,6 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
       <Version>5.2.9</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah">
-      <Version>3.0.61</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.WebJobs.Publish">
       <Version>1.1.0</Version>

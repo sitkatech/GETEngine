@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 
 namespace Olsson.GET.Common.Utilities
 {
@@ -10,13 +11,17 @@ namespace Olsson.GET.Common.Utilities
         public static AppSettings AppSettings;
         static ConfigurationHelper()
         {
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
+            var configBuilder = new ConfigurationBuilder();
+            configBuilder.AddJsonFile("appsettings.json");
+            if (File.Exists($"appsecrets.json"))
+            {
+                configBuilder.AddJsonFile($"appsecrets.json");
+            }
+            configBuilder.AddEnvironmentVariables();
 
-            AppSettings = config.Get<AppSettings>();
-            ConnectionStrings = config.Get<ConnectionStrings>();
+            var configRoot = configBuilder.Build();
+            AppSettings = configRoot.Get<AppSettings>();
+            ConnectionStrings = configRoot.Get<ConnectionStrings>();
         }
     }
 
@@ -31,6 +36,7 @@ namespace Olsson.GET.Common.Utilities
     public class AppSettings
     {
         public string SendGridApiKey { get; set; }
+        public string ImageServerUri { get; set; }
         public string FromEmail { get; set; }
         public string NewPasswordTemplateId { get; set; }
         public string RunCompletedTemplateId { get; set; }

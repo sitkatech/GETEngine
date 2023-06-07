@@ -65,8 +65,11 @@ namespace Olsson.GET.Common.Utilities
 
         private Dictionary<string, string> GetSubstitutionVariables()
         {
-            var variables = (NameValueCollection) ConfigurationManager.GetSection("SqlScriptsVariableSubstitution");
-            return variables.AllKeys.ToDictionary(a => a, a => variables[a]);
+            var variables = new Dictionary<string, string>
+            {
+                { "ImageServerUri", ConfigurationHelper.AppSettings.ImageServerUri }
+            };
+            return variables;
         }
     }
 }

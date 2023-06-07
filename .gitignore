@@ -257,5 +257,4 @@ Olsson.GET.Clients.Portal/package-lock.json
 /Containers
 
 # Config
-Olsson.GET.Common.Shared/Configs/AppSettings.Development.config
-Olsson.GET.Common.Shared/Configs/ConnectionStrings.Development.config
+Olsson.GET.Common.Shared/Configs/appsecrets.json

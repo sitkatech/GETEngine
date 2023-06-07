@@ -20,9 +20,10 @@
     <TestProjectType>UnitTest</TestProjectType>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json" Link="appsettings.json">
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Files\CanalDataExtraDate.csv">
