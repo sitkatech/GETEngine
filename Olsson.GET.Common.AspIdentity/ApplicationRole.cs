@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
-
-namespace Olsson.GET.Common.AspIdentity
+﻿namespace Olsson.GET.Common.AspIdentity
 {
-    public class ApplicationRole : IRole<int>
+    public class ApplicationRole
     {
         public int Id { get; set; }
 
