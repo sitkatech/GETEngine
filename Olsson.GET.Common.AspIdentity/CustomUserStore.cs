@@ -87,7 +87,6 @@ namespace Olsson.GET.Common.AspIdentity
             }, cancellationToken);
         }
 
-        // todo: SMG
         public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
