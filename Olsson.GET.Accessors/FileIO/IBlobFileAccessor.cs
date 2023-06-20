@@ -7,7 +7,7 @@ namespace Olsson.GET.Accessors.FileIO
     {
         void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null);
 
-        byte[] GetFile(string filePath, string fileLocation);
+        Task<byte[]> GetFile(string filePath, string fileLocation);
 
         void GetFile(string filePath, string fileLocation, string destLocation);
 

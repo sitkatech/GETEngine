@@ -23,7 +23,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private RunZoneInput[] GetInputFileData(IBlobFileAccessor fileAccessor, Run run)
         {
-            return JsonConvert.DeserializeObject<RunZoneInput[]>(Encoding.UTF8.GetString(fileAccessor.GetFile(StorageLocations.ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder)));
+            return JsonConvert.DeserializeObject<RunZoneInput[]>(Encoding.UTF8.GetString(fileAccessor.GetFile(StorageLocations.ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result));
         }
 
         public StressPeriodsLocationRates UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run)

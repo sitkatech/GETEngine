@@ -102,7 +102,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             StressPeriodsLocationRates updatedFlows;
             if (run.Scenario.InputControlType == InputControlType.WellMap)
             {
-                updatedFlows = AddWellMapInputSubEngine.UpdateFlowInputs(modflowFileAccessor, fileAccessor, existingFlows, run);
+                updatedFlows = AddWellMapInputSubEngine.UpdateFlowInputs(modflowFileAccessor, fileAccessor, existingFlows, run).Result;
             }
             else if (run.Scenario.InputControlType == InputControlType.ZoneMap)
             {

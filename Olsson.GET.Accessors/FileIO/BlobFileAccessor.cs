@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -18,24 +19,24 @@ namespace Olsson.GET.Accessors.FileIO
     class BlobFileAccessor : IBlobFileAccessor
     {
         private static readonly ILog Logger = Logging.GetLogger(typeof(BlobFileAccessor));
-        public byte[] GetFile(string filePath, string fileLocation)
+        public async Task<byte[]> GetFile(string filePath, string fileLocation)
         {
-            var blockBlob = GetBlockBlobReference(fileLocation, filePath);
+            var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
 
             if (blockBlob.ExistsAsync().Result)
             {
                 using (var ms = new MemoryStream())
                 {
-                    blockBlob.DownloadToStreamAsync(ms);
+                    await blockBlob.DownloadToStreamAsync(ms);
                     return ms.ToArray();
                 }
             }
             return null;
         }
 
-        public void GetFile(string filePath, string fileLocation, string destLocation)
+        public async void GetFile(string filePath, string fileLocation, string destLocation)
         {
-            var blockBlob = GetBlockBlobReference(fileLocation, filePath);
+            var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
 
             // Setup the number of the concurrent operations
             TransferManager.Configurations.ParallelOperations = 64;
@@ -54,13 +55,12 @@ namespace Olsson.GET.Accessors.FileIO
                 DisableContentMD5Validation = true
             };
 
-            var task = TransferManager.DownloadAsync(blockBlob, destLocation, downloadOptions, context, CancellationToken.None);
-            task.Wait();
+            await TransferManager.DownloadAsync(blockBlob, destLocation, downloadOptions, context, CancellationToken.None);
         }
 
         public async Task<List<string>> GetFilesInDirectory(string directoryPath, string fileLocation)
         {
-            var container = GetCloudBlobContainer(fileLocation);
+            var container = await GetCloudBlobContainer(fileLocation);
             var directory = container.GetDirectoryReference(directoryPath);
 
             BlobContinuationToken blobContinuationToken = null;
@@ -84,28 +84,26 @@ namespace Olsson.GET.Accessors.FileIO
             return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
-        public void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null)
+        public async void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null)
         {
-            var blockBlob = GetBlockBlobReference(fileLocation, filePath);
-            blockBlob.DeleteIfExistsAsync();
+            var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
+            await blockBlob.DeleteIfExistsAsync();
 
             if (!string.IsNullOrEmpty(contentType))
             {
                 blockBlob.Properties.ContentType = contentType;
             }
 
-            using (var ms = new MemoryStream(fileContent))
-            {
-                blockBlob.UploadFromStreamAsync(ms);
-            }
+            using var ms = new MemoryStream(fileContent);
+            await blockBlob.UploadFromStreamAsync(ms);
         }
 
-        public void SaveFile(string destinationFilePath, string fileLocation, string originFilePath)
+        public async void SaveFile(string destinationFilePath, string fileLocation, string originFilePath)
         {
-            var blockBlob = GetBlockBlobReference(fileLocation, destinationFilePath);
+            var blockBlob = await GetBlockBlobReference(fileLocation, destinationFilePath);
 
             // DataMovement will throw an error if file is not deleted
-            blockBlob.DeleteIfExistsAsync();
+            await blockBlob.DeleteIfExistsAsync();
 
             // Setup the number of the concurrent operations
             TransferManager.Configurations.ParallelOperations = 64;
@@ -113,20 +111,19 @@ namespace Olsson.GET.Accessors.FileIO
             // Setup the transfer context and track the copy progress
             var context = new SingleTransferContext();
 
-            var task = TransferManager.UploadAsync(originFilePath, blockBlob, null, context, CancellationToken.None);
-            task.Wait();
+            await TransferManager.UploadAsync(originFilePath, blockBlob, null, context, CancellationToken.None);
         }
 
-        public void DeleteFile(string filePath, string fileLocation)
+        public async void DeleteFile(string filePath, string fileLocation)
         {
-            var blockBlob = GetBlockBlobReference(fileLocation, filePath);
-            blockBlob.DeleteIfExistsAsync();
+            var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
+            await blockBlob.DeleteIfExistsAsync();
         }
 
-        public void CreateFileShare(string shareName)
+        public async void CreateFileShare(string shareName)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(shareName);
-            cloudFileShare.CreateIfNotExistsAsync();
+            await cloudFileShare.CreateIfNotExistsAsync();
         }
 
         public async Task<List<string>> GetFilesInShareDirectory(string fileLocation)
@@ -155,7 +152,7 @@ namespace Olsson.GET.Accessors.FileIO
             return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
-        public void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)
+        public async void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
 
@@ -171,28 +168,27 @@ namespace Olsson.GET.Accessors.FileIO
                 DisableContentMD5Validation = true
             };
 
-            var task = TransferManager.DownloadAsync(file, destLocation, downloadOptions, context, CancellationToken.None);
-            task.Wait();
+            await TransferManager.DownloadAsync(file, destLocation, downloadOptions, context, CancellationToken.None);
         }
 
-        public void CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
+        public async void CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.Info($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
-            var srcblockBlob = GetBlockBlobReference(srcFileLocation, srcFilePath);
+            var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
 
             CloudFileShare cloudFileShare = GetCloudFileShare(destFileLocation);
 
             var destFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(destFilePath);
 
-            destFile.StartCopyAsync(srcblockBlob);
+            await destFile.StartCopyAsync(srcblockBlob);
 
             if (deleteSrc)
             {
-                srcblockBlob.DeleteAsync();
+                await srcblockBlob.DeleteAsync();
             }
         }
 
-        public void CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
+        public async void CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.Info($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
@@ -207,39 +203,39 @@ namespace Olsson.GET.Accessors.FileIO
             Uri fileSasUri = new Uri(srcFile.StorageUri.PrimaryUri.ToString() + fsas);
 
 
-            var destBlockBlob = GetBlockBlobReference(destFileLocation, destFilePath);
+            var destBlockBlob = await GetBlockBlobReference(destFileLocation, destFilePath);
 
-            destBlockBlob.DeleteIfExistsAsync();
+            await destBlockBlob.DeleteIfExistsAsync();
 
-            destBlockBlob.StartCopyAsync(fileSasUri);
+            await destBlockBlob.StartCopyAsync(fileSasUri);
 
             if (deleteSrc)
             {
-                srcFile.DeleteAsync();
+                await srcFile.DeleteAsync();
             }
         }
 
-        public void DeleteCloudFileShare(string fileLocator)
+        public async void DeleteCloudFileShare(string fileLocator)
         {
             var cloudFileShare = GetCloudFileShare(fileLocator);
 
-            cloudFileShare.DeleteIfExistsAsync();
+            await cloudFileShare.DeleteIfExistsAsync();
         }
 
         #region Private Methods
-        private CloudBlockBlob GetBlockBlobReference(string containerName, string fileName)
+        private async Task<CloudBlockBlob> GetBlockBlobReference(string containerName, string fileName)
         {
-            var container = GetCloudBlobContainer(containerName);
+            var container = await GetCloudBlobContainer(containerName);
             var blockBlob = container.GetBlockBlobReference(fileName);
             return blockBlob;
         }
 
-        private static CloudBlobContainer GetCloudBlobContainer(string containerName)
+        private static async Task<CloudBlobContainer> GetCloudBlobContainer(string containerName)
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
             var blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(containerName);
-            container.CreateIfNotExistsAsync();
+            await container.CreateIfNotExistsAsync();
             return container;
         }
 

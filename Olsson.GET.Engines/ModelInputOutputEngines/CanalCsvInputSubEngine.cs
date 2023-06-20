@@ -29,7 +29,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private List<RunCanalInput> GetInputFileData(IBlobFileAccessor fileAccessor, Run run)
         {
-            return JsonConvert.DeserializeObject<List<RunCanalInput>>(Encoding.UTF8.GetString(fileAccessor.GetFile(StorageLocations.ParsedInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder)));
+            return JsonConvert.DeserializeObject<List<RunCanalInput>>(Encoding.UTF8.GetString(fileAccessor.GetFile(StorageLocations.ParsedInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result));
         }
 
         public StressPeriodsLocationRates UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run)

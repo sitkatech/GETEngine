@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
@@ -15,7 +16,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 {
     internal interface IAddWellMapInputSubEngine
     {
-        StressPeriodsLocationRates UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run);
+        Task<StressPeriodsLocationRates> UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run);
     }
 
     public class AddWellMapInputSubEngine : IAddWellMapInputSubEngine
@@ -26,14 +27,15 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         }
         private Model Model { get; }
 
-        private List<RunWellInput> GetInputFileData(IBlobFileAccessor fileAccessor, Run run)
+        private async Task<List<RunWellInput>> GetInputFileData(IBlobFileAccessor fileAccessor, Run run)
         {
-            return JsonConvert.DeserializeObject<List<RunWellInput>>(Encoding.UTF8.GetString(fileAccessor.GetFile(StorageLocations.ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder)));
+            var bytes = await fileAccessor.GetFile(StorageLocations.ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            return JsonConvert.DeserializeObject<List<RunWellInput>>(Encoding.UTF8.GetString(bytes));
         }
 
-        public StressPeriodsLocationRates UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run)
+        public async Task<StressPeriodsLocationRates> UpdateFlowInputs(IModelFileAccessor modflowFileAccessor, IBlobFileAccessor fileAccessor, StressPeriodsLocationRates existingFlows, Run run)
         {
-            var mapPointsInputs = GetInputFileData(fileAccessor, run);
+            var mapPointsInputs = await GetInputFileData(fileAccessor, run);
             var groupedData = mapPointsInputs.SelectMany(a => a.Values.Where(b => b.Value.IsNotEqual(0)).Select(b => new { Date = (a.Year, a.Month), Value = b })).GroupBy(a => (a.Value.Lat, a.Value.Lng));
             foreach (var latLngData in groupedData)
             {

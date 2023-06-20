@@ -92,7 +92,7 @@ namespace Olsson.GET.Managers.Runs
                 }
             }
 
-            var runInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var runInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (runInputData != null)
             {
                 run.CanalRunInputs =
@@ -107,7 +107,7 @@ namespace Olsson.GET.Managers.Runs
                 UpdateInputCanalData(run, run.CanalRunInputs.ToArray());
             }
 
-            var wellMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellMapInputData != null)
             {
                 run.WellMapInputs = JsonConvert.DeserializeObject<RunWellInput[]>(Encoding.UTF8.GetString(wellMapInputData)).ToList();
@@ -115,13 +115,13 @@ namespace Olsson.GET.Managers.Runs
                 run.PivotedWellMapInputs = BuildWellPivotedInputData(run.WellMapInputs.ToArray(), run).ToList();
             }
 
-            var runZoneInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var runZoneInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (runZoneInputData != null)
             {
                 run.RunZoneInputs = JsonConvert.DeserializeObject<RunZoneInput[]>(Encoding.UTF8.GetString(runZoneInputData)).ToList();
             }
 
-            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellParticleMapInputData != null)
             {
                 run.RunWellParticleInputs = JsonConvert.DeserializeObject<RunWellParticleInput[]>(Encoding.UTF8.GetString(wellParticleMapInputData)).ToList();
@@ -163,7 +163,7 @@ namespace Olsson.GET.Managers.Runs
                 }
             }
 
-            var runInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var runInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (runInputData != null)
             {
                 run.CanalRunInputs =
@@ -178,7 +178,7 @@ namespace Olsson.GET.Managers.Runs
                 UpdateInputCanalData(run, run.CanalRunInputs.ToArray());
             }
 
-            var wellMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellMapInputData != null)
             {
                 run.WellMapInputs = (JsonConvert.DeserializeObject<RunWellInput[]>(Encoding.UTF8.GetString(wellMapInputData))).ToList();
@@ -186,13 +186,13 @@ namespace Olsson.GET.Managers.Runs
                 run.PivotedWellMapInputs = BuildWellPivotedInputData(run.WellMapInputs.ToArray(), run).ToList();
             }
 
-            var runZoneInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var runZoneInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (runZoneInputData != null)
             {
                 run.RunZoneInputs = (JsonConvert.DeserializeObject<RunZoneInput[]>(Encoding.UTF8.GetString(runZoneInputData))).ToList();
             }
 
-            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellParticleMapInputData != null)
             {
                 run.RunWellParticleInputs = (JsonConvert.DeserializeObject<RunWellParticleInput[]>(Encoding.UTF8.GetString(wellParticleMapInputData))).ToList();
@@ -240,7 +240,7 @@ namespace Olsson.GET.Managers.Runs
                     };
                     if (IsWaterBudgetZoneFile(file.Key) || IsWaterBudgetItemFile(file.Key))
                     {
-                        var fileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, file.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                        var fileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, file.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                         var fileDetails = JsonConvert.DeserializeObject<WaterBudgetResultHelper>(Encoding.UTF8.GetString(fileData));
 
                         availableRunResult.AvailableSubTypes = fileDetails.RelatedResultOptions.Select(a => a.Label).ToList();
@@ -254,7 +254,7 @@ namespace Olsson.GET.Managers.Runs
                     }
                     else if (IsWaterLevelChangeFile(file.Key) || IsWaterLevelFile(file.Key) || IsDrawdownFile(file.Key))
                     {
-                        var fileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, file.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                        var fileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, file.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                         var fileDetails = JsonConvert.DeserializeObject<WaterChangeResultHelper>(Encoding.UTF8.GetString(fileData));
 
                         availableRunResult.AvailableSubTypes = fileDetails.ResultSets.First().MapData.AvailableStressPeriods.Select(a => a.Label).ToList();
@@ -355,7 +355,7 @@ namespace Olsson.GET.Managers.Runs
                 RunId = runId,
                 FileDetails = Encoding.UTF8.GetString(blobFileAccessor.GetFile(
                     OutputFilePathForRun(run.FileStorageLocator, matchingType.FullName),
-                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder))
+                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result)
             };
         }
 
@@ -405,7 +405,7 @@ namespace Olsson.GET.Managers.Runs
                     RunId = runId,
                     FileDetails = System.Text.Encoding.UTF8.GetString(blobFileAccessor.GetFile(
                         OutputFilePathForRun(run.FileStorageLocator, matchingType.FullName),
-                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder))
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result)
                 };
             }
 
@@ -420,7 +420,7 @@ namespace Olsson.GET.Managers.Runs
                 return null;
             }
 
-            var mainFileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, fileData.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var mainFileData = blobFileAccessor.GetFile(OutputFilePathForRun(run.FileStorageLocator, fileData.First().FullName), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             var mainFileString = Encoding.UTF8.GetString(mainFileData);
             var fileDetails = JsonConvert.DeserializeObject<WaterChangeResultHelper>(mainFileString);
 
@@ -579,28 +579,28 @@ namespace Olsson.GET.Managers.Runs
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
             //Copy canal file
-            var parsedInputFileContent = fileAccessor.GetFile(ParsedCanalInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var parsedInputFileContent = fileAccessor.GetFile(ParsedCanalInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (parsedInputFileContent != null)
             {
                 fileAccessor.SaveFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, parsedInputFileContent);
             }
 
             //copy map input file
-            var parsedWellInputFileContent = fileAccessor.GetFile(ParsedWellInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var parsedWellInputFileContent = fileAccessor.GetFile(ParsedWellInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (parsedWellInputFileContent != null)
             {
                 fileAccessor.SaveFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, parsedWellInputFileContent);
             }
 
             //copy zone input file
-            var parsedZoneInputFileContent = fileAccessor.GetFile(ParsedZoneInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var parsedZoneInputFileContent = fileAccessor.GetFile(ParsedZoneInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (parsedZoneInputFileContent != null)
             {
                 fileAccessor.SaveFile(ParsedZoneInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, parsedZoneInputFileContent);
             }
 
             //copy map particle input file
-            var parsedWellParticleInputFileContent = fileAccessor.GetFile(ParsedWellParticleInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var parsedWellParticleInputFileContent = fileAccessor.GetFile(ParsedWellParticleInputFilePathForRun(originalLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (parsedWellParticleInputFileContent != null)
             {
                 fileAccessor.SaveFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, parsedWellParticleInputFileContent);
@@ -799,7 +799,7 @@ namespace Olsson.GET.Managers.Runs
         {
             Logger.Info($"Finding input file for run {run.RunID}");
 
-            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
             if (data == null)
             {
@@ -815,7 +815,7 @@ namespace Olsson.GET.Managers.Runs
         {
             Logger.Info($"Finding input file for run {run.RunID}");
 
-            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
             var csvData = JsonConvert.DeserializeObject<List<RunWellInput>>(Encoding.UTF8.GetString(data));
 
@@ -826,7 +826,7 @@ namespace Olsson.GET.Managers.Runs
         {
             Logger.Info($"Finding input file for run {run.RunID}");
 
-            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
             var csvData = JsonConvert.DeserializeObject<List<RunWellParticleInput>>(Encoding.UTF8.GetString(data));
 
@@ -836,7 +836,7 @@ namespace Olsson.GET.Managers.Runs
         public byte[] DownloadKmlFile(string fileStorageLocator, string filename, int runResultId)
         {
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
-            return fileAccessor.GetFile(StorageLocations.OutputFilePathForRun(fileStorageLocator, $"!{runResultId.ToString().PadLeft(3, '0')}-{filename}.kml"), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            return fileAccessor.GetFile(StorageLocations.OutputFilePathForRun(fileStorageLocator, $"!{runResultId.ToString().PadLeft(3, '0')}-{filename}.kml"), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
         }
 
         public RunResultDetails FindRunResultDetails(string fileStorageLocator, int runResultId)
@@ -853,7 +853,7 @@ namespace Olsson.GET.Managers.Runs
                 return null;
             }
 
-            var fileData = fileAccessor.GetFile(OutputFilePathForRun(fileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var fileData = fileAccessor.GetFile(OutputFilePathForRun(fileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
             var runResultDetails = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(fileData));
 
@@ -893,7 +893,7 @@ namespace Olsson.GET.Managers.Runs
                     return null;
                 }
 
-                var fileData = fileAccessor.GetFile(OutputFilePathForRun(runResult.FileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                var fileData = fileAccessor.GetFile(OutputFilePathForRun(runResult.FileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
                 var runResultDetails = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(fileData));
 
                 foreach (var resultSetDetails in runResultDetails.ResultSets)
@@ -959,7 +959,7 @@ namespace Olsson.GET.Managers.Runs
                 return null;
             }
 
-            var fileData = fileAccessor.GetFile(OutputFilePathForRun(fileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var fileData = fileAccessor.GetFile(OutputFilePathForRun(fileStorageLocator, file.Name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
             return System.Text.Encoding.UTF8.GetString(fileData);
         }
@@ -1152,7 +1152,7 @@ namespace Olsson.GET.Managers.Runs
             var apiFunctionsAccessor = AccessorFactory.CreateAccessor<IAPIFunctionsAccessor>();
             var run = runAccessor.FindRun(runId);
 
-            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellParticleMapInputData != null)
             {
                 run.RunWellParticleInputs = (JsonConvert.DeserializeObject<RunWellParticleInput[]>(Encoding.UTF8.GetString(wellParticleMapInputData))).ToList();
@@ -1306,7 +1306,7 @@ namespace Olsson.GET.Managers.Runs
 
             var modelInputOutputEngine = new ModelInputOutputEngineFactory().CreateModelInputOutputEngine(run);
 
-            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            var wellParticleMapInputData = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
             if (wellParticleMapInputData != null)
             {
                 run.RunWellParticleInputs = (JsonConvert.DeserializeObject<RunWellParticleInput[]>(Encoding.UTF8.GetString(wellParticleMapInputData))).ToList();
@@ -1519,7 +1519,8 @@ namespace Olsson.GET.Managers.Runs
             var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId, customerId);
 
             //save parsed inputs                
-            AccessorFactory.CreateAccessor<IBlobFileAccessor>().SaveFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(wellData)));
+            var serializeObject = JsonConvert.SerializeObject(wellData);
+            AccessorFactory.CreateAccessor<IBlobFileAccessor>().SaveFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, Encoding.UTF8.GetBytes(serializeObject));
 
             return true;
         }
