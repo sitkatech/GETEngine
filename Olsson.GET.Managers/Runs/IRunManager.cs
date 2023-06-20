@@ -107,7 +107,7 @@ namespace Olsson.GET.Managers.Runs
 
         byte[] DownloadKmlFile(string fileStorageLocator, string filename, int runResultId);
 
-        bool UploadInputFile(Run run, string name, byte[] fileContent);
+        Task<bool> UploadInputFile(Run run, string name, byte[] fileContent);
 
         bool DeleteInputFile(string fileLocator, string filename);
 

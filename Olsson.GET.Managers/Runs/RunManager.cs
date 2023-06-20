@@ -762,13 +762,13 @@ namespace Olsson.GET.Managers.Runs
             return parseResult;
         }
 
-        public bool UploadInputFile(Run run, string name, byte[] fileContent)
+        public async Task<bool> UploadInputFile(Run run, string name, byte[] fileContent)
         {
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
             if (run.Scenario.ScenarioFiles.Any(x => x.ScenarioFileName.Equals(name, StringComparison.InvariantCultureIgnoreCase)))
             {
-                blobFileAccessor.SaveFile(StorageLocations.InputFilePathForRun(run.FileStorageLocator, name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, fileContent);
+                await blobFileAccessor.SaveFile(StorageLocations.InputFilePathForRun(run.FileStorageLocator, name), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, fileContent);
 
                 return true;
             }

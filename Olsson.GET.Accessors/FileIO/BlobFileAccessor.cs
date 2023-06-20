@@ -84,7 +84,7 @@ namespace Olsson.GET.Accessors.FileIO
             return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
-        public async void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null)
+        public async Task SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null)
         {
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
             await blockBlob.DeleteIfExistsAsync();
@@ -98,7 +98,7 @@ namespace Olsson.GET.Accessors.FileIO
             await blockBlob.UploadFromStreamAsync(ms);
         }
 
-        public async void SaveFile(string destinationFilePath, string fileLocation, string originFilePath)
+        public async Task SaveFile(string destinationFilePath, string fileLocation, string originFilePath)
         {
             var blockBlob = await GetBlockBlobReference(fileLocation, destinationFilePath);
 

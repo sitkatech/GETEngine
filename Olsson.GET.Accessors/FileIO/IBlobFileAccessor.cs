@@ -5,7 +5,7 @@ namespace Olsson.GET.Accessors.FileIO
 {
     public interface IBlobFileAccessor
     {
-        void SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null);
+        Task SaveFile(string filePath, string fileLocation, byte[] fileContent, string contentType = null);
 
         Task<byte[]> GetFile(string filePath, string fileLocation);
 
@@ -13,7 +13,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         Task<List<string>> GetFilesInDirectory(string directoryPath, string fileLocation);
 
-        void SaveFile(string destinationFilePath, string fileLocation, string originFilePath);
+        Task SaveFile(string destinationFilePath, string fileLocation, string originFilePath);
 
         void DeleteFile(string filePath, string fileLocation);
 
