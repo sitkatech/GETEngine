@@ -23,7 +23,10 @@ namespace Olsson.GET.Common.Utilities
         {
             try
             {
+                
                 EnsureDatabase.For.SqlDatabase(_connectionString);
+
+
 
                 UpgradeEngine migrator = DeployChanges.To
                                                       .SqlDatabase(_connectionString)
@@ -33,6 +36,10 @@ namespace Olsson.GET.Common.Utilities
                                                       .WithExecutionTimeout(TimeSpan.FromSeconds(180))
                                                       .LogToConsole()
                                                       .Build();
+
+                var test = migrator.GetDiscoveredScripts();
+                var test2 = migrator.GetExecutedScripts();
+                var test3 = migrator.GetScriptsToExecute();
 
                 DatabaseUpgradeResult result = migrator.PerformUpgrade();
 

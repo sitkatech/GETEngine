@@ -107,20 +107,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\004\004.ModelMapOutputFiles.sql" />
   </ItemGroup>
+
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Olsson.GET.Common.Shared\Configs\appsettings.json" Link="appsettings.json" />
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\004\005.ModelMapOutputFiles.sql" />
@@ -657,7 +649,7 @@
     <EmbeddedResource Include="Migrations\017\008.Add TokenProtectedEsriFeatureServer to ExternalMapLayerType and Token to ExternalMapLayer.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\018\001.Remove MapModelArea InputZoneData and OutputZoneData.sql" />
+    <EmbeddedResource Include="Migrations\018\001.Remove MapModelArea, InputZoneData and OutputZoneData from Model table into their own tables to speed up application.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\018\002.Correct error in upsert model procedure.sql" />
@@ -681,9 +673,7 @@
     <EmbeddedResource Include="Migrations\021\001.Remove UpsertModel sproc.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="dbup">
-      <Version>3.3.5</Version>
-    </PackageReference>
+    <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>

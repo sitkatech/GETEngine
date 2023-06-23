@@ -53,7 +53,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         }
 
         [TestMethod]
-        public void UpdateFlowInputs_OneLocation()
+        public async void UpdateFlowInputs_OneLocation()
         {
             ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
@@ -99,7 +99,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     }
                 })));
             var sut = CreateAddWellMapInputSubEngine();
-            var updateNodeRatesResult = sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
+            var updateNodeRatesResult = await sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
 
             Assert.IsNotNull(updateNodeRatesResult);
             Assert.AreEqual(1, updateNodeRatesResult.StressPeriods.Count);
@@ -111,7 +111,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         }
 
         [TestMethod]
-        public void UpdateFlowInputs_OneLocation_ShouldSwitchSign()
+        public async void UpdateFlowInputs_OneLocation_ShouldSwitchSign()
         {
             ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
@@ -160,7 +160,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
             _run.Scenario.ShouldSwitchSign = true;
 
             var sut = CreateAddWellMapInputSubEngine();
-            var updateNodeRatesResult = sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
+            var updateNodeRatesResult = await sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
 
             Assert.IsNotNull(updateNodeRatesResult);
             Assert.AreEqual(1, updateNodeRatesResult.StressPeriods.Count);

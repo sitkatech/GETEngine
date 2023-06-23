@@ -5,8 +5,6 @@
     <RootNamespace>Olsson.GET.Clients.Agent</RootNamespace>
     <AssemblyName>Olsson.GET.Clients.Agent</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>false</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
