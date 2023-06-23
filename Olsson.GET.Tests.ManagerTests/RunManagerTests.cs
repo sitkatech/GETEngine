@@ -60,7 +60,7 @@ namespace Olsson.GET.Tests.ManagerTests
                 });
             _blobFileAccessorMock.Arrange(a =>
                     a.GetFile($"{fileStorageLocator}/outputs/11-Fake file title.json", Arg.AnyString))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RunResultDetails
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RunResultDetails
                 {
                     RunResultId = 11,
                     RunResultName = "fake stuff"
@@ -88,7 +88,7 @@ namespace Olsson.GET.Tests.ManagerTests
                 });
             _blobFileAccessorMock.Arrange(a =>
                     a.GetFile($"{fileStorageLocator}/outputs/11-Fake file title.json", Arg.AnyString))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RunResultDetails
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new RunResultDetails
                 {
                     RunResultId = 11,
                     RunResultName = "fake stuff"
@@ -119,7 +119,7 @@ namespace Olsson.GET.Tests.ManagerTests
                     "10-Something else.json",
                     "11-Fake file title.json"
                 });
-            _blobFileAccessorMock.Arrange(a => a.GetFile(Arg.AnyString, Arg.AnyString)).Returns(fakeMapData);
+            _blobFileAccessorMock.Arrange(a => a.GetFile(Arg.AnyString, Arg.AnyString)).ReturnsAsync(fakeMapData);
             
             _runAccessorMock.Arrange(a => a.FindRun(12, 5))
                 .Returns(new Run
@@ -209,8 +209,8 @@ namespace Olsson.GET.Tests.ManagerTests
             _runAccessorMock.Arrange(a => a.FindRun(Arg.AnyInt, Arg.AnyInt)).Returns(existingRun);
             _runAccessorMock.Arrange(a => a.CreateOrUpdateRun(Arg.IsAny<Run>())).Returns(existingRun);
 
-            _blobFileAccessorMock.Arrange(a => a.GetFile(Arg.AnyString, Arg.AnyString)).Returns(Encoding.UTF8.GetBytes("test"));
-            _blobFileAccessorMock.Arrange(a => a.SaveFile(Arg.AnyString, Arg.AnyString, Arg.IsAny<byte[]>(), null));
+            _blobFileAccessorMock.Arrange(a => a.GetFile(Arg.AnyString, Arg.AnyString)).ReturnsAsync(Encoding.UTF8.GetBytes("test"));
+            _blobFileAccessorMock.Arrange(a => a.SaveFile(Arg.AnyString, Arg.AnyString, Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
 
             _customerAccessorMock.Arrange(a => a.FindAllModelsForCustomer(Arg.AnyInt))
                 .Returns(new[] { new CustomerModelWithScenariosDto() { ModelID = 2 } });
