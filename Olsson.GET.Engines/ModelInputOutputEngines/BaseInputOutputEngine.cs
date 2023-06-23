@@ -17,7 +17,10 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         protected static void WriteOutputFile(Run run, IBlobFileAccessor fileAccessor, RunResultDetails result, bool hidden, string name)
         {
             result.Version = "1.0";
-            fileAccessor.SaveFile(StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{(hidden ? "!" : "")}{result.RunResultId.ToString().PadLeft(3, '0')}-{name}.json"), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result)));
+            var outputFilePathForRun = StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{(hidden ? "!" : "")}{result.RunResultId.ToString().PadLeft(3, '0')}-{name}.json");
+            var appSettingsBlobStorageModelDataFolder = ConfigurationHelper.AppSettings.BlobStorageModelDataFolder;
+            var fileContent = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result));
+            fileAccessor.SaveFile(outputFilePathForRun, appSettingsBlobStorageModelDataFolder, fileContent).Wait();
         }
 
         protected static void WriteKmlFile(Run run, IBlobFileAccessor fileAccessor, RunResultDetails result, bool hidden, string name)

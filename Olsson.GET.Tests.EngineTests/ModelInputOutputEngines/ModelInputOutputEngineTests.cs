@@ -9,9 +9,11 @@ using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using System.Configuration;
 using System.Text;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Models;
+using Olsson.GET.Common.Utilities;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using ModelExecutable = Olsson.GET.Common.DataContracts.Models.ModelExecutable;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
@@ -29,7 +31,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void IdsWithHeatMapsGenerated()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _calculateImpactToBaseflowResults.Add(new RunResultDetails { RunResultName = "I2BF" });
             _createWaterLevelHeatMapResults = (new RelatedResultDetails
             {
@@ -75,13 +77,13 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     RunResultName = "List"
                 }
             }, null);
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-I2BF.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/003-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/005-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-I2BF.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/003-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/005-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
 
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetPointsOfInterest()).Returns(new List<PointOfInterest>());
             _modflowFileAccessorMock.Arrange(mfa => mfa.FindLocationCell(Arg.IsAny<double>(), Arg.IsAny<double>())).Returns(new LocationWithBounds());
@@ -103,7 +105,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void EmptyImpactToBaseflow()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _createWaterLevelHeatMapResults = (new RelatedResultDetails
             {
                 RelatedResults = new List<RunResultDetails>
@@ -148,12 +150,12 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     RunResultName = "List"
                 }
             }, null);
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!002-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/004-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask); ;
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!002-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/004-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
 
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetPointsOfInterest()).Returns(new List<PointOfInterest>());
             _modflowFileAccessorMock.Arrange(mfa => mfa.FindLocationCell(Arg.IsAny<double>(), Arg.IsAny<double>())).Returns(new LocationWithBounds());
@@ -175,7 +177,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void IdsWithHeatMapsGeneratedButHaveException()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _calculateImpactToBaseflowResults.Add(new RunResultDetails { RunResultName = "I2BF" });
             _createWaterLevelHeatMapResults = (new RelatedResultDetails
             {
@@ -239,15 +241,15 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 },
                 SetName = "ZoneBudget1"
             });
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-I2BF.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/003-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/005-ZoneBudget1.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!006-ZB1-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/007-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-I2BF.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/003-Heat Maps.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-HM1.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!004-HM2.kml", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/005-ZoneBudget1.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!006-ZB1-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/007-List.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask);
 
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetPointsOfInterest()).Returns(new List<PointOfInterest>());
             _modflowFileAccessorMock.Arrange(mfa => mfa.FindLocationCell(Arg.IsAny<double>(), Arg.IsAny<double>())).Returns(new LocationWithBounds());
@@ -272,7 +274,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void GeneratesZoneBudget()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _createZoneBudgetOutputResultsResult.Add(new RelatedResultDetails
             {
                 RelatedResults = new List<RunResultDetails>
@@ -307,11 +309,11 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 },
                 SetName = "ZoneBudget2"
             });
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-ZoneBudget1.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-ZB1-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/004-ZoneBudget2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!005-ZB2-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null));
-            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>()));
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-ZoneBudget1.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!003-ZB1-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/004-ZoneBudget2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/!005-ZB2-2.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null)).Returns(Task.CompletedTask);
+            _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), Arg.IsAny<string>())).Returns(Task.CompletedTask); ;
 
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetPointsOfInterest()).Returns(new List<PointOfInterest>());
             _modflowFileAccessorMock.Arrange(mfa => mfa.FindLocationCell(Arg.IsAny<double>(), Arg.IsAny<double>())).Returns(new LocationWithBounds());
@@ -331,7 +333,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void StressPeriodData_Null()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _getStressPeriodDataResult = null;
 
             var sut = CreateModelInputOutputEngine();
@@ -444,8 +446,12 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetModpathTimeSeriesFileName(Arg.AnyString)).Returns("file.name");
             _modflowFileAccessorMock.Arrange(mfa => mfa.GetModpathTimeSeriesResult(Arg.AnyString)).Returns(new List<ModpathTimeSeries>() { new ModpathTimeSeries() { Layer = 1, LocalX = 0.5, LocalY = 0.5, CellNumber = 4000 } });
             _modflowFileAccessorMock.Arrange(mfa => mfa.FindCellBounds(Arg.AnyString)).Returns(new List<Coordinate>() { new Coordinate() { Lat = 0, Lng = 0 }, new Coordinate() { Lat = 10, Lng = 10 } });
-            _fileAccessorMock.Arrange(fa => fa.SaveFile(Arg.AnyString, Arg.AnyString, Arg.IsAny<byte[]>(), null))
-                .DoInstead((string path, string loc, byte[] data) => { savedFile = Encoding.Default.GetString(data); });
+            _fileAccessorMock
+                .Arrange(fa => fa.SaveFile(Arg.AnyString, Arg.AnyString, Arg.IsAny<byte[]>(), null))
+                .DoInstead((string path, string loc, byte[] data) =>
+                {
+                    savedFile = Encoding.Default.GetString(data);
+                }).Returns(Task.CompletedTask);
 
             modpathEngine.GenerateOutputFiles(run);
 

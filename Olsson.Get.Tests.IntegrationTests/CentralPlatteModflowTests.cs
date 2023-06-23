@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Telerik.JustMock.Helpers;
 using Olsson.GET.Tests.EngineTests;
 using Olsson.GET.Accessors.EntityFramework;
+using Olsson.GET.Common.Utilities;
 using SqlServerTypes;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
@@ -65,8 +66,8 @@ namespace IntegrationTests
         [TestMethod]
         public void GeneratesOutputFiles()
         {
-            ConfigurationManager.AppSettings["ModflowDataFolder"] = @"ModflowTestFiles\CentralPlatteNaturalResourceDistrictSample";
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.ModflowDataFolder = @"ModflowTestFiles\CentralPlatteNaturalResourceDistrictSample";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             RunResultDetails totalResult = null;
             RunResultDetails pointsOfInterestResult = null;
             RunResultDetails listFileResult = null;

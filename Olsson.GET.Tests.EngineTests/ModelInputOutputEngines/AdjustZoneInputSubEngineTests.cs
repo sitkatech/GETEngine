@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using Olsson.GET.Common.DataContracts.Scenarios;
+using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
 {
@@ -46,7 +47,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsInOneZone()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -69,7 +70,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "abc" }
                 })));
@@ -86,7 +87,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsInNoZones()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -109,7 +110,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string>());
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "abc" }
                 })));
@@ -126,7 +127,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsInMultipleZones()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -149,7 +150,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc", "def" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "abc" },
                     new RunZoneInput{ Adjustment = 1.5, ZoneNumber = "def" }
@@ -167,7 +168,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_MultipleZonesNotAllAdjusted()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -190,7 +191,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc", "def" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "abc" }
                 })));
@@ -207,7 +208,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_MultipleZonesNoneAdjusted()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -230,7 +231,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc", "def" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "xyz" }
                 })));
@@ -247,7 +248,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsInOneZone_ShouldSwitchSign()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -270,7 +271,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = .5, ZoneNumber = "abc" }
                 })));
@@ -290,7 +291,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsInOneZone_ShouldSwitchSign_Smaller()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -313,7 +314,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 .Returns(new List<string> { "abc" });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapzoneinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunZoneInput>
                 {
                     new RunZoneInput{ Adjustment = 1.75, ZoneNumber = "abc" }
                 })));

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
+using Olsson.GET.Common.Utilities;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using Olsson.GET.Engines.ModelInputOutputEngines;
@@ -56,7 +57,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_BasicInput()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -80,7 +81,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -111,7 +112,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_LeapYear()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _model.StartDateTime = new DateTime(2012, 2, 1);
 
             var existingFlows = new StressPeriodsLocationRates
@@ -137,7 +138,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -168,7 +169,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_OverOneYear()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -324,7 +325,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -355,7 +356,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_DateTooLate_ZeroValue()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -379,7 +380,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<Olsson.GET.Common.DataContracts.Runs.RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<Olsson.GET.Common.DataContracts.Runs.RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -408,7 +409,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_DateTooLate_NonZeroValue()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -432,7 +433,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -455,7 +456,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_DateTooEarly_ZeroValue()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -479,7 +480,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -508,7 +509,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_DateTooEarly_NonZeroValue()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -532,7 +533,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -555,7 +556,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_ZeroInput()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -579,7 +580,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -608,7 +609,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_SameNode()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -632,7 +633,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "1", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -663,7 +664,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_MultipleDates()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -698,7 +699,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -749,7 +750,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_MultipleDates_OverTwoYears()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             _model.ModelStressPeriodCustomStartDates = new List<ModelStressPeriodCustomStartDate>
             {
                 new ModelStressPeriodCustomStartDate()
@@ -797,7 +798,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -848,7 +849,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_ProportionedCanalInput()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -873,7 +874,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "3", Proportion = .25}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -906,7 +907,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_IsClnWell()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -931,7 +932,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1, IsClnWell = true}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {
@@ -964,7 +965,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         [TestMethod]
         public void UpdateFlowInputs_BasicInput_ShouldSwitchSign()
         {
-            ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
             {
                 StressPeriods = new List<StressPeriodLocationRates>
@@ -988,7 +989,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     new LocationProportion {Location = "2", Proportion = 1}
                 });
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/inputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunCanalInput>
                 {
                     new RunCanalInput
                     {

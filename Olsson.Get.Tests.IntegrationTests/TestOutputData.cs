@@ -21,8 +21,8 @@ namespace IntegrationTests
         //[TestMethod]
         //public void Test()
         //{
-        //    ConfigurationManager.AppSettings["ModflowDataFolder"] = @"C:\Temp\modeldump";
-        //    ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+        //    ConfigurationHelper.AppSettings.ModflowDataFolder = @"C:\Temp\modeldump";
+        //    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
 
         //    _model = new ModelAccessor().FindAllModels().First(a => a.Id == 2);
 
@@ -50,8 +50,8 @@ namespace IntegrationTests
         //[TestMethod]
         //public void Test_cpnrd()
         //{
-        //    ConfigurationManager.AppSettings["ModflowDataFolder"] = @"C:\Temp\dockermodeldump_cpnrd";
-        //    ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+        //    ConfigurationHelper.AppSettings.ModflowDataFolder = @"C:\Temp\dockermodeldump_cpnrd";
+        //    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
 
         //    _model.MapRunFileName = "CPNRD.hds";
 
@@ -79,8 +79,8 @@ namespace IntegrationTests
         //[TestMethod]
         //public void Test_cohyst()
         //{
-        //    ConfigurationManager.AppSettings["ModflowDataFolder"] = @"C:\Temp\dockermodeldump_cohyst";
-        //    ConfigurationManager.AppSettings["BlobStorageModelDataFolder"] = "fakeModelDataFolder";
+        //    ConfigurationHelper.AppSettings.ModflowDataFolder = @"C:\Temp\dockermodeldump_cohyst";
+        //    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
 
         //    _model.NamFileName = "COHYST2010_28b_14_28.nam";
         //    _model.RunFileName = "COHYST2010_28b_14_28_sfr.out";

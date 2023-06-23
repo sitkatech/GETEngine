@@ -53,7 +53,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         }
 
         [TestMethod]
-        public async void UpdateFlowInputs_OneLocation()
+        public void UpdateFlowInputs_OneLocation()
         {
             ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
@@ -81,7 +81,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunWellInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunWellInput>
                 {
                     new RunWellInput
                     {
@@ -99,7 +99,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                     }
                 })));
             var sut = CreateAddWellMapInputSubEngine();
-            var updateNodeRatesResult = await sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
+            var updateNodeRatesResult = sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run).Result;
 
             Assert.IsNotNull(updateNodeRatesResult);
             Assert.AreEqual(1, updateNodeRatesResult.StressPeriods.Count);
@@ -111,7 +111,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
         }
 
         [TestMethod]
-        public async void UpdateFlowInputs_OneLocation_ShouldSwitchSign()
+        public void UpdateFlowInputs_OneLocation_ShouldSwitchSign()
         {
             ConfigurationHelper.AppSettings.BlobStorageModelDataFolder = "fakeModelDataFolder";
             var existingFlows = new StressPeriodsLocationRates
@@ -139,7 +139,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
                 });
 
             _fileAccessorMock.Arrange(a => a.GetFile("fakeLocator/inputs/mapinputs.json", "fakeModelDataFolder"))
-                .Returns(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunWellInput>
+                .ReturnsAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new List<RunWellInput>
                 {
                     new RunWellInput
                     {
@@ -160,7 +160,7 @@ namespace Olsson.GET.Tests.EngineTests.ModelInputOutputEngines
             _run.Scenario.ShouldSwitchSign = true;
 
             var sut = CreateAddWellMapInputSubEngine();
-            var updateNodeRatesResult = await sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run);
+            var updateNodeRatesResult = sut.UpdateFlowInputs(_modflowFileAccessorMock, _fileAccessorMock, existingFlows, _run).Result;
 
             Assert.IsNotNull(updateNodeRatesResult);
             Assert.AreEqual(1, updateNodeRatesResult.StressPeriods.Count);
