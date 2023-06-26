@@ -1,16 +1,4 @@
-﻿using log4net;
-
-using Olsson.GET.Common.DataContracts.Container;
-using Olsson.GET.Common.Shared.Enums;
-using Olsson.GET.Common.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Azure;
+﻿using Azure;
 using Azure.Core;
 using Azure.Identity;
 using Azure.ResourceManager;
@@ -18,6 +6,15 @@ using Azure.ResourceManager.ContainerInstance;
 using Azure.ResourceManager.ContainerInstance.Models;
 using Azure.ResourceManager.Resources;
 using Microsoft.Extensions.Logging;
+using Olsson.GET.Common.DataContracts.Container;
+using Olsson.GET.Common.Shared.Enums;
+using Olsson.GET.Common.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using ContainerEvent = Olsson.GET.Common.DataContracts.Container.ContainerEvent;
 
 namespace Olsson.GET.Accessors.Containers

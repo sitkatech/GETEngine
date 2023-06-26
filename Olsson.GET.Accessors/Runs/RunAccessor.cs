@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.DataContracts.Scenarios;
 using Olsson.GET.Common.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 using RunBucket = Olsson.GET.Common.DataContracts.Runs.RunBucket;
-using Scenario = Olsson.GET.Common.DataContracts.Scenarios.Scenario;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;
+using Scenario = Olsson.GET.Common.DataContracts.Scenarios.Scenario;
 
 namespace Olsson.GET.Accessors.Runs
 {

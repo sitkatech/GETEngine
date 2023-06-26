@@ -1,10 +1,9 @@
-﻿using Olsson.GET.Accessors;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors;
+using Olsson.GET.Common.Utilities;
 using Olsson.GET.Engines;
 using System;
 using System.Threading.Tasks;
-using log4net;
-using Microsoft.Extensions.Logging;
-using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Managers
 {

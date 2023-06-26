@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
+using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
-using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Accessors.EntityFramework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 

@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -11,7 +11,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 using static System.String;
 using DataContractsModels = Olsson.GET.Common.DataContracts.Models;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;

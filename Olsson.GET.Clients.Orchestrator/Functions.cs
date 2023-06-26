@@ -1,21 +1,18 @@
-﻿using System;
-using System.Configuration;
-using Microsoft.Azure.WebJobs;
+﻿using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+using Olsson.GET.Common.Shared.Enums;
+using Olsson.GET.Common.Shared.Extensions;
 using Olsson.GET.Common.Utilities;
-using log4net;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
-using Olsson.GET.Common.Shared.Extensions;
-using Olsson.GET.Common.Shared.Enums;
+using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
     public class Functions
     {
-        private static readonly ILogger Logger = Logging.GetLogger< Functions>();
+        private static readonly ILogger Logger = Logging.GetLogger<Functions>();
         private static readonly ManagerFactory factory = new ManagerFactory();
         private static IRunManager RunManager => factory.CreateManager<IRunManager>();
 #if DEBUG

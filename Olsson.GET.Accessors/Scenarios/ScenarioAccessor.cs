@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Scenario = Olsson.GET.Common.DataContracts.Scenarios.Scenario;
 using ScenarioDocumentationImage = Olsson.GET.Common.DataContracts.Scenarios.ScenarioDocumentationImage;
 

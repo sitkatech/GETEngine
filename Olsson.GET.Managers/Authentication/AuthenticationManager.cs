@@ -1,5 +1,4 @@
-﻿using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.Authentication;
 using Olsson.GET.Common.DataContracts.Users;
 using Olsson.GET.Common.Utilities;

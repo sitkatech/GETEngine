@@ -1,7 +1,12 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using log4net;
+using Microsoft.Extensions.Logging;
+using Microsoft.SqlServer.Types;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
 using Newtonsoft.Json;
+using Olsson.GET.Accessors.ExtensionMethods;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -10,12 +15,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Logging;
-using Microsoft.SqlServer.Types;
-using NetTopologySuite.Features;
-using NetTopologySuite.Geometries;
-using NetTopologySuite.IO;
-using Olsson.GET.Accessors.ExtensionMethods;
 
 namespace Olsson.GET.Accessors.FileIO
 {

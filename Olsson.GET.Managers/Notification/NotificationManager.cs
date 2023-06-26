@@ -1,12 +1,11 @@
-﻿using log4net;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.Customers;
 using Olsson.GET.Accessors.Notification;
+using Olsson.GET.Accessors.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Olsson.GET.Accessors.Customers;
-using Olsson.GET.Accessors.Runs;
 
 namespace Olsson.GET.Managers.Notification
 {

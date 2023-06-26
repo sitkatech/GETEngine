@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.Scenarios;
 using Olsson.GET.Common.DataContracts.Scenarios;
 using Olsson.GET.Common.Utilities;
+using System.Collections.Generic;
 
 namespace Olsson.GET.Managers.Scenarios
 {

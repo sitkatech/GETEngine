@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using log4net;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.Customers;
 using Olsson.GET.Common.DataContracts.Customers;
-using Olsson.GET.Common.Utilities;
 using Olsson.GET.Common.DataContracts.Users;
+using Olsson.GET.Common.Utilities;
+using System.Collections.Generic;
 
 namespace Olsson.GET.Managers.Customers
 {

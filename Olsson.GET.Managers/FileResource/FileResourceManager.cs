@@ -1,9 +1,8 @@
-﻿using log4net;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.FileResource;
 using Olsson.GET.Common.DataContracts.FileResource;
 using Olsson.GET.Common.Utilities;
 using System;
-using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Managers.FileResource
 {

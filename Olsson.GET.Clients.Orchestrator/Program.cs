@@ -1,9 +1,8 @@
-﻿using log4net;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
