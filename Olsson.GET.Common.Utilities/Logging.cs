@@ -26,6 +26,11 @@ namespace Olsson.GET.Common.Utilities
             return _loggerFactory.CreateLogger<T>();
         }
 
+        public static ILogger GetLogger(string name)
+        {
+            return _loggerFactory.CreateLogger(name);
+        }
+
         //public static ILog GetLogger(Type type, string subType)
         //{
         //    return LogManager.GetLogger(Assembly.GetEntryAssembly(),type.FullName + "." + subType);

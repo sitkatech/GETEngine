@@ -12,17 +12,34 @@ namespace Olsson.GET.Common.Utilities
         static ConfigurationHelper()
         {
             var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("appsettings.json");
+
+            var environment = GetEnvironment();
+
+            configBuilder.AddJsonFile("appsettings.json", false); // app settings shared between all environments
+            configBuilder.AddJsonFile($"appsettings.{environment}.json", false); // app settings for the hosted environment
+            
+            // if an appsecrets.json file exists, add that
             if (File.Exists($"appsecrets.json"))
             {
                 configBuilder.AddJsonFile($"appsecrets.json");
             }
+
             configBuilder.AddEnvironmentVariables();
 
             var configRoot = configBuilder.Build();
             AppSettings = configRoot.Get<AppSettings>();
             ConnectionStrings = configRoot.Get<ConnectionStrings>();
         }
+
+        public static string GetEnvironment()
+        {
+            return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+                ? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                : !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"))
+                    ? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                    : throw new Exception("Could not find \"Environment\". Tried checking \"ASPNETCORE_ENVIRONMENT\" and \"DOTNET_ENVIRONMENT\" ");
+        }
+
     }
 
     public class ConnectionStrings
