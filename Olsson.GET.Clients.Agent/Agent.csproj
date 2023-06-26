@@ -18,18 +18,6 @@
     <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
-      <Link>Logger.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.Release.config">
-      <Link>Logger.Release.config</Link>
-      <DependentUpon>Logger.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

@@ -25,16 +25,6 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
-      <Link>Logger.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.Release.config">
-      <Link>Logger.Release.config</Link>
-      <DependentUpon>Logger.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

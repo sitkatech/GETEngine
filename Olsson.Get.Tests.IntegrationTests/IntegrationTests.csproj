@@ -18,16 +18,6 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.config">
-      <Link>Logger.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <None Include="..\Olsson.GET.Common.Shared\Configs\Logger.Release.config">
-      <Link>Logger.Release.config</Link>
-      <DependentUpon>Logger.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Update="ModflowTestFiles\CentralPlatteNaturalResourceDistrictSample\Baseline.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
