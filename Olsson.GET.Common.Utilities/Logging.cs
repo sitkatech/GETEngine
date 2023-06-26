@@ -12,9 +12,9 @@ namespace Olsson.GET.Common.Utilities
             _loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
+                    .AddFilter("Default", LogLevel.Information)
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning)
-                    .AddFilter("LoggingConsoleApp.Program", LogLevel.Debug)
                     .AddConsole();
             });
         }
