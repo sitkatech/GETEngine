@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
@@ -10,7 +11,7 @@ namespace Olsson.GET.Clients.Orchestrator
     // To learn more about Microsoft Azure WebJobs SDK, please see https://go.microsoft.com/fwlink/?LinkID=320976
     class Program
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(Program));
+        private static readonly ILogger Logger = Logging.GetLogger<Program>();
         static async Task Main()
         {
             var builder = new HostBuilder();

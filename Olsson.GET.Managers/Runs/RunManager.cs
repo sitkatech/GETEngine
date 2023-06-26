@@ -22,7 +22,7 @@ using Olsson.GET.Accessors.APIFunctions;
 using System.IO;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using System.Threading.Tasks;
-using log4net;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Scenarios;
@@ -36,7 +36,7 @@ namespace Olsson.GET.Managers.Runs
 {
     public class RunManager : BaseManager, IRunManager
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(RunManager));
+        private static readonly ILogger Logger = Logging.GetLogger<RunManager>();
         private static readonly Regex FileNameParseRegEx = new Regex(@"(?<hidden>!?)(?<id>\d+)\-(?<name>[^\\]+)((?=(?<extension>\.json))|(?=(?<extension>\.kml)))", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         private const string WaterLevelChangeFileName = "Water Level Change";
         private const string WaterLevelFileName = "Water Level";
@@ -48,7 +48,7 @@ namespace Olsson.GET.Managers.Runs
         private static readonly int MaxNumRestarts = 1;
         public Run CreateOrUpdateRun(Run run)
         {
-            Logger.Info("Creating or Updating run");
+            Logger.LogInformation("Creating or Updating run");
 
             if (!AccessorFactory.CreateAccessor<ICustomerAccessor>().FindAllModelsForCustomer(run.CustomerID)
                 .Select(m => m.ModelID).Contains(run.ModelID))
@@ -61,7 +61,7 @@ namespace Olsson.GET.Managers.Runs
 
         public Run FindRun(int runId, int customerId, bool includeHiddenFiles = false)
         {
-            Logger.Info($"Finding run {runId} for customer {customerId}");
+            Logger.LogInformation($"Finding run {runId} for customer {customerId}");
 
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
@@ -132,7 +132,7 @@ namespace Olsson.GET.Managers.Runs
 
         public Run FindRun(int runId, bool includeHiddenFiles = false)
         {
-            Logger.Info($"Finding run {runId}");
+            Logger.LogInformation($"Finding run {runId}");
 
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
@@ -204,7 +204,7 @@ namespace Olsson.GET.Managers.Runs
 
         public List<AvailableRunResult> FindAvailableRunResults(int runId, int customerId)
         {
-            Logger.Info($"Finding run {runId} for customer {customerId}");
+            Logger.LogInformation($"Finding run {runId} for customer {customerId}");
 
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
@@ -308,7 +308,7 @@ namespace Olsson.GET.Managers.Runs
 
         public RunResultResponseModel GetRunResult(int runId, int customerId, string fileName, string subType, string fileType)
         {
-            Logger.Info($"Finding run results {fileName}/{subType}{fileType} for run {runId} for customer {customerId}");
+            Logger.LogInformation($"Finding run results {fileName}/{subType}{fileType} for run {runId} for customer {customerId}");
 
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
@@ -373,13 +373,13 @@ namespace Olsson.GET.Managers.Runs
 
         public List<Run> FindRunsById(List<int> runIDs)
         {
-            Logger.Info("Finding runs for report generator");
+            Logger.LogInformation("Finding runs for report generator");
             return AccessorFactory.CreateAccessor<IRunAccessor>().FindRunsById(runIDs);
         }
 
         public Run FindRunById(int selectedModelID)
         {
-            Logger.Info("Finding runs for report generator");
+            Logger.LogInformation("Finding runs for report generator");
             return AccessorFactory.CreateAccessor<IRunAccessor>().FindRunById(selectedModelID);
         }
 
@@ -500,7 +500,7 @@ namespace Olsson.GET.Managers.Runs
 
         public List<Run> FindRuns(int userId, int customerId, RunFilter filter, int pageNum = 0)
         {
-            Logger.Info($"Finding runs for user {userId} customer {customerId} for page #{pageNum}");
+            Logger.LogInformation($"Finding runs for user {userId} customer {customerId} for page #{pageNum}");
 
             var recordCount = ConfigurationHelper.AppSettings.DashboardPageRecordCount;
 
@@ -621,7 +621,7 @@ namespace Olsson.GET.Managers.Runs
 
         public RunBucket FindRunBucket(int bucketId, int customerId)
         {
-            Logger.Info($"Finding action bucket with ID {bucketId} for customer {customerId}");
+            Logger.LogInformation($"Finding action bucket with ID {bucketId} for customer {customerId}");
             var runBucket = AccessorFactory.CreateAccessor<IRunAccessor>().FindRunBucket(bucketId, customerId);
             runBucket.AvailableRunResults = new List<RunResultListItem>();
 
@@ -662,7 +662,7 @@ namespace Olsson.GET.Managers.Runs
 
         public List<RunBucket> GetRunBuckets(int userId, int customerId)
         {
-            Logger.Info($"Finding action buckets for user {userId} customer {customerId}");
+            Logger.LogInformation($"Finding action buckets for user {userId} customer {customerId}");
             return AccessorFactory.CreateAccessor<IRunAccessor>().GetRunBuckets(userId, customerId); ;
         }
 
@@ -797,7 +797,7 @@ namespace Olsson.GET.Managers.Runs
 
         public byte[] FindCanalRunInputFile(Run run)
         {
-            Logger.Info($"Finding input file for run {run.RunID}");
+            Logger.LogInformation($"Finding input file for run {run.RunID}");
 
             var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedCanalInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
@@ -813,7 +813,7 @@ namespace Olsson.GET.Managers.Runs
 
         public byte[] FindWellRunInputFile(Run run)
         {
-            Logger.Info($"Finding input file for run {run.RunID}");
+            Logger.LogInformation($"Finding input file for run {run.RunID}");
 
             var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
@@ -824,7 +824,7 @@ namespace Olsson.GET.Managers.Runs
 
         public byte[] FindWellParticleRunInputFile(Run run)
         {
-            Logger.Info($"Finding input file for run {run.RunID}");
+            Logger.LogInformation($"Finding input file for run {run.RunID}");
 
             var data = AccessorFactory.CreateAccessor<IBlobFileAccessor>().GetFile(ParsedWellParticleInputFilePathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
@@ -966,7 +966,7 @@ namespace Olsson.GET.Managers.Runs
 
         public bool QueueRun(int runId, int customerId, bool shouldCreateMaps)
         {
-            Logger.Info($"Queuing run {runId} for customer {customerId}");
+            Logger.LogInformation($"Queuing run {runId} for customer {customerId}");
 
             var accessor = AccessorFactory.CreateAccessor<IRunAccessor>();
 
@@ -1072,7 +1072,7 @@ namespace Olsson.GET.Managers.Runs
                 catch (Exception ex)
                 {
                     startException = ex;
-                    Logger.Error($"Error while starting container: {ex.AllExceptionMessages()}");
+                    Logger.LogError($"Error while starting container: {ex.AllExceptionMessages()}");
                 }
             }
             // start regular docker container
@@ -1108,7 +1108,7 @@ namespace Olsson.GET.Managers.Runs
                 catch (Exception ex)
                 {
                     startException = ex;
-                    Logger.Error($"Error while starting container: {ex.AllExceptionMessages()}");
+                    Logger.LogError($"Error while starting container: {ex.AllExceptionMessages()}");
                 }
             }
 
@@ -1143,7 +1143,7 @@ namespace Olsson.GET.Managers.Runs
 
         public bool GenerateInputFiles(int runId)
         {
-            Logger.Info($"Generating input files for run {runId}:");
+            Logger.LogInformation($"Generating input files for run {runId}:");
             var fileAccessor = AccessorFactory.CreateAccessor<IFileAccessor>();
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
             var initialFiles = fileAccessor.GetFilesInModflowDataFolder();
@@ -1167,14 +1167,14 @@ namespace Olsson.GET.Managers.Runs
             }
             catch (InputDataInvalidException diex)
             {
-                Logger.Error(diex);
+                Logger.LogError(diex.Message);
                 runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, RunStatus.InvalidInput.RunStatusID);
                 apiFunctionsAccessor.NotificationFunctionCall(run.RunID, false, diex);
                 return false;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, RunStatus.SystemError.RunStatusID);
                 apiFunctionsAccessor.NotificationFunctionCall(run.RunID, true, ex);
                 return false;
@@ -1262,7 +1262,7 @@ namespace Olsson.GET.Managers.Runs
                 runAccessor.UpdateRunOutput(run.RunID, run.CustomerID, runResult.ConsoleOutput);
                 if (!analysisEngineSuccess)
                 {
-                    Logger.Error("Analysis failed to complete successfully.  Still will attempt to generate outputs.");
+                    Logger.LogError("Analysis failed to complete successfully.  Still will attempt to generate outputs.");
                     break;
                 }
             }
@@ -1319,14 +1319,14 @@ namespace Olsson.GET.Managers.Runs
             }
             catch (OutputDataInvalidException diex)
             {
-                Logger.Error(diex);
+                Logger.LogError(diex.Message);
                 runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, diex.Status);
                 apiFunctionsAccessor.NotificationFunctionCall(run.RunID, false, diex);
                 return false;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, RunStatus.SystemError.RunStatusID);
                 apiFunctionsAccessor.NotificationFunctionCall(run.RunID, true, ex);
                 return false;
@@ -1442,27 +1442,27 @@ namespace Olsson.GET.Managers.Runs
 
         private void RestartContainer(Run run, string containerId, IRunAccessor runAccessor, IContainerAccessor containerAccessor, IAPIFunctionsAccessor apiFunctionsAccessor)
         {
-            Logger.Warn($"Entering RestartContainer flow for Run:[{run.RunID}] Container:[{containerId}]");
+            Logger.LogWarning($"Entering RestartContainer flow for Run:[{run.RunID}] Container:[{containerId}]");
             if (run.RestartCount < MaxNumRestarts)
             {
-                Logger.Warn($"Run:[{run.RunID}] has not yet been restarted. Attempting restart");
+                Logger.LogWarning($"Run:[{run.RunID}] has not yet been restarted. Attempting restart");
                 containerAccessor.RestartContainerAsync(containerId);
 
                 run.RestartCount = run.RestartCount + 1;
 
                 runAccessor.CreateOrUpdateRun(run);
-                Logger.Warn($"Run:[{run.RunID}] restart successful");
+                Logger.LogWarning($"Run:[{run.RunID}] restart successful");
                 return;
             }
 
-            Logger.Warn($"Run:[{run.RunID}] has already been restarted. Will not attempt restart. Current Run Status:[{run.RunStatus.RunStatusDisplayName}]");
+            Logger.LogWarning($"Run:[{run.RunID}] has already been restarted. Will not attempt restart. Current Run Status:[{run.RunStatus.RunStatusDisplayName}]");
             if (!RunStatusesToDelete.Contains(run.RunStatusID))
             {
-                Logger.Warn($"Run:[{run.RunID}] updating Run Status to:[{RunStatus.SystemError.RunStatusDisplayName}]");
+                Logger.LogWarning($"Run:[{run.RunID}] updating Run Status to:[{RunStatus.SystemError.RunStatusDisplayName}]");
                 runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, RunStatus.SystemError.RunStatusID);
             }
 
-            Logger.Warn($"Run:[{run.RunID}] sending failure notification");
+            Logger.LogWarning($"Run:[{run.RunID}] sending failure notification");
             apiFunctionsAccessor.NotificationFunctionCall(run.RunID, true, new Exception("Azure container instance could not be started. Please contact your system administrator for more information."));
         }
 
@@ -1486,7 +1486,7 @@ namespace Olsson.GET.Managers.Runs
                     run != null &&
                     run.ProcessingStartDate < cutOffDate)
                 {
-                    Logger.Warn($"Stopping long running container [{container.Id}] [{run.RunID}]");
+                    Logger.LogWarning($"Stopping long running container [{container.Id}] [{run.RunID}]");
                     await containerAccessor.StopContainerAsync(container.Id);
 
                     //flag it as error

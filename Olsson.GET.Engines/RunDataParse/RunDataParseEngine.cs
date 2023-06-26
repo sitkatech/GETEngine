@@ -8,17 +8,18 @@ using CsvHelper;
 using System.IO;
 using CsvHelper.Configuration;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.DataContracts.Models;
 
 namespace Olsson.GET.Engines.RunDataParse
 {
     public class RunDataParseEngine : BaseEngine, IRunDataParseEngine
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(RunDataParseEngine));
+        private static readonly ILogger Logger = Logging.GetLogger<RunDataParseEngine>();
 
         public RunCanalInputParseResult ParseCanalRunDataFromFile(byte[] data, Model model)
         {
-            Logger.Info("Parsing raw survey data");
+            Logger.LogInformation("Parsing raw survey data");
 
             List<RunCanalInput> records = null;
             List<string> errors = new List<string>();
@@ -55,7 +56,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 
@@ -125,7 +126,7 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public RunWellInputParseResult ParseWellRunDataFromFile(byte[] data, Model model)
         {
-            Logger.Info("Parsing raw survey data");
+            Logger.LogInformation("Parsing raw survey data");
 
             List<RunWellInput> records = null;
             List<string> errors = new List<string>();
@@ -215,7 +216,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 
@@ -313,7 +314,7 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public RunWellParticleInputParseResult ParseWellParticleRunDataFromFile(byte[] data, Model model)
         {
-            Logger.Info("Parsing raw survey data");
+            Logger.LogInformation("Parsing raw survey data");
 
             List<RunWellParticleInput> records = null;
             List<string> errors = new List<string>();
@@ -334,7 +335,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 

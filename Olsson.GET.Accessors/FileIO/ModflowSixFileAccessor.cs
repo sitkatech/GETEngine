@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -25,7 +26,7 @@ namespace Olsson.GET.Accessors.FileIO
         private static readonly Regex ModFlowSixFileNameRegex = new Regex(@"^\s+(?<key>(\S+?))\s+?(?<fileName>\S+)$");
         private static readonly Regex SfrReachNumber = new Regex(@"^\s+NREACHES\s+(?<reachCount>\d+)\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
         
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ModflowSixFileAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<ModflowSixFileAccessor>();
 
         protected ModflowSixFileAccessor(Model model) : base(model)
         {
@@ -248,7 +249,7 @@ namespace Olsson.GET.Accessors.FileIO
                     }
                     else if (!loggedASRValues.Contains(asrItem.Key))
                     {
-                        Logger.Debug($"@ [{item.Period}-{item.Step}-{item.Zone}] - Unable to find ASR item key [{asrItem.Key}].  Available values - [{string.Join(",", item.Values.Select(a => a.Key))}]");
+                        Logger.LogDebug($"@ [{item.Period}-{item.Step}-{item.Zone}] - Unable to find ASR item key [{asrItem.Key}].  Available values - [{string.Join(",", item.Values.Select(a => a.Key))}]");
                         loggedASRValues.Add(asrItem.Key);
                     }
                 }
@@ -424,7 +425,7 @@ namespace Olsson.GET.Accessors.FileIO
 
                     if (!loggedFoundHeaders)
                     {
-                        Logger.Debug($"Found zone budget item headers [{string.Join(",", row.Context.HeaderRecord)}]");
+                        Logger.LogDebug($"Found zone budget item headers [{string.Join(",", row.Context.HeaderRecord)}]");
                         loggedFoundHeaders = true;
                     }
                     for (var i = 0; i < row.Context.HeaderRecord.Length; i++)

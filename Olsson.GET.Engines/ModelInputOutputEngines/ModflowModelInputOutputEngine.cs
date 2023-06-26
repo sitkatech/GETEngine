@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -28,7 +29,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
     public class ModflowModelInputOutputEngine : BaseInputOutputEngine, IModelInputOutputEngine
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ModflowModelInputOutputEngine));
+        private static readonly ILogger Logger = Logging.GetLogger<ModflowModelInputOutputEngine>();
 
         public ModflowModelInputOutputEngine(Model model)
         {

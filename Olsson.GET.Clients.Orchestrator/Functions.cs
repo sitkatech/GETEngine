@@ -9,12 +9,13 @@ using Olsson.GET.Common.Shared.Extensions;
 using Olsson.GET.Common.Shared.Enums;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
     public class Functions
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(Functions));
+        private static readonly ILogger Logger = Logging.GetLogger< Functions>();
         private static readonly ManagerFactory factory = new ManagerFactory();
         private static IRunManager RunManager => factory.CreateManager<IRunManager>();
 #if DEBUG
@@ -28,14 +29,14 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Info($"GenerateInputs Started [{runId}]");
+                Logger.LogInformation($"GenerateInputs Started [{runId}]");
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Input);
 
-                Logger.Info($"GenerateInputs Completed [{runId}]");
+                Logger.LogInformation($"GenerateInputs Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -44,16 +45,16 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Info("Test to see if changes are being propagated");
-                Logger.Info($"RunAnalysis Started [{runId}]");
+                Logger.LogInformation("Test to see if changes are being propagated");
+                Logger.LogInformation($"RunAnalysis Started [{runId}]");
 
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Analysis);
 
-                Logger.Info($"RunAnalysis Completed [{runId}]");
+                Logger.LogInformation($"RunAnalysis Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -62,15 +63,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Info($"GenerateOutputs Started [{runId}]");
+                Logger.LogInformation($"GenerateOutputs Started [{runId}]");
 
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Output);
 
-                Logger.Info($"GenerateOutputs Completed [{runId}]");
+                Logger.LogInformation($"GenerateOutputs Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -79,15 +80,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Info("CleanExitedContainers Started");
+                Logger.LogInformation("CleanExitedContainers Started");
 
                 await RunManager.CleanCompletedRuns();
 
-                Logger.Info("CleanExitedContainers Completed");
+                Logger.LogInformation("CleanExitedContainers Completed");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
 
@@ -97,15 +98,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Info("FailLongProcessingRuns Started");
+                Logger.LogInformation("FailLongProcessingRuns Started");
 
                 await RunManager.FailLongProcessingRuns();
 
-                Logger.Info("FailLongProcessingRuns Completed");
+                Logger.LogInformation("FailLongProcessingRuns Completed");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
 

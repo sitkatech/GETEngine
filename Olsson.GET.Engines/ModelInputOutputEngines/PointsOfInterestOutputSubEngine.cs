@@ -5,6 +5,7 @@ using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;
 
@@ -17,7 +18,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
     internal class PointsOfInterestOutputSubEngine : IPointsOfInterestOutputSubEngine
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ListFileOutputSubEngine));
+        private static readonly ILogger Logger = Logging.GetLogger<ListFileOutputSubEngine>();
         public PointsOfInterestOutputSubEngine(Model model)
         {
             Model = model;
@@ -27,18 +28,18 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         public List<RunResultDetails> GeneratePointsOfInterestGraphOutput(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, int currResultId, bool isDifferential)
         {
-            Logger.Info("Generating points of interest output.");
+            Logger.LogInformation("Generating points of interest output.");
 
             if (stressPeriods == null || !stressPeriods.Any())
             {
-                Logger.Warn("Not generating points of interest output because no stress period data found.");
+                Logger.LogWarning("Not generating points of interest output because no stress period data found.");
                 return new List<RunResultDetails>(); ;
             }
 
             var pointsOfInterest = modflowFileAccessor.GetPointsOfInterest();
             if (pointsOfInterest == null)
             {
-                Logger.Warn("Not generating points of interest output because no points of interest file found.");
+                Logger.LogWarning("Not generating points of interest output because no points of interest file found.");
                 return new List<RunResultDetails>(); ;
             }
 
@@ -48,12 +49,12 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             if (isDifferential)
             {
-                Logger.Info("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("Run is differential -- comparing to baseline.");
                 AddFlowDeltas(result, modflowFileAccessor.GetBaselineMapData(), modflowFileAccessor.GetOutputMapData(), stressPeriods, cells);
             }
             else
             {
-                Logger.Info("Run is non-differential -- ignoring baseline data even if present.");
+                Logger.LogInformation("Run is non-differential -- ignoring baseline data even if present.");
                 AddFlowData(result, modflowFileAccessor.GetOutputMapData(), stressPeriods, cells);
             }
 
@@ -66,7 +67,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             };
             resultDetails.ResultSets.Add(result);
 
-            Logger.Info("List file output results generated.");
+            Logger.LogInformation("List file output results generated.");
             return new List<RunResultDetails>() { resultDetails };
         }
 
@@ -95,7 +96,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var observedData = modflowFileAccessor.GetObservedPointsOfInterest(isDifferential);
             if (observedData == null)
             {
-                Logger.Debug("Observed data is not present -- skipping adding it to chart.");
+                Logger.LogDebug("Observed data is not present -- skipping adding it to chart.");
                 return;
             }
 
@@ -103,7 +104,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             {
                 if (observedLocation.Any(x => x.Period > Model.NumberOfStressPeriods))
                 {
-                    Logger.Debug($"{observedLocation.Key} has data from a period outside the model duration.");
+                    Logger.LogDebug($"{observedLocation.Key} has data from a period outside the model duration.");
                     throw new OutputDataInvalidException("Too many stress periods in observed data.", RunStatus.InvalidOutput.RunStatusID);
                 }
 

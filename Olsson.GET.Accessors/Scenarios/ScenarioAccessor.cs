@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.Utilities;
 using Scenario = Olsson.GET.Common.DataContracts.Scenarios.Scenario;
@@ -10,7 +11,7 @@ namespace Olsson.GET.Accessors.Scenarios
 {
     internal class ScenarioAccessor : BaseTableAccessor, IScenarioAccessor
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ScenarioAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<ScenarioAccessor>();
 
         public IQueryable<EntityFramework.Scenario> GetScenariosImpl(PrimaryDBContext db)
         {

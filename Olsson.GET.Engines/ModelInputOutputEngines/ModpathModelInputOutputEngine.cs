@@ -4,15 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
+using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Engines.ModelInputOutputEngines
 {
     public class ModpathModelInputOutputEngine : BaseInputOutputEngine, IModelInputOutputEngine
     {
         private static double ToRadians = (Math.PI / 180);
+        private static readonly ILogger Logger = Logging.GetLogger<ModpathModelInputOutputEngine>();
 
         public ModpathModelInputOutputEngine()
         {
@@ -58,6 +61,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private void CreateLocationFile(Run run)
         {
+            Logger.LogInformation($"Begin: Creating Location file for run: {run.RunID}");
             var modelFileAccessor = AccessorFactory.CreateAccessor<IModelFileAccessorFactory>().CreateModflowFileAccessor(run.Model);
 
             var settings = modelFileAccessor.GetSettings();
@@ -86,6 +90,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             //write output
             var locFileName = modelFileAccessor.GetModpathLocationFileName(run.Model.ModelExecutables.OrderBy(x => x.RunOrder).First().Arguments);
             modelFileAccessor.WriteLocationFile(locFileName, output.ToString());
+            Logger.LogInformation($"Finished: Creating Location file for run: {run.RunID}");
         }
 
         private Coordinate[] GetCoordinatesForWellParticles(Coordinate wellCoordinate, int particleCount, double particleRadius)

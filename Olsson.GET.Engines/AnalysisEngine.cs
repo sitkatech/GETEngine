@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using log4net;
+using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -13,11 +15,9 @@ namespace Olsson.GET.Engines
 {
     public class AnalysisEngine
     {
-        private readonly ILog _logger;
-
+        private static readonly ILogger Logger = Logging.GetLogger<AnalysisEngine>();
         public AnalysisEngine()
         {
-            _logger = Logging.GetLogger(typeof(AnalysisEngine));
         }
 
         public AnalysisResult RunAnalysis(ModelExecutable modelExecutable)
@@ -60,7 +60,7 @@ namespace Olsson.GET.Engines
                 };
 
                 var argumentsAsString = string.Join(", ", processStartArgs.Select(x => $"{x.Key}: {x.Value}"));
-                _logger.Debug($"Starting {modelEngineExeName} with arguments: {argumentsAsString}");
+                Logger.LogInformation($"Starting {modelEngineExeName} with arguments: {argumentsAsString}");
                 using (var process = Process.Start(processStartInfo))
                 {
                     var consoleOut = new StringBuilder();
@@ -74,7 +74,7 @@ namespace Olsson.GET.Engines
 
                     process.WaitForExit();
 
-                    _logger.Info($"{modelEngineExeName} exit code: {process.ExitCode}");
+                    Logger.LogInformation($"{modelEngineExeName} exit code: {process.ExitCode}");
 
                     var analysisResult = new AnalysisResult()
                     {
@@ -90,7 +90,7 @@ namespace Olsson.GET.Engines
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                Logger.LogError(ex.Message);
                 return new AnalysisResult() { Success = false };
             }
         }

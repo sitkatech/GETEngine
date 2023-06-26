@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using Microsoft.SqlServer.Types;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
@@ -103,7 +104,7 @@ namespace Olsson.GET.Accessors.FileIO
             return null;
         }
 
-        private static ILog Logger = Logging.GetLogger(typeof(ModelFileAccessor));
+        private static ILogger Logger = Logging.GetLogger<ModelFileAccessor>();
         internal static bool IsStructuredFile(Model model)
         {
             var namFileName = model.ModelExecutables.OrderBy(x => x.RunOrder).First().Arguments;
@@ -1203,16 +1204,16 @@ namespace Olsson.GET.Accessors.FileIO
 
             foreach (var color in colorsList.Where(a => a.Locations.Any()))
             {
-                Logger.Debug($"Unioning geographies [{stressPeriod}][{color.Color}]");
+                Logger.LogDebug($"Unioning geographies [{stressPeriod}][{color.Color}]");
                 var geographies = UnionAllGeographies(color);
 
-                Logger.Debug($"Buffering geographies [{stressPeriod}][{color.Color}]");
+                Logger.LogDebug($"Buffering geographies [{stressPeriod}][{color.Color}]");
                 var geography = geographies.BufferWithTolerance(0.15, 0.5, false);
 
-                Logger.Debug($"Reducing geographies [{stressPeriod}][{color.Color}]");
+                Logger.LogDebug($"Reducing geographies [{stressPeriod}][{color.Color}]");
                 geography = geography.Reduce(0.5).MakeValid();
 
-                Logger.Debug($"Creating Geography Feature [{stressPeriod}][{color.Color}]");
+                Logger.LogDebug($"Creating Geography Feature [{stressPeriod}][{color.Color}]");
                 features.Add(CreateGeographicFeature(stressPeriod, geography, color));
             }
 

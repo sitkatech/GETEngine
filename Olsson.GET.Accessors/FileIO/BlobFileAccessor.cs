@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.DataMovement;
@@ -18,7 +19,7 @@ namespace Olsson.GET.Accessors.FileIO
 {
     class BlobFileAccessor : IBlobFileAccessor
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(BlobFileAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<BlobFileAccessor>();
         public async Task<byte[]> GetFile(string filePath, string fileLocation)
         {
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
@@ -173,7 +174,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async void CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
-            Logger.Info($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
+            Logger.LogInformation($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
             var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
 
             CloudFileShare cloudFileShare = GetCloudFileShare(destFileLocation);
@@ -190,7 +191,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async void CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
-            Logger.Info($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
+            Logger.LogInformation($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
 
             var srcFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(srcFilePath);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.DataContracts.Scenarios;
@@ -15,7 +16,7 @@ namespace Olsson.GET.Accessors.Runs
 {
     internal class RunAccessor : BaseTableAccessor, IRunAccessor
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(RunAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<RunAccessor>();
         public Run CreateOrUpdateRun(Run run)
         {
             return base.CreateOrUpdate<Run, EntityFramework.Run, PrimaryDBContext>(run);

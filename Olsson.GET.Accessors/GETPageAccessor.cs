@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.Utilities;
 
@@ -7,7 +8,7 @@ namespace Olsson.GET.Accessors.GETPage
 {
     public class GETPageAccessor
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(GETPageAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<GETPageAccessor>();
 
         public EntityFramework.GETPage GetGETPageByGETPageType(GETPageType GETPageType)
         {

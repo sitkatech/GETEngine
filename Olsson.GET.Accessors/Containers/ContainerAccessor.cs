@@ -17,6 +17,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.ContainerInstance;
 using Azure.ResourceManager.ContainerInstance.Models;
 using Azure.ResourceManager.Resources;
+using Microsoft.Extensions.Logging;
 using ContainerEvent = Olsson.GET.Common.DataContracts.Container.ContainerEvent;
 
 namespace Olsson.GET.Accessors.Containers
@@ -26,7 +27,7 @@ namespace Olsson.GET.Accessors.Containers
         private const string CreatedByLabelKey = "Created By";
         private const string CreatedByLabelValue = "Olsson GET Container Accessor";
         private string[] ContainerStatusesNotStart = new string[] { "Creating", "Running", "Failed", "Stopped" };
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ContainerAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<ContainerAccessor>();
         private AzureLocation azureRegion = AzureLocation.CentralUS;
 
         static ContainerAccessor()
@@ -133,7 +134,7 @@ namespace Olsson.GET.Accessors.Containers
 
         public async Task DeleteAzureContainer(string id)
         {
-            Logger.Info($"Removing container [{id}]");
+            Logger.LogInformation($"Removing container [{id}]");
             var azure = GetAzureContext();
             var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
             var containerGroup = resourceGroup.GetContainerGroups().GetAll().Single(x => x.Id == id);
@@ -331,14 +332,14 @@ namespace Olsson.GET.Accessors.Containers
                 var maxContainerCount = ConfigurationHelper.AppSettings.MaxContainerCount;
                 var containerCount = containers.Count;
 
-                Logger.Info($"Max Container Count: {maxContainerCount}");
-                Logger.Info($"Current Container Count: {containerCount}");
+                Logger.LogInformation($"Max Container Count: {maxContainerCount}");
+                Logger.LogInformation($"Current Container Count: {containerCount}");
                 if (containerCount < maxContainerCount)
                 {
                     return true;
                 }
 
-                Logger.Info("Out of available containers.  Searching to see if some successful containers can be deleted.");
+                Logger.LogInformation("Out of available containers.  Searching to see if some successful containers can be deleted.");
                 var deleteContainerTasks = containers.Where(a => a.State.Equals("Succeeded"))
                                                    .OrderBy(a => a.Events?.Max(b => b.LastTimeStamp) ?? DateTime.MaxValue)
                                                    .Select(CleanupContainer);
@@ -348,13 +349,13 @@ namespace Olsson.GET.Accessors.Containers
                 var deletedContainerCount = deleteResults.Count(a => a);
                 containerCount -= deletedContainerCount;
 
-                Logger.Info($"Deleted {deletedContainerCount} containers, leaving {containerCount} containers.");
+                Logger.LogInformation($"Deleted {deletedContainerCount} containers, leaving {containerCount} containers.");
 
                 var canQueueNewContainer = containerCount < maxContainerCount;
 
                 if (!canQueueNewContainer)
                 {
-                    Logger.Warn("Out of available containers.  Unable to start a new container.");
+                    Logger.LogWarning("Out of available containers.  Unable to start a new container.");
                 }
 
                 return canQueueNewContainer;
@@ -362,7 +363,7 @@ namespace Olsson.GET.Accessors.Containers
             catch (Exception ex)
             {
                 //this seems to happen pretty commonly when Staging and Prod are fighting for containers.
-                Logger.Warn("An exception occured trying to get the containers.", ex);
+                Logger.LogWarning("An exception occured trying to get the containers.", ex);
                 return false;
             }
             finally

@@ -3,13 +3,14 @@ using Olsson.GET.Engines;
 using System;
 using System.Threading.Tasks;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Managers
 {
     public abstract class BaseManager
     {
-        private static readonly ILog Logger = Logging.GetLogger(typeof(BaseManager));
+        private static readonly ILogger Logger = Logging.GetLogger<BaseManager>();
         public EngineFactory EngineFactory { get; set; }
 
         public AccessorFactory AccessorFactory { get; set; }
@@ -23,7 +24,7 @@ namespace Olsson.GET.Managers
             {
                 task.Start();
             }
-            task.ContinueWith(a => Logger.Error("Manager to Manager call failed.", a.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            task.ContinueWith(a => Logger.LogError("Manager to Manager call failed.", a.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 }

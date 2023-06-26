@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -36,7 +37,7 @@ namespace Olsson.GET.Accessors.FileIO
             return $"{layer}|{row}|{column}";
         }
 
-        private static readonly ILog Logger = Logging.GetLogger(typeof(StructuredModflowSixFileAccessor));
+        private static readonly ILogger Logger = Logging.GetLogger<StructuredModflowSixFileAccessor>();
 
         protected override string DisFileKey => StructuredDisFileKey;
         protected override Type LocationProportionMapperType => typeof(StructuredModflowSixProportionMapper);

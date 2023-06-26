@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -22,29 +23,29 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             Model = model;
         }
-        private static readonly ILog Logger = Logging.GetLogger(typeof(ListFileOutputSubEngine));
+        private static readonly ILogger Logger = Logging.GetLogger<ListFileOutputSubEngine>();
         private Model Model { get; }
 
         public List<RunResultDetails> CalculateImpactToBaseflow(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, int outputVolumeUnitID, bool isDifferentialRun)
         {
             var outputVolumeUnitEnum = VolumeUnit.AllLookupDictionary[outputVolumeUnitID].ToEnum;
-            Logger.Info("Calculating impact to baseflow.");
+            Logger.LogInformation("Calculating impact to baseflow.");
 
             if (stressPeriods == null || !stressPeriods.Any())
             {
-                Logger.Warn("Not generating impact to baseflow because no stress period data found.");
+                Logger.LogWarning("Not generating impact to baseflow because no stress period data found.");
                 return new List<RunResultDetails>();
             }
 
             RunResultDetails result;
             if (isDifferentialRun)
             {
-                Logger.Info("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("Run is differential -- comparing to baseline.");
                 result = CalculateDifferentialImpactToBaseflow(modflowFileAccessor, stressPeriods, outputVolumeUnitEnum);
             }
             else
             {
-                Logger.Info("Run is non-differential -- ignoring baseline data even if present.");
+                Logger.LogInformation("Run is non-differential -- ignoring baseline data even if present.");
                 result = CalculateNonDifferentialImpactToBaseflow(modflowFileAccessor, stressPeriods, outputVolumeUnitEnum);
             }
 
@@ -59,7 +60,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 dataPoint.Value = Math.Round(dataPoint.Value, 9);
             }
 
-            Logger.Info("Impact to baseflow calculated.");
+            Logger.LogInformation("Impact to baseflow calculated.");
             return new List<RunResultDetails>() { result };
         }
 
@@ -68,7 +69,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var observedData = modflowFileAccessor.GetObservedImpactToBaseflow(isDifferential);
             if (observedData == null)
             {
-                Logger.Debug("Observed data is not present -- skipping adding it to chart.");
+                Logger.LogDebug("Observed data is not present -- skipping adding it to chart.");
                 return;
             }
 
@@ -77,11 +78,11 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             {
                 if (line.Any(x => x.Period > Model.NumberOfStressPeriods))
                 {
-                    Logger.Debug($"{line.Key} has data from a period outside the model duration.");
+                    Logger.LogDebug($"{line.Key} has data from a period outside the model duration.");
                     throw new OutputDataInvalidException("Too many stress periods in observed data.", RunStatus.InvalidOutput.RunStatusID);
                 }
 
-                Logger.Info($"{line.Key} successfully parsed for observed data. Should be set to true");
+                Logger.LogInformation($"{line.Key} successfully parsed for observed data. Should be set to true");
                 result.ResultSets.First().DataSeries.Add(new DataSeries
                 {
                     Name = line.Key,
@@ -98,26 +99,26 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var baselineData = modflowFileAccessor.GetBaselineData();
             if (baselineData == null)
             {
-                Logger.Warn("Not generating impact to baseflow because no baseflow data found.");
+                Logger.LogWarning("Not generating impact to baseflow because no baseflow data found.");
                 return null;
             }
 
             var runData = modflowFileAccessor.GetOutputData();
             if (runData == null)
             {
-                Logger.Warn("Not generating impact to baseflow because no run data found.");
+                Logger.LogWarning("Not generating impact to baseflow because no run data found.");
                 return null;
             }
 
             var numberOfSegmentReaches = modflowFileAccessor.GetNumberOfSegmentReaches();
 
-            Logger.Debug("Calculating baseflow baseline data.");
+            Logger.LogDebug("Calculating baseflow baseline data.");
             var baselinePoints = CalculateDataPoints(baselineData, stressPeriods, numberOfSegmentReaches, modflowFileAccessor, outputVolumeUnitEnum);
 
-            Logger.Debug("Calculating run baseline data.");
+            Logger.LogDebug("Calculating run baseline data.");
             var runPoints = CalculateDataPoints(runData, stressPeriods, numberOfSegmentReaches, modflowFileAccessor, outputVolumeUnitEnum);
 
-            Logger.Debug("Calculating run results.");
+            Logger.LogDebug("Calculating run results.");
             return CreateRunResultDetails(modflowFileAccessor, runPoints, outputVolumeUnitEnum, baselinePoints);
         }
 
@@ -126,16 +127,16 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var runData = modflowFileAccessor.GetOutputData();
             if (runData == null)
             {
-                Logger.Warn("Not generating impact to baseflow because no run data found.");
+                Logger.LogWarning("Not generating impact to baseflow because no run data found.");
                 return null;
             }
 
             var numberOfSegmentReaches = modflowFileAccessor.GetNumberOfSegmentReaches();
 
-            Logger.Debug("Calculating run baseline data.");
+            Logger.LogDebug("Calculating run baseline data.");
             var runPoints = CalculateDataPoints(runData, stressPeriods, numberOfSegmentReaches, modflowFileAccessor, outputVolumeUnitEnum);
 
-            Logger.Debug("Calculating run results.");
+            Logger.LogDebug("Calculating run results.");
             return CreateRunResultDetails(modflowFileAccessor, runPoints, outputVolumeUnitEnum);
         }
 

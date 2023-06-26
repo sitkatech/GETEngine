@@ -1,26 +1,34 @@
-﻿using log4net;
-using log4net.Config;
-using System;
-using System.Reflection;
+﻿using Microsoft.Extensions.Logging;
+
 
 namespace Olsson.GET.Common.Utilities
 {
     public class Logging
     {
+        private static readonly ILoggerFactory _loggerFactory;
         static Logging()
         {
-            GlobalContext.Properties["assemblyName"] = System.AppDomain.CurrentDomain.FriendlyName;
-            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetEntryAssembly()));
+           
+            _loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)
+                    .AddFilter("LoggingConsoleApp.Program", LogLevel.Debug)
+                    .AddConsole();
+            });
         }
 
-        public static ILog GetLogger(Type type)
+        
+
+        public static ILogger GetLogger<T>()
         {
-            return LogManager.GetLogger(type);
+            return _loggerFactory.CreateLogger<T>();
         }
 
-        public static ILog GetLogger(Type type, string subType)
-        {
-            return LogManager.GetLogger(Assembly.GetEntryAssembly(),type.FullName + "." + subType);
-        }
+        //public static ILog GetLogger(Type type, string subType)
+        //{
+        //    return LogManager.GetLogger(Assembly.GetEntryAssembly(),type.FullName + "." + subType);
+        //}
     }
 }
