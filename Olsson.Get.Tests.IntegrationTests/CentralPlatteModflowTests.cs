@@ -11,6 +11,7 @@ using Olsson.GET.Tests.EngineTests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
@@ -70,14 +71,14 @@ namespace IntegrationTests
             RunResultDetails pointsOfInterestResult = null;
             RunResultDetails listFileResult = null;
             _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/001-Impacts to Baseflow.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null))
-                .DoInstead<string, string, byte[]>((a, b, c) => totalResult = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(c)));
+                .DoInstead<string, string, byte[]>((a, b, c) => totalResult = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(c))).Returns(Task.CompletedTask);
             _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/002-Points of Interest.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null))
-                .DoInstead<string, string, byte[]>((a, b, c) => pointsOfInterestResult = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(c)));
+                .DoInstead<string, string, byte[]>((a, b, c) => pointsOfInterestResult = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(c))).Returns(Task.CompletedTask);
             _fileAccessorMock.Arrange(a => a.SaveFile("fakeLocator/outputs/003-List File Output.json", "fakeModelDataFolder", Arg.IsAny<byte[]>(), null))
                 .DoInstead<string, string, byte[]>((a, b, c) =>
                 {
                     listFileResult = JsonConvert.DeserializeObject<RunResultDetails>(System.Text.Encoding.UTF8.GetString(c));
-                });
+                }).Returns(Task.CompletedTask);
             var sut = CreateCentralPlatteModelInputOutputEngine();
             sut.GenerateOutputFiles(new Run { FileStorageLocator = "fakeLocator", OutputVolumeUnitID = VolumeUnit.AcreFeet.VolumeUnitID, IsDifferential = true, Model = _model });
 
