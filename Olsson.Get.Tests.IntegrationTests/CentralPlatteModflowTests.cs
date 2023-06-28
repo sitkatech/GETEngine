@@ -58,7 +58,7 @@ namespace IntegrationTests
         [TestInitialize]
         public void InitTypes()
         {
-            Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+            //Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
             // todo: assembly?
             //SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
         }
