@@ -81,6 +81,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="CsvHelper" Version="5.0.0.1" />
     <PackageReference Include="FluentAssertions" Version="5.0.0-beta0003" />
     <PackageReference Include="JustMock" Version="2023.1.117.1" />
