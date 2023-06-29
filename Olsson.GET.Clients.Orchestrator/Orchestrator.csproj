@@ -21,9 +21,6 @@
     <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="key.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Olsson.GET.Common.Shared\Shared.csproj" />
     <ProjectReference Include="..\Olsson.GET.Common.Utilities\Utilities.csproj" />
     <ProjectReference Include="..\Olsson.GET.Managers\Managers.csproj" />
