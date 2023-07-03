@@ -5,6 +5,7 @@
     <RootNamespace>Olsson.GET.Clients.Orchestrator</RootNamespace>
     <AssemblyName>Olsson.GET.Clients.Orchestrator</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Common" Version="12.15.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.37" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -42,4 +44,8 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+  
 </Project>
