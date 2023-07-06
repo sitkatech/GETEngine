@@ -19,6 +19,7 @@ namespace Olsson.GET.Common.Utilities
             configBuilder.AddEnvironmentVariables();
 
             var configRoot = configBuilder.Build();
+            
             AppSettings = configRoot.Get<AppSettings>();
             ConnectionStrings = configRoot.Get<ConnectionStrings>();
         }
@@ -31,7 +32,7 @@ namespace Olsson.GET.Common.Utilities
             } else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")))
             {
                 return Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-            } else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTINGS_Environment")))
+            } else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTING_Environment")))
             {
                 return Environment.GetEnvironmentVariable("APPSETTING_Environment");
             }
