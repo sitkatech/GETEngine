@@ -89,7 +89,7 @@ namespace Olsson.GET.Common.AspIdentity
 
         public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
@@ -242,7 +242,7 @@ namespace Olsson.GET.Common.AspIdentity
 
         public Task SetNormalizedEmailAsync(ApplicationUser user, string normalizedEmail, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
 
@@ -333,12 +333,12 @@ namespace Olsson.GET.Common.AspIdentity
 
         public Task AddLoginAsync(ApplicationUser user, UserLoginInfo login, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task RemoveLoginAsync(ApplicationUser user, string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(ApplicationUser user, CancellationToken cancellationToken)
