@@ -14,7 +14,7 @@ namespace Olsson.GET.Common.Utilities
             var configBuilder = new ConfigurationBuilder();
 
             configBuilder.AddJsonFile("appsettings.json", false); // app settings shared between all environments
-            //configBuilder.AddJsonFile($"appsettings.{GetEnvironment()}.json", true); // app settings for the hosted environment
+            configBuilder.AddJsonFile($"appsettings.{GetEnvironment()}.json", true); // app settings for the hosted environment
             configBuilder.AddJsonFile($"appsecrets.json", true); // secrets if they exist
             configBuilder.AddEnvironmentVariables();
 
