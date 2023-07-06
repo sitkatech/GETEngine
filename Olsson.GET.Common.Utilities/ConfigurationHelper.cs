@@ -25,11 +25,19 @@ namespace Olsson.GET.Common.Utilities
 
         public static string GetEnvironment()
         {
-            return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
-                ? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                : !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"))
-                    ? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
-                    : throw new Exception("Could not find \"Environment\". Tried checking \"ASPNETCORE_ENVIRONMENT\" and \"DOTNET_ENVIRONMENT\" ");
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")))
+            {
+                return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            } else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")))
+            {
+                return Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+            } else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTINGS_Environment")))
+            {
+                return Environment.GetEnvironmentVariable("APPSETTING_Environment");
+            }
+
+            throw new Exception("Could not find \"Environment\". Tried checking \"ASPNETCORE_ENVIRONMENT\", \"DOTNET_ENVIRONMENT\", and \"APPSETTING_Environment\" ");
+            
         }
 
     }
