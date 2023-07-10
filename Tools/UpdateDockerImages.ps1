@@ -46,7 +46,7 @@ $total = $dirs.Length
 
 #Build a base image that has our agent and entry instructions
 Push-Location C:\DockerImages
-docker build -t $registryName .
+docker build -f BaseImageDockerfile -t $registryName .
 
 $baseImageName = $registryName + ':latest'
 
