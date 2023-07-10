@@ -26,8 +26,6 @@ namespace Olsson.GET.Common.Utilities
                 
                 EnsureDatabase.For.SqlDatabase(_connectionString);
 
-
-
                 UpgradeEngine migrator = DeployChanges.To
                                                       .SqlDatabase(_connectionString)
                                                       .WithTransactionPerScript()
@@ -37,19 +35,12 @@ namespace Olsson.GET.Common.Utilities
                                                       .LogToConsole()
                                                       .Build();
 
-                var test = migrator.GetDiscoveredScripts();
-                var test2 = migrator.GetExecutedScripts();
-                var test3 = migrator.GetScriptsToExecute();
-
                 DatabaseUpgradeResult result = migrator.PerformUpgrade();
-
 
                 if (!result.Successful)
                 {
                     Console.WriteLine(result.Error);
-#if DEBUG
                     Console.ReadLine();
-#endif
                     return -1;
                 }
 
@@ -57,15 +48,10 @@ namespace Olsson.GET.Common.Utilities
 
                 return 0;
             }
-#if DEBUG
             catch (Exception ex)
             {
                 Console.WriteLine(ex.AllExceptionMessages());
                 Console.ReadLine();
-#else
-            catch (Exception)
-            {
-#endif
                 return -1;
             }
         }
