@@ -21,7 +21,7 @@ Get-PSDrive | ForEach {
 $connectTestResult = Test-NetConnection -ComputerName getqa.file.core.windows.net -Port 445
 if ($connectTestResult.TcpTestSucceeded) {
     # Save the password so the drive will persist on reboot
-    cmd.exe /C "cmdkey /add:`"getqa.file.core.windows.net`" /user:`"Azure\getqa`" /pass:`"passwordhere`""
+    cmd.exe /C "cmdkey /add:`"getqa.file.core.windows.net`" /user:`"Azure\getqa`" /pass:`"${env:STORAGEACCOUNTPASSWORD}`""
     # Mount the drive
     New-PSDrive -Name GETModels -PSProvider FileSystem -Root "\\getqa.file.core.windows.net\$modelsFileShare"
 } else {
