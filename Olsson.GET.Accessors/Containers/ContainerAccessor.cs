@@ -209,7 +209,6 @@ namespace Olsson.GET.Accessors.Containers
             });
             Logger.LogInformation($"Attempting to CreateOrUpdate container group \"{containerGroupName}\"");
 
-
             var containerGroup =  resourceGroup.GetContainerGroups()
                 .CreateOrUpdateAsync(
                     WaitUntil.Completed,
@@ -224,12 +223,12 @@ namespace Olsson.GET.Accessors.Containers
                             }
                         },
                         RestartPolicy = ContainerGroupRestartPolicy.Never,
-                        IPAddress = { 
-                            AddressType = ContainerGroupIPAddressType.Private, 
-                            Ports = { new ContainerGroupPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
+                        IPAddress = new ContainerGroupIPAddress(new List<ContainerGroupPort>(){ new(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },ContainerGroupIPAddressType.Public)
+                        {
                             DnsNameLabel = containerGroupName
                         },
                     }).Result.Value;
+            
             
             // Print the container's logs
             Console.WriteLine($"Logs for container '{containerInstanceName}':");
@@ -307,10 +306,8 @@ namespace Olsson.GET.Accessors.Containers
                             }
                         },
                         RestartPolicy = ContainerGroupRestartPolicy.Never,
-                        IPAddress = 
+                        IPAddress = new ContainerGroupIPAddress(new List<ContainerGroupPort>(){ new(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },ContainerGroupIPAddressType.Public)
                         {
-                            AddressType = ContainerGroupIPAddressType.Private,
-                            Ports = { new ContainerGroupPort(int.Parse(ConfigurationHelper.AppSettings.AzureContainerTcpPort)) },
                             DnsNameLabel = containerGroupName
                         },
                     }).Result.Value;
