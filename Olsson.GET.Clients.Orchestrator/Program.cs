@@ -14,7 +14,8 @@ namespace Olsson.GET.Clients.Orchestrator
         static async Task Main()
         {
             var builder = new HostBuilder();
-            builder.UseEnvironment(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
+            
+            builder.UseEnvironment(ConfigurationHelper.GetEnvironment());
 
             builder.ConfigureWebJobs((context, b) =>
             {
