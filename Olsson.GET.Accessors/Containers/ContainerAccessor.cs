@@ -47,11 +47,12 @@ namespace Olsson.GET.Accessors.Containers
 
             // Authenticate with Azure
             var azure = GetAzureContext();
-
+            Logger.LogInformation("Authenticated with Azure");
             if (CanCreateContainer(azure, containerGroupName))
             {
                 if (isLinux)
                 {
+                    Logger.LogInformation("Attempting to run Linux based container");
                     RunTaskBasedLinuxContainer(azure,
                         resourceGroupName,
                         containerGroupName,
@@ -64,6 +65,7 @@ namespace Olsson.GET.Accessors.Containers
                 }
                 else
                 {
+                    Logger.LogInformation("Attempting to run Windows based container");
                     RunTaskBasedWindowsContainer(azure,
                         containerGroupName,
                         imageName,
@@ -176,8 +178,9 @@ namespace Olsson.GET.Accessors.Containers
             var registryPassword = ConfigurationHelper.AppSettings.AzureRegistryPassword;
 
             var containerInstanceName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
-
+            Logger.LogInformation($"Attempting to run container with instance name {containerInstanceName}");
             var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
+            
             
             var containerEnvironmentVariables = envVars.Select(x => new ContainerEnvironmentVariable(x.Key)
             {
@@ -204,6 +207,8 @@ namespace Olsson.GET.Accessors.Containers
                     container.EnvironmentVariables.Add(envVar);
                 });
             });
+            Logger.LogInformation($"Attempting to CreateOrUpdate container group \"{containerGroupName}\"");
+
 
             var containerGroup =  resourceGroup.GetContainerGroups()
                 .CreateOrUpdateAsync(
