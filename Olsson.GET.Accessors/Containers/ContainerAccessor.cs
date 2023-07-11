@@ -390,11 +390,13 @@ namespace Olsson.GET.Accessors.Containers
         private bool CanCreateContainer(SubscriptionResource azure,
             string containerGroupName)
         {
+            Logger.LogInformation($"Checking if we can create a container with group name {containerGroupName}.");
             var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
-            var containerGroup = resourceGroup.GetContainerGroup(containerGroupName).Value;
-
-            if (containerGroup != null)
+            var allContainerGroups = resourceGroup.GetContainerGroups();
+            
+            if (allContainerGroups.Exists(containerGroupName))
             {
+                var containerGroup = allContainerGroups.Get(containerGroupName).Value;
                 return !ContainerStatusesNotStart.Contains(containerGroup.Data.InstanceView.State);
             }
 
