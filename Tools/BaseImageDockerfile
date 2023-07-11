@@ -1,5 +1,16 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
+# Download and install .NET Runtime
+RUN powershell -Command \
+    New-Item -Path 'C:\' -Name 'temp' -ItemType Directory
+RUN powershell -Command \
+    $url = 'https://download.visualstudio.microsoft.com/download/pr/7bb7f85b-9bf0-4c6f-b3e4-a3832720f162/73e280cfd7f686c34748e0bf98d879c7/dotnet-runtime-6.0.19-win-x64.exe'; \
+    $fileName = 'runtime.exe'; \
+    $output = 'C:\temp\'; \
+    Invoke-WebRequest -Uri $url -OutFile ($output + $fileName); \
+    Start-Process -Wait -FilePath ($output + $fileName) -ArgumentList '/quiet', '/install', '/norestart'; \
+    Remove-Item -Path ($output + $fileName)
+
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'Continue'; $verbosePreference='Continue';"] 
 
 COPY Agent/ /agent/
