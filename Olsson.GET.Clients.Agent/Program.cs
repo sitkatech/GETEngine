@@ -18,11 +18,7 @@ namespace Olsson.GET.Clients.Agent
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Logger.LogDebug("Agent started");
 
-            args = new string[2] { "693", "2" };
-            Logger.LogInformation($"Loading Native Assemblies from {AppDomain.CurrentDomain.BaseDirectory}");
-            // todo: native assemblies
-            //SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            //SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
+            
             if (args == null || args.Length < 1)
             {
                 Logger.LogError("No run id specified");
