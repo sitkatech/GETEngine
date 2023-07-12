@@ -30,7 +30,7 @@ namespace Olsson.GET.Clients.Agent
             }
             else
             {
-                Logger.LogInformation($"Starting run id:{args[0]}");
+                Logger.LogInformation($"Starting run id: {args[0]} with processType {args[1]}");
             }
 
             var runId = int.Parse(args[0]);
