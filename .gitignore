@@ -256,5 +256,8 @@ paket-files/
 Olsson.GET.Clients.Portal/package-lock.json
 /Containers
 
+# SqlServerTypes
+!**/SqlServerTypes/*
+
 # Config
 Olsson.GET.Common.Shared/Configs/appsecrets.json
