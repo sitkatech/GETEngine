@@ -1056,7 +1056,8 @@ namespace Olsson.GET.Managers.Runs
                     {
                         { "SOURCE_FOLDER", ConfigurationHelper.AppSettings.AzureContainerVolumeName },
                         { "RUNANALYSISURL", GetAnalysisUrl(runId) },
-                        { "MODEL_ID", run.ModelID.ToString() }
+                        { "MODEL_ID", run.ModelID.ToString() },
+                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }
                     };
 
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
@@ -1090,7 +1091,8 @@ namespace Olsson.GET.Managers.Runs
                         { "GENERATEOUTPUTSURL", ConfigurationHelper.AppSettings.GenerateOutputsUrl },
                         { "PROCESSTYPE", ((int)processType).ToString()  },
                         { "RUN_ID", runId.ToString() },
-                        { "MODEL_ID", run.ModelID.ToString() }
+                        { "MODEL_ID", run.ModelID.ToString() },
+                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }
                     };
 
                 try
