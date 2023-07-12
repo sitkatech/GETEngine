@@ -1210,7 +1210,7 @@ namespace Olsson.GET.Managers.Runs
 
             var runAccessor = AccessorFactory.CreateAccessor<IRunAccessor>();
             var run = runAccessor.FindRun(runId);
-
+            Logger.LogInformation($"Found run \"{run.RunName}\"");
             var storageFiles = new List<string>();
             var storageFilesCopied = new List<string>();
             var usesFileStorage = run.Scenario.InputImage != null && run.Scenario.InputImage.IsLinux;
