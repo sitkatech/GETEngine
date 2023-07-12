@@ -16,10 +16,12 @@ namespace Olsson.GET.Clients.Orchestrator
             var builder = new HostBuilder();
             
             builder.UseEnvironment(ConfigurationHelper.GetEnvironment());
-
+            
             builder.ConfigureWebJobs((context, b) =>
             {
                 b.AddAzureStorageQueues();
+                b.AddTimers();
+
             });
             
             var host = builder.Build();
