@@ -10,17 +10,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.WebUtilities;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Newtonsoft.Json;
+using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
     public class OrchestratorFunctions
     {
-        private readonly ILogger _logger;
+        private static readonly ILogger _logger = Logging.GetLogger<Functions>();
         private readonly ManagerFactory _managerFactory;
 
-        public OrchestratorFunctions(ILogger logger, ManagerFactory managerFactory)
+        public OrchestratorFunctions(ManagerFactory managerFactory)
         {
-            _logger = logger;
             _managerFactory = managerFactory;
         }
 
