@@ -2,9 +2,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Olsson.GET.Accessors.APIFunctions;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Olsson.GET.Common.DataContracts.Models;
+using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Customers;
 using Olsson.GET.Managers.Runs;
@@ -19,12 +21,10 @@ namespace Olsson.GET.Clients.APIFunctions
 {
     public class Functions
     {
-        private readonly ILogger _logger;
         private readonly ManagerFactory _managerFactory;
-
-        public Functions(ILogger<Functions> logger, ManagerFactory managerFactory)
+        private static readonly ILogger _logger = Logging.GetLogger<Functions>();
+        public Functions(ManagerFactory managerFactory)
         {
-            _logger = logger;
             _managerFactory = managerFactory;
         }
 

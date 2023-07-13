@@ -13,7 +13,6 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddSingleton<ILoggerProvider>();
         builder.Services.AddSingleton<ManagerFactory>();
         builder.Services.AddSingleton<ICustomerManager>();
         builder.Services.AddSingleton<IRunManager>();
