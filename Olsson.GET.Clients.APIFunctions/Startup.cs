@@ -14,7 +14,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.Services.AddSingleton<ManagerFactory>();
-        builder.Services.AddSingleton<ICustomerManager>();
-        builder.Services.AddSingleton<IRunManager>();
+        builder.Services.AddSingleton<ICustomerManager, CustomerManager>();
+        builder.Services.AddSingleton<IRunManager, RunManager>();
     }
 }
