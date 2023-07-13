@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.APIFunctions;
+using Olsson.GET.Common.Utilities;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -11,6 +14,8 @@ namespace SqlServerTypes
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string libname);
+
+        private static readonly ILogger Logger = Logging.GetLogger<Utilities>();
 
         /// <summary>
         /// Loads the required native assemblies for the current architecture (x86 or x64)
@@ -25,14 +30,14 @@ namespace SqlServerTypes
                 ? Path.Combine(rootApplicationPath, @"SqlServerTypes\x64\")
                 : Path.Combine(rootApplicationPath, @"SqlServerTypes\x86\");
 
-            LoadNativeAssembly(nativeBinaryPath, "Microsoft.Data.SqlClient.SNI.dll");
-            LoadNativeAssembly(nativeBinaryPath, "sni.dll");
-            LoadNativeAssembly(nativeBinaryPath, "SqlServerSpatial160.dll");
+            LoadNativeAssembly(nativeBinaryPath, "msvcr120.dll");
+            LoadNativeAssembly(nativeBinaryPath, "SqlServerSpatial140.dll");
         }
 
         private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyName)
         {
             var path = Path.Combine(nativeBinaryPath, assemblyName);
+            Logger.LogInformation($"Loading library at path: \"{path}\"");
             var ptr = LoadLibrary(path);
             if (ptr == IntPtr.Zero)
             {

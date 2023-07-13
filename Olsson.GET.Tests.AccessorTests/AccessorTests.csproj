@@ -690,7 +690,7 @@
     <PackageReference Include="FluentAssertions" Version="5.0.0-beta0003" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
-    <PackageReference Include="Microsoft.SqlServer.Types" Version="160.1000.6" />
+    <PackageReference Include="Microsoft.SqlServer.Types" Version="14.0.314.76" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
