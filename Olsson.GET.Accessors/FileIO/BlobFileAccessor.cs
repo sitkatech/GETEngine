@@ -34,6 +34,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async void GetFile(string filePath, string fileLocation, string destLocation)
         {
+            Logger.LogInformation($"Attempting to get file from path: \"{filePath}\", file location: \"{fileLocation}\" and destLocation: \"{destLocation}\"");
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
 
             // Setup the number of the concurrent operations
