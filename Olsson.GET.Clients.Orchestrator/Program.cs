@@ -19,7 +19,9 @@ namespace Olsson.GET.Clients.Orchestrator
             
             builder.ConfigureWebJobs((context, b) =>
             {
+                b.AddAzureStorageCoreServices();
                 b.AddAzureStorageQueues();
+                b.AddAzureStorageBlobs();
                 b.AddTimers();
 
             });
