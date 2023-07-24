@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 
 namespace Olsson.GET.Clients.APIFunctions
@@ -32,39 +34,38 @@ namespace Olsson.GET.Clients.APIFunctions
 
         //MP 11/17/21 This function should be built out to be a little bit more informative. But for now just use it to see if the API is responsive
         [FunctionName("Health")]
-        public HttpResponseMessage Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
+        public IActionResult Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
-
-            return req.CreateResponse(HttpStatusCode.OK, "API is responsive.");
+            return new OkObjectResult("API is responsive.");
         }
 
         [FunctionName("RetrieveResult")]
-        public HttpResponseMessage RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, ILogger logger)
+        public IActionResult RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, Microsoft.Azure.WebJobs.ExecutionContext context)
         {
-            logger.LogInformation("C# HTTP trigger function processed a request: Retrieve Result.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Retrieve Result.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RetrieveResultModel>(requestBody);
 
             if (data == null)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass run details in the request body");
+                return new BadRequestObjectResult("Please pass run details in the request body");
             }
 
             if (!data.RunId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
+                return new BadRequestObjectResult("Please pass a valid run id in the request body");
             }
 
             if (!data.CustomerId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid customer id in the request body");
+                return new BadRequestObjectResult("Please pass a valid customer id in the request body");
             }
 
             if (string.IsNullOrEmpty(data.FileName))
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a file name to be downloaded in the request body");
+                return new BadRequestObjectResult("Please pass a file name to be downloaded in the request body");
             }
 
             var subType = string.IsNullOrWhiteSpace(data.SubType) ? data.FileDate : data.SubType;
@@ -75,18 +76,18 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (runResult == null)
             {
-                return req.CreateResponse(HttpStatusCode.BadRequest, new
+                return new BadRequestObjectResult(new
                 {
                     RunId = data.RunId.Value,
                     Message = "There is no run associated with the run id provided, the run has not completed, or you do not have access to view the status of the run"
                 });
+                
             }
-
-            return req.CreateResponse(HttpStatusCode.OK, runResult);
+            return new OkObjectResult(runResult);
         }
 
         [FunctionName("StartRun")]
-        public HttpResponseMessage StartRun(
+        public IActionResult StartRun(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Start Run.");
@@ -128,32 +129,32 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (data == null)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass run details in the request body");
+                return new BadRequestObjectResult("Please pass run details in the request body");
             }
 
             if (!data.CustomerId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid customer id in the request body");
+                return new BadRequestObjectResult("Please pass a valid customer id in the request body");
             }
 
             if (!data.UserId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid user id in the request body");
+                return new BadRequestObjectResult("Please pass a valid user id in the request body");
             }
 
             if (!data.ModelId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid model id in the request body");
+                return new BadRequestObjectResult("Please pass a valid model id in the request body");
             }
 
             if (!data.ScenarioId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid scenario id in the request body");
+                return new BadRequestObjectResult("Please pass a valid scenario id in the request body");
             }
 
             if (string.IsNullOrEmpty(data.Name))
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid name in the request body");
+                return new BadRequestObjectResult("Please pass a valid name in the request body");
             }
 
             var customerManager = _managerFactory.CreateManager<ICustomerManager>();
@@ -164,7 +165,7 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (customerModel == null)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass model id and scenario id that you have access to in the request body");
+                return new BadRequestObjectResult("Please pass model id and scenario id that you have access to in the request body");
             }
 
             var containsScenarioFiles = customerModel.Scenarios.First().ScenarioFiles.Length > 0;
@@ -178,7 +179,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 {
                     if (!inputFiles.Any(x => x.FileName.Equals(file.ScenarioFileName, StringComparison.InvariantCultureIgnoreCase)))
                     {
-                        return req.CreateErrorResponse(HttpStatusCode.BadRequest, $"Missing required input file \"{file.ScenarioFileName}\"");
+                        return new BadRequestObjectResult($"Missing required input file \"{file.ScenarioFileName}\"");
                     }
                 }
             }
@@ -189,25 +190,25 @@ namespace Olsson.GET.Clients.APIFunctions
                     case InputControlType.CanalTable:
                         if (data.RunCanalInputs == null || data.RunCanalInputs.Count == 0)
                         {
-                            return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass canal inputs in the request body");
+                            return new BadRequestObjectResult("Please pass canal inputs in the request body");
                         }
                         break;
                     case InputControlType.WellMap:
                         if (data.PivotedRunWellInputs == null || data.PivotedRunWellInputs.Count == 0)
                         {
-                            return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass well inputs in the request body");
+                            return new BadRequestObjectResult("Please pass well inputs in the request body");
                         }
                         break;
                     case InputControlType.ZoneMap:
                         if (data.RunZoneInputs == null || data.RunZoneInputs.Count == 0)
                         {
-                            return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass zone inputs in the request body");
+                            return new BadRequestObjectResult("Please pass zone inputs in the request body");
                         }
                         break;
                     case InputControlType.ParticleMap:
                         if (data.RunWellParticleInputs == null || data.RunWellParticleInputs.Count == 0)
                         {
-                            return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass particle inputs in the request body");
+                            return new BadRequestObjectResult("Please pass particle inputs in the request body");
                         }
                         break;
                 }
@@ -268,8 +269,7 @@ namespace Olsson.GET.Clients.APIFunctions
                 RunStatus = saveResult.RunStatus,
                 Message = queueRunSuccess ? "Run is successfully queued" : "An error is encountered when trying to start a run"
             };
-
-            return req.CreateResponse(HttpStatusCode.OK, response);
+            return new OkObjectResult(response);
         }
 
         private static int GetDefaultInputVolumeType(int scenarioID)
@@ -303,7 +303,7 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetRunStatus")]
-        public HttpResponseMessage GetRunStatus(
+        public IActionResult GetRunStatus(
           [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Run Status.");
@@ -313,17 +313,17 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (data == null)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass run details in the request body");
+                return new BadRequestObjectResult("Please pass run details in the request body");
             }
 
             if (!data.CustomerId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid customer id in the request body");
+                return new BadRequestObjectResult("Please pass a valid customer id in the request body");
             }
 
             if (!data.RunId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
+                return new BadRequestObjectResult("Please pass a valid run id in the request body");
             }
 
             var runManager = _managerFactory.CreateManager<IRunManager>();
@@ -332,12 +332,14 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (runStatus == null)
             {
-                return req.CreateResponse(HttpStatusCode.BadRequest, new RunResponseModel
+                return new BadRequestObjectResult(new RunResponseModel
                 {
                     RunId = data.RunId.Value,
                     RunStatus = null,
-                    Message = "There is no run associated with the run id provided or you do not have access to view the status of the run"
+                    Message =
+                        "There is no run associated with the run id provided or you do not have access to view the status of the run"
                 });
+               
             }
 
             var response = new RunResponseModel
@@ -346,12 +348,11 @@ namespace Olsson.GET.Clients.APIFunctions
                 RunStatus = runStatus,
                 Message = string.Empty
             };
-
-            return req.CreateResponse(HttpStatusCode.OK, response);
+            return new OkObjectResult(response);
         }
 
         [FunctionName("GetAvailableRunResults")]
-        public HttpResponseMessage GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+        public IActionResult GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Available Run Results.");
 
@@ -360,17 +361,17 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (data == null)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass run details in the request body");
+                return new BadRequestObjectResult("Please pass run details in the request body");
             }
 
             if (!data.CustomerId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid customer id in the request body");
+                return new BadRequestObjectResult("Please pass a valid customer id in the request body");
             }
 
             if (!data.RunId.HasValue)
             {
-                return req.CreateErrorResponse(HttpStatusCode.BadRequest, "Please pass a valid run id in the request body");
+                return new BadRequestObjectResult("Please pass a valid run id in the request body");
             }
 
             var runManager = _managerFactory.CreateManager<IRunManager>();
@@ -379,14 +380,15 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (availableRunResults == null)
             {
-                return req.CreateResponse(HttpStatusCode.BadRequest, new
+                return new BadRequestObjectResult(new
                 {
                     RunId = data.RunId.Value,
-                    Message = "There is no run associated with the run id provided, the run has not completed, or you do not have access to view the status of the run"
+                    Message =
+                        "There is no run associated with the run id provided, the run has not completed, or you do not have access to view the status of the run"
                 });
+               
             }
-
-            return req.CreateResponse(HttpStatusCode.OK, availableRunResults);
+            return new OkObjectResult(availableRunResults);
         }
 
         private class AvailableRunResult
@@ -404,7 +406,7 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetRuns")]
-        public HttpResponseMessage GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+        public IActionResult GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Runs.");
 
@@ -415,7 +417,7 @@ namespace Olsson.GET.Clients.APIFunctions
 
             var runs = runManager.GetRuns(data.CustomerId);
 
-            return req.CreateResponse(HttpStatusCode.OK, runs);
+            return new OkObjectResult(runs);
         }
     }
 }

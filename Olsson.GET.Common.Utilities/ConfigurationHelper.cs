@@ -1,25 +1,35 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Olsson.GET.Common.Utilities
 {
     public static class ConfigurationHelper
     {
-        public static ConnectionStrings ConnectionStrings;
 
+        public static ConnectionStrings ConnectionStrings;
+        private static readonly ILogger _logger = Logging.GetLogger(nameof(ConfigurationHelper));
         public static AppSettings AppSettings;
         static ConfigurationHelper()
         {
+            
+        }
+
+        public static void Build(string executionDirectory = null)
+        {
+            _logger.LogInformation($"setting with {executionDirectory}");
             var configBuilder = new ConfigurationBuilder();
 
-            configBuilder.AddJsonFile("appsettings.json", false); // app settings shared between all environments
-            configBuilder.AddJsonFile($"appsettings.{GetEnvironment()}.json", true); // app settings for the hosted environment
-            configBuilder.AddJsonFile($"appsecrets.json", true); // secrets if they exist
-            configBuilder.AddEnvironmentVariables();
-
-            var configRoot = configBuilder.Build();
+            string basePath = !string.IsNullOrEmpty(executionDirectory) ? $"{executionDirectory}\\" : "";
             
+            configBuilder.AddJsonFile($"{basePath}appsettings.json", false); // app settings shared between all environments
+            configBuilder.AddJsonFile($"{basePath}appsettings.{GetEnvironment()}.json", true); // app settings for the hosted environment
+            configBuilder.AddJsonFile($"{basePath}appsecrets.json", true); // secrets if they exist
+            configBuilder.AddEnvironmentVariables();
+            var configRoot = configBuilder.Build();
+
             AppSettings = configRoot.Get<AppSettings>();
             ConnectionStrings = configRoot.Get<ConnectionStrings>();
         }

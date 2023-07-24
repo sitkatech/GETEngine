@@ -21,12 +21,14 @@
     <ProjectReference Include="..\Olsson.GET.Managers\Managers.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Olsson.GET.Common.Shared\Configs\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="..\Olsson.GET.Common.Shared\Configs\appsecrets.template.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="local.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

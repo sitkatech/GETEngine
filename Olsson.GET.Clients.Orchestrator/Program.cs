@@ -16,7 +16,7 @@ namespace Olsson.GET.Clients.Orchestrator
         static async Task Main()
         {
             var builder = new HostBuilder();
-            
+            ConfigurationHelper.Build();
             builder.UseEnvironment(ConfigurationHelper.GetEnvironment());
             
             builder.ConfigureWebJobs((context, b) =>
@@ -27,7 +27,7 @@ namespace Olsson.GET.Clients.Orchestrator
                 b.AddTimers();
 
             });
-
+            
             var host = builder.Build();
             using (host)
             {

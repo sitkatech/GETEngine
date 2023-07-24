@@ -16,6 +16,7 @@ namespace Olsson.GET.Clients.Agent
 
         static void Main(string[] args)
         {
+            ConfigurationHelper.Build();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Logger.LogDebug("Agent started");
             
