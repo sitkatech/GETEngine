@@ -110,6 +110,7 @@ namespace Olsson.GET.Accessors.FileIO
             // Setup the transfer context and track the copy progress
             var context = new SingleTransferContext();
 
+            Logger.LogInformation($"saving at destinationFilePath {destinationFilePath}, file location {fileLocation} originfilepath {originFilePath}");
             await TransferManager.UploadAsync(originFilePath, blockBlob, null, context, CancellationToken.None);
         }
 

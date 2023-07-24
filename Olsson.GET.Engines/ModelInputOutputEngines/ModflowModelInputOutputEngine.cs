@@ -96,6 +96,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         public void GenerateInputFiles(Run run)
         {
+            Logger.LogInformation("Generating Modflow input files");
             var modflowFileAccessor = AccessorFactory.CreateAccessor<IModelFileAccessorFactory>().CreateModflowFileAccessor(Model);
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
             var existingFlows = modflowFileAccessor.GetLocationRates();

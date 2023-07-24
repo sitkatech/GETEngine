@@ -1,14 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Shared;
 using Olsson.GET.Common.Utilities;
+using System.Data.Entity;
 using System.Text;
 
 namespace Olsson.GET.Engines.ModelInputOutputEngines
 {
     public abstract class BaseInputOutputEngine : BaseEngine
     {
+        private static readonly ILogger _logger = Logging.GetLogger<BaseInputOutputEngine>();
         protected static void WriteOutputFile(Run run, IBlobFileAccessor fileAccessor, RunResultDetails result)
         {
             WriteOutputFile(run, fileAccessor, result, false, result.RunResultName);
@@ -20,6 +23,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var outputFilePathForRun = StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{(hidden ? "!" : "")}{result.RunResultId.ToString().PadLeft(3, '0')}-{name}.json");
             var appSettingsBlobStorageModelDataFolder = ConfigurationHelper.AppSettings.BlobStorageModelDataFolder;
             var fileContent = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result));
+            _logger.LogInformation($"Writing file to {outputFilePathForRun}");
             fileAccessor.SaveFile(outputFilePathForRun, appSettingsBlobStorageModelDataFolder, fileContent).Wait();
         }
 
@@ -31,7 +35,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
                 kmlContent,
                 "application/vnd.google-earth.kml+xml"
-                );
+                ).Wait();
         }
     }
 }

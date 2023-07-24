@@ -50,7 +50,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             }
             iwfmBudgetGroundwaterResult.Periods = iwfmBudgetGroundwaterPeriods;
 
-            fileAccessor.SaveFile(StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{currResultId.ToString().PadLeft(3, '0')}-GroundWaterBudget.json"), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(iwfmBudgetGroundwaterResult)));
+            fileAccessor.SaveFile(StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{currResultId.ToString().PadLeft(3, '0')}-GroundWaterBudget.json"), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(iwfmBudgetGroundwaterResult))).Wait();
         }
 
         private static void AddGroundwaterPeriodData(IEnumerator<string> fileLineEnumerator, List<IWFMBudgetGroundwaterPeriod> iwfmBudgetGroundwaterPeriods)

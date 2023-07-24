@@ -38,6 +38,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private void CreateListFile(Run run, ref int currResultId)
         {
+            Logger.LogInformation($"Creating list file for run {run.RunID}");
             currResultId++;
 
             var modflowFileAccessor = AccessorFactory.CreateAccessor<IModelFileAccessorFactory>().CreateModflowFileAccessor(run.Model);

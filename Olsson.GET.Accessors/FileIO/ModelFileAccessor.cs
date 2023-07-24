@@ -1494,6 +1494,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public void WriteLocationFile(string fileName, string data)
         {
+            Logger.LogInformation($"Writing location file at {ConfigurationHelper.AppSettings.ModflowDataFolder} with filename {fileName} ");
             File.WriteAllText(Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, fileName), data);
         }
 

@@ -1,15 +1,20 @@
-﻿using Olsson.GET.Common.DataContracts.Files;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Common.DataContracts.Files;
 using Olsson.GET.Common.Utilities;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 
 namespace Olsson.GET.Accessors.FileIO
 {
     public class FileAccessor : IFileAccessor
     {
+        private static readonly ILogger _logger = Logging.GetLogger<FileAccessor>();
         public List<FileModel> GetFilesInModflowDataFolder()
         {
             var files = Directory.GetFiles(ConfigurationHelper.AppSettings.ModflowDataFolder);
+
+            _logger.LogInformation($"Found {files.Length} files in {ConfigurationHelper.AppSettings.ModflowDataFolder}. {string.Join(", ", files)} ");
 
             var models = new List<FileModel>();
 
