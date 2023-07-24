@@ -996,9 +996,9 @@ namespace Olsson.GET.Tests.ManagerTests
                     }
                 });
             var inputFiles = new List<string> { "somefile.csv", "anotherfile.csv" };
-            _blobFileAccessorMock.Arrange(a => a.CreateFileShare(Arg.AnyString));
+            _blobFileAccessorMock.Arrange(a => a.CreateFileShare(Arg.AnyString)).Returns(Task.CompletedTask);
             _blobFileAccessorMock.Arrange(a => a.GetFilesInDirectory(Arg.AnyString, Arg.AnyString)).ReturnsAsync(inputFiles);
-            _blobFileAccessorMock.Arrange(a => a.CopyFromBlobStorageToFileShare(Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyBool));
+            _blobFileAccessorMock.Arrange(a => a.CopyFromBlobStorageToFileShare(Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyBool)).Returns(Task.CompletedTask);
             _containerAccessorMock.Arrange(a => a.StartAzureContainer(Arg.AnyString, Arg.AnyString, Arg.AnyDouble, Arg.AnyDouble, Arg.Matches<Dictionary<string, string>>(x => x.Count > 0), Arg.IsAny<AgentProcessType>(), Arg.AnyBool));
             _runAccessorMock.Arrange(a => a.CreateOrUpdateRun(Arg.Matches<Run>(b => b.RunID == runId))).Returns(default(Run));
             _containerAccessorMock.Arrange(a => a.CanQueueNewContainer()).Returns(Task.FromResult(true));
@@ -1051,9 +1051,9 @@ namespace Olsson.GET.Tests.ManagerTests
                 });
             var inputFiles = new List<string> { "somefile.csv" };
             var exception = new Exception("azure container error");
-            _blobFileAccessorMock.Arrange(a => a.CreateFileShare(Arg.AnyString));
+            _blobFileAccessorMock.Arrange(a => a.CreateFileShare(Arg.AnyString)).Returns(Task.CompletedTask);
             _blobFileAccessorMock.Arrange(a => a.GetFilesInDirectory(Arg.AnyString, Arg.AnyString)).ReturnsAsync(inputFiles);
-            _blobFileAccessorMock.Arrange(a => a.CopyFromBlobStorageToFileShare(Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyBool));
+            _blobFileAccessorMock.Arrange(a => a.CopyFromBlobStorageToFileShare(Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyString, Arg.AnyBool)).Returns(Task.CompletedTask);
             _apiFunctionsAccessorMock.Arrange(a => a.NotificationFunctionCall(runId, Arg.AnyBool, Arg.Matches<Exception>(b => b.Message.Equals(exception.Message))));
             _containerAccessorMock.Arrange(a => a.StartAzureContainer(Arg.AnyString, Arg.AnyString, Arg.AnyDouble, Arg.AnyDouble, Arg.Matches<Dictionary<string, string>>(x => x.Count > 0), Arg.IsAny<AgentProcessType>(), Arg.AnyBool)).Throws(exception);
             _runAccessorMock.Arrange(a => a.CreateOrUpdateRun(Arg.Matches<Run>(b => b.RunID == runId))).Returns(default(Run));

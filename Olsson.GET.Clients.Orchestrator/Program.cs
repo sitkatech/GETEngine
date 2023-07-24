@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.Utilities;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Azure.WebJobs;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
@@ -25,7 +27,7 @@ namespace Olsson.GET.Clients.Orchestrator
                 b.AddTimers();
 
             });
-            
+
             var host = builder.Build();
             using (host)
             {

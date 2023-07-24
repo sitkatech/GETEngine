@@ -32,7 +32,7 @@ namespace Olsson.GET.Accessors.FileIO
             return null;
         }
 
-        public async void GetFile(string filePath, string fileLocation, string destLocation)
+        public async Task GetFile(string filePath, string fileLocation, string destLocation)
         {
             Logger.LogInformation($"Attempting to get file from path: \"{filePath}\", file location: \"{fileLocation}\" and destLocation: \"{destLocation}\"");
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
@@ -113,13 +113,13 @@ namespace Olsson.GET.Accessors.FileIO
             await TransferManager.UploadAsync(originFilePath, blockBlob, null, context, CancellationToken.None);
         }
 
-        public async void DeleteFile(string filePath, string fileLocation)
+        public async Task DeleteFile(string filePath, string fileLocation)
         {
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
             await blockBlob.DeleteIfExistsAsync();
         }
 
-        public async void CreateFileShare(string shareName)
+        public async Task CreateFileShare(string shareName)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(shareName);
             await cloudFileShare.CreateIfNotExistsAsync();
@@ -151,7 +151,7 @@ namespace Olsson.GET.Accessors.FileIO
             return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
         }
 
-        public async void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)
+        public async Task GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
 
@@ -170,7 +170,7 @@ namespace Olsson.GET.Accessors.FileIO
             await TransferManager.DownloadAsync(file, destLocation, downloadOptions, context, CancellationToken.None);
         }
 
-        public async void CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
+        public async Task CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.LogInformation($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
             var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
@@ -187,7 +187,7 @@ namespace Olsson.GET.Accessors.FileIO
             }
         }
 
-        public async void CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
+        public async Task CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.LogInformation($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
@@ -214,7 +214,7 @@ namespace Olsson.GET.Accessors.FileIO
             }
         }
 
-        public async void DeleteCloudFileShare(string fileLocator)
+        public async Task DeleteCloudFileShare(string fileLocator)
         {
             var cloudFileShare = GetCloudFileShare(fileLocator);
 

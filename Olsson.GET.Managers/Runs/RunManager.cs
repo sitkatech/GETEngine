@@ -780,7 +780,7 @@ namespace Olsson.GET.Managers.Runs
         {
             var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
 
-            blobFileAccessor.DeleteFile(StorageLocations.InputFilePathForRun(fileLocator, filename), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+            blobFileAccessor.DeleteFile(StorageLocations.InputFilePathForRun(fileLocator, filename), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Wait();
 
             return true;
         }
@@ -1037,7 +1037,7 @@ namespace Olsson.GET.Managers.Runs
             // run custom image
             if (processType == AgentProcessType.Input && run.Scenario.InputImage != null)
             {
-                blobFileAccessor.CreateFileShare(run.FileStorageLocator);
+                blobFileAccessor.CreateFileShare(run.FileStorageLocator).Wait();
 
                 //move input files into file storage
                 var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
@@ -1047,7 +1047,7 @@ namespace Olsson.GET.Managers.Runs
                     blobFileAccessor.CopyFromBlobStorageToFileShare(StorageLocations.InputFilePathForRun(run.FileStorageLocator, file),
                         ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
                         file,
-                        run.FileStorageLocator);
+                        run.FileStorageLocator).Wait();
                 }
 
                 try
@@ -1232,7 +1232,7 @@ namespace Olsson.GET.Managers.Runs
                         {
                             var destPath = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, file);
                             fileAccessor.DeleteFile(destPath);
-                            blobFileAccessor.GetSharedFile(file, run.FileStorageLocator, destPath);
+                            blobFileAccessor.GetSharedFile(file, run.FileStorageLocator, destPath).Wait();
                             storageFilesCopied.Add(file);
                         }
                     }
@@ -1249,7 +1249,7 @@ namespace Olsson.GET.Managers.Runs
                         fileAccessor.DeleteFile(destPath);
                         blobFileAccessor.GetFile(
                             StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
-                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, destPath);
+                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, destPath).Wait();
                     }
                 }
             }
@@ -1280,11 +1280,11 @@ namespace Olsson.GET.Managers.Runs
                     {
                         blobFileAccessor.CopyFromFileShareToBlobStorage(file, run.FileStorageLocator,
                             StorageLocations.ModelOutputFolderPath(run.Image.ImageName, file),
-                            ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder);
+                            ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
                     }
 
                     // delete files from generate input
-                    blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator);
+                    blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator).Wait();
                 }
                 else
                 {
@@ -1292,7 +1292,7 @@ namespace Olsson.GET.Managers.Runs
                     {
                         blobFileAccessor.DeleteFile(
                             StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
-                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
+                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Wait();
                     }
                 }
             }
@@ -1336,7 +1336,7 @@ namespace Olsson.GET.Managers.Runs
             finally
             {
                 var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
-                blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator);
+                blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator).Wait();
             }
 
             if (run.RunStatusID != RunStatus.AnalysisFailed.RunStatusID)

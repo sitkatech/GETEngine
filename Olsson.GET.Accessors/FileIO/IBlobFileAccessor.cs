@@ -9,24 +9,24 @@ namespace Olsson.GET.Accessors.FileIO
 
         Task<byte[]> GetFile(string filePath, string fileLocation);
 
-        void GetFile(string filePath, string fileLocation, string destLocation);
+        Task GetFile(string filePath, string fileLocation, string destLocation);
 
         Task<List<string>> GetFilesInDirectory(string directoryPath, string fileLocation);
 
         Task SaveFile(string destinationFilePath, string fileLocation, string originFilePath);
 
-        void DeleteFile(string filePath, string fileLocation);
+        Task DeleteFile(string filePath, string fileLocation);
 
-        void CreateFileShare(string shareName);
+        Task CreateFileShare(string shareName);
 
         Task<List<string>> GetFilesInShareDirectory(string fileLocation);
 
-        void GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation);
+        Task GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation);
 
-        void CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false);
+        Task CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false);
 
-        void CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false);
+        Task CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false);
 
-        void DeleteCloudFileShare(string fileLocator);
+        Task DeleteCloudFileShare(string fileLocator);
     }
 }
