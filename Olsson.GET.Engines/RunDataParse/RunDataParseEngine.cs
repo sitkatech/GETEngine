@@ -1,6 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -18,7 +18,7 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public RunCanalInputParseResult ParseCanalRunDataFromFile(byte[] data, Model model)
         {
-            Logger.LogInformation("Parsing raw survey data");
+            Logger.Information("Parsing raw survey data");
 
             List<RunCanalInput> records = null;
             List<string> errors = new List<string>();
@@ -55,7 +55,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Error(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 
@@ -125,7 +125,7 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public RunWellInputParseResult ParseWellRunDataFromFile(byte[] data, Model model)
         {
-            Logger.LogInformation("Parsing raw survey data");
+            Logger.Information("Parsing raw survey data");
 
             List<RunWellInput> records = null;
             List<string> errors = new List<string>();
@@ -215,7 +215,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Error(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 
@@ -313,7 +313,7 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public RunWellParticleInputParseResult ParseWellParticleRunDataFromFile(byte[] data, Model model)
         {
-            Logger.LogInformation("Parsing raw survey data");
+            Logger.Information("Parsing raw survey data");
 
             List<RunWellParticleInput> records = null;
             List<string> errors = new List<string>();
@@ -334,7 +334,7 @@ namespace Olsson.GET.Engines.RunDataParse
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Error(ex.Message);
                 errors.Add($"Error when parsing data: {ex.Message}.");
             }
 

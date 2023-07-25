@@ -5,7 +5,6 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.ContainerInstance;
 using Azure.ResourceManager.ContainerInstance.Models;
 using Azure.ResourceManager.Resources;
-using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.DataContracts.Container;
 using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Utilities;
@@ -15,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Serilog;
 using ContainerEvent = Olsson.GET.Common.DataContracts.Container.ContainerEvent;
 
 namespace Olsson.GET.Accessors.Containers
@@ -47,12 +47,12 @@ namespace Olsson.GET.Accessors.Containers
 
             // Authenticate with Azure
             var azure = GetAzureContext();
-            Logger.LogInformation("Authenticated with Azure");
+            Logger.Information("Authenticated with Azure");
             if (CanCreateContainer(azure, containerGroupName))
             {
                 if (isLinux)
                 {
-                    Logger.LogInformation("Attempting to run Linux based container");
+                    Logger.Information("Attempting to run Linux based container");
                     RunTaskBasedLinuxContainer(azure,
                         resourceGroupName,
                         containerGroupName,
@@ -65,7 +65,7 @@ namespace Olsson.GET.Accessors.Containers
                 }
                 else
                 {
-                    Logger.LogInformation("Attempting to run Windows based container");
+                    Logger.Information("Attempting to run Windows based container");
                     RunTaskBasedWindowsContainer(azure,
                         containerGroupName,
                         imageName,
@@ -133,7 +133,7 @@ namespace Olsson.GET.Accessors.Containers
 
         public async Task DeleteAzureContainer(string id)
         {
-            Logger.LogInformation($"Removing container [{id}]");
+            Logger.Information($"Removing container [{id}]");
             var azure = GetAzureContext();
             var resourceGroup = (await azure.GetResourceGroupAsync(ConfigurationHelper.AppSettings.AzureResourceGroup)).Value;
             var containerGroup = resourceGroup.GetContainerGroups().GetAll().Single(x => x.Id == id);
@@ -178,7 +178,7 @@ namespace Olsson.GET.Accessors.Containers
             var registryPassword = ConfigurationHelper.AppSettings.AzureRegistryPassword;
 
             var containerInstanceName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}";
-            Logger.LogInformation($"Attempting to run container with instance name {containerInstanceName}");
+            Logger.Information($"Attempting to run container with instance name {containerInstanceName}");
             var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
             
             
@@ -207,7 +207,7 @@ namespace Olsson.GET.Accessors.Containers
                     container.EnvironmentVariables.Add(envVar);
                 });
             });
-            Logger.LogInformation($"Attempting to CreateOrUpdate container group \"{containerGroupName}\"");
+            Logger.Information($"Attempting to CreateOrUpdate container group \"{containerGroupName}\"");
 
             var containerGroup =  resourceGroup.GetContainerGroups()
                 .CreateOrUpdateAsync(
@@ -331,14 +331,14 @@ namespace Olsson.GET.Accessors.Containers
                 var maxContainerCount = ConfigurationHelper.AppSettings.MaxContainerCount;
                 var containerCount = containers.Count;
 
-                Logger.LogInformation($"Max Container Count: {maxContainerCount}");
-                Logger.LogInformation($"Current Container Count: {containerCount}");
+                Logger.Information($"Max Container Count: {maxContainerCount}");
+                Logger.Information($"Current Container Count: {containerCount}");
                 if (containerCount < maxContainerCount)
                 {
                     return true;
                 }
 
-                Logger.LogInformation("Out of available containers.  Searching to see if some successful containers can be deleted.");
+                Logger.Information("Out of available containers.  Searching to see if some successful containers can be deleted.");
                 var deleteContainerTasks = containers.Where(a => a.State.Equals("Succeeded"))
                                                    .OrderBy(a => a.Events?.Max(b => b.LastTimeStamp) ?? DateTime.MaxValue)
                                                    .Select(CleanupContainer);
@@ -348,13 +348,13 @@ namespace Olsson.GET.Accessors.Containers
                 var deletedContainerCount = deleteResults.Count(a => a);
                 containerCount -= deletedContainerCount;
 
-                Logger.LogInformation($"Deleted {deletedContainerCount} containers, leaving {containerCount} containers.");
+                Logger.Information($"Deleted {deletedContainerCount} containers, leaving {containerCount} containers.");
 
                 var canQueueNewContainer = containerCount < maxContainerCount;
 
                 if (!canQueueNewContainer)
                 {
-                    Logger.LogWarning("Out of available containers.  Unable to start a new container.");
+                    Logger.Warning("Out of available containers.  Unable to start a new container.");
                 }
 
                 return canQueueNewContainer;
@@ -362,7 +362,7 @@ namespace Olsson.GET.Accessors.Containers
             catch (Exception ex)
             {
                 //this seems to happen pretty commonly when Staging and Prod are fighting for containers.
-                Logger.LogWarning("An exception occured trying to get the containers.", ex);
+                Logger.Warning("An exception occured trying to get the containers.", ex);
                 return false;
             }
             finally
@@ -387,7 +387,7 @@ namespace Olsson.GET.Accessors.Containers
         private bool CanCreateContainer(SubscriptionResource azure,
             string containerGroupName)
         {
-            Logger.LogInformation($"Checking if we can create a container with group name {containerGroupName}.");
+            Logger.Information($"Checking if we can create a container with group name {containerGroupName}.");
             var resourceGroup = azure.GetResourceGroup(ConfigurationHelper.AppSettings.AzureResourceGroup).Value;
             var allContainerGroups = resourceGroup.GetContainerGroups();
             

@@ -1,8 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Olsson.GET.Accessors.APIFunctions;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Olsson.GET.Common.DataContracts.Models;
@@ -13,10 +12,8 @@ using Olsson.GET.Managers.Runs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 
 namespace Olsson.GET.Clients.APIFunctions
@@ -36,14 +33,14 @@ namespace Olsson.GET.Clients.APIFunctions
         [FunctionName("Health")]
         public IActionResult Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
+            _logger.Information("C# HTTP trigger function processed a request: Health.");
             return new OkObjectResult("API is responsive.");
         }
 
         [FunctionName("RetrieveResult")]
         public IActionResult RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, Microsoft.Azure.WebJobs.ExecutionContext context)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Retrieve Result.");
+            _logger.Information("C# HTTP trigger function processed a request: Retrieve Result.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RetrieveResultModel>(requestBody);
@@ -90,7 +87,7 @@ namespace Olsson.GET.Clients.APIFunctions
         public IActionResult StartRun(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Start Run.");
+            _logger.Information("C# HTTP trigger function processed a request: Start Run.");
 
             NewRunModel data = null;
             var inputFiles = new List<InputFile>();
@@ -306,7 +303,7 @@ namespace Olsson.GET.Clients.APIFunctions
         public IActionResult GetRunStatus(
           [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Get Run Status.");
+            _logger.Information("C# HTTP trigger function processed a request: Get Run Status.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RunDetailModel>(requestBody);
@@ -354,7 +351,7 @@ namespace Olsson.GET.Clients.APIFunctions
         [FunctionName("GetAvailableRunResults")]
         public IActionResult GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Get Available Run Results.");
+            _logger.Information("C# HTTP trigger function processed a request: Get Available Run Results.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<RunDetailModel>(requestBody);
@@ -408,7 +405,7 @@ namespace Olsson.GET.Clients.APIFunctions
         [FunctionName("GetRuns")]
         public IActionResult GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request: Get Runs.");
+            _logger.Information("C# HTTP trigger function processed a request: Get Runs.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<CustomerRunModel>(requestBody);

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Serilog;
 using Olsson.GET.Accessors;
 using Olsson.GET.Common.Utilities;
 using Olsson.GET.Engines;
@@ -23,7 +23,7 @@ namespace Olsson.GET.Managers
             {
                 task.Start();
             }
-            task.ContinueWith(a => Logger.LogError("Manager to Manager call failed.", a.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            task.ContinueWith(a => Logger.Error("Manager to Manager call failed.", a.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 }

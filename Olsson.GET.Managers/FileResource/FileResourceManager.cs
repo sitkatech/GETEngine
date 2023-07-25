@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Serilog;
 using Olsson.GET.Accessors.FileResource;
 using Olsson.GET.Common.DataContracts.FileResource;
 using Olsson.GET.Common.Utilities;
@@ -13,21 +13,21 @@ namespace Olsson.GET.Managers.FileResource
 
         public FileResourceData FindByGuid(Guid fileResourceGuid)
         {
-            Logger.LogInformation($"Finding file resource {fileResourceGuid}");
+            Logger.Information($"Finding file resource {fileResourceGuid}");
             
             return AccessorFactory.CreateAccessor<IFileResourceAccessor>().FindByGuid(fileResourceGuid);
         }
 
         public FileResourceData FindByID(int fileResourceInfoID)
         {
-            Logger.LogInformation($"Finding file resource {fileResourceInfoID}");
+            Logger.Information($"Finding file resource {fileResourceInfoID}");
 
             return AccessorFactory.CreateAccessor<IFileResourceAccessor>().FindByID(fileResourceInfoID);
         }
 
         public FileResourceMimeType FindFileResourceMimeTypeByContentType(string uploadContentType)
         {
-            Logger.LogInformation($"Finding MIME type {uploadContentType}");
+            Logger.Information($"Finding MIME type {uploadContentType}");
 
             return AccessorFactory.CreateAccessor<IFileResourceAccessor>()
                 .FindFileResourceMimeTypeByContentType(uploadContentType);
@@ -35,7 +35,7 @@ namespace Olsson.GET.Managers.FileResource
 
         public FileResourceInfo CreateFileResource(FileResourceCreateDto fileResourceCreateDto)
         {
-            Logger.LogInformation("Creating new File Resource");
+            Logger.Information("Creating new File Resource");
 
             return AccessorFactory.CreateAccessor<IFileResourceAccessor>().CreateFileResource(fileResourceCreateDto);
         }

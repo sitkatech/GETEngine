@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Serilog;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -248,7 +248,7 @@ namespace Olsson.GET.Accessors.FileIO
                     }
                     else if (!loggedASRValues.Contains(asrItem.Key))
                     {
-                        Logger.LogDebug($"@ [{item.Period}-{item.Step}-{item.Zone}] - Unable to find ASR item key [{asrItem.Key}].  Available values - [{string.Join(",", item.Values.Select(a => a.Key))}]");
+                        Logger.Debug($"@ [{item.Period}-{item.Step}-{item.Zone}] - Unable to find ASR item key [{asrItem.Key}].  Available values - [{string.Join(",", item.Values.Select(a => a.Key))}]");
                         loggedASRValues.Add(asrItem.Key);
                     }
                 }
@@ -424,7 +424,7 @@ namespace Olsson.GET.Accessors.FileIO
 
                     if (!loggedFoundHeaders)
                     {
-                        Logger.LogDebug($"Found zone budget item headers [{string.Join(",", row.Context.HeaderRecord)}]");
+                        Logger.Debug($"Found zone budget item headers [{string.Join(",", row.Context.HeaderRecord)}]");
                         loggedFoundHeaders = true;
                     }
                     for (var i = 0; i < row.Context.HeaderRecord.Length; i++)

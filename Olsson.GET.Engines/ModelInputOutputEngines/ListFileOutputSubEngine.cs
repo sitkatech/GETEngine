@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Olsson.GET.Accessors.EntityFramework;
+﻿using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Serilog;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using RunStatus = Olsson.GET.Accessors.EntityFramework.RunStatus;
 
@@ -29,7 +29,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         public (List<RunResultDetails> OutputResults, OutputDataInvalidException Exception) GenerateListFileOutput(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, int outputVolumeUnitID, bool isDifferential)
         {
             var outputVolumeUnitEnum = VolumeUnit.AllLookupDictionary[outputVolumeUnitID].ToEnum;
-            Logger.LogInformation("Generating list file output.");
+            Logger.Information("Generating list file output.");
             var outputResults = new List<RunResultDetails>();
             var asrDataMap = modflowFileAccessor.GetAsrDataNameMap();
 
@@ -93,7 +93,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 }
             });
 
-            Logger.LogInformation("List file output results generated.");
+            Logger.Information("List file output results generated.");
             return (outputResults, exception);
         }
 
@@ -103,13 +103,13 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             if (observedData == null)
             {
-                Logger.LogDebug("Observed data is not present -- skipping adding it to chart.");
+                Logger.Debug("Observed data is not present -- skipping adding it to chart.");
                 return;
             }
 
             if (observedData.Any(x => x.Period > Model.NumberOfStressPeriods))
             {
-                Logger.LogDebug($"Observed data has a period outside the model duration.");
+                Logger.Debug($"Observed data has a period outside the model duration.");
                 throw new OutputDataInvalidException("Too many stress periods in observed data.", RunStatus.InvalidOutput.RunStatusID);
             }
 
@@ -291,7 +291,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             if (percentDiscrepancyLineCount != expectedPercentDiscrepancyLineCount)
             {
                 var message = $"The number of percent discrepancy lines in the list file, {percentDiscrepancyLineCount}, does not match the number of time steps, {expectedPercentDiscrepancyLineCount}.";
-                Logger.LogWarning(message);
+                Logger.Warning(message);
                 badOutputDataException = badOutputDataException ?? new OutputDataInvalidException(message, RunStatus.InvalidOutput.RunStatusID);
             }
 
@@ -358,7 +358,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             if (Math.Abs(percentDiscrepancyValue) > Model.AllowablePercentDiscrepancy)
             {
                 var message = $"{discrepancyDescription} percent discrepancy, {percentDiscrepancyValue}, is greater than the allowable amount {Model.AllowablePercentDiscrepancy}.";
-                Logger.LogWarning(message);
+                Logger.Warning(message);
                 return new OutputDataInvalidException(message, RunStatus.InvalidOutput.RunStatusID);
             }
             return null;

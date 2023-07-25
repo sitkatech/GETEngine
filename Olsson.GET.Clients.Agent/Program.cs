@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Olsson.GET.Common.Shared.Enums;
+﻿using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
 using System;
 using System.Data.Entity.SqlServer;
+using Serilog;
 
 namespace Olsson.GET.Clients.Agent
 {
@@ -18,19 +18,19 @@ namespace Olsson.GET.Clients.Agent
         {
             ConfigurationHelper.Build();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Logger.LogDebug("Agent started");
+            Logger.Debug("Agent started");
             
-            Logger.LogInformation($"Loading Native Assemblies from {AppDomain.CurrentDomain.BaseDirectory}");
+            Logger.Information($"Loading Native Assemblies from {AppDomain.CurrentDomain.BaseDirectory}");
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
             SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
             if (args == null || args.Length < 1)
             {
-                Logger.LogError("No run id specified");
+                Logger.Error("No run id specified");
                 Environment.Exit(-1);
             }
             else
             {
-                Logger.LogInformation($"Starting run id: {args[0]} with processType {args[1]}");
+                Logger.Information($"Starting run id: {args[0]} with processType {args[1]}");
             }
 
             var runId = int.Parse(args[0]);
@@ -39,14 +39,14 @@ namespace Olsson.GET.Clients.Agent
             switch (processType)
             {
                 case AgentProcessType.Input:
-                    Logger.LogInformation($"Generating input for run id:{args[0]}");
+                    Logger.Information($"Generating input for run id:{args[0]}");
                     RunManager.GenerateInputFiles(runId);
                     break;
                 case AgentProcessType.Analysis:
-                    Logger.LogInformation($"Running analysis for run id:{args[0]}");
+                    Logger.Information($"Running analysis for run id:{args[0]}");
                     RunManager.RunAnalysis(runId);
 
-                    Logger.LogInformation($"Generating output for run id:{args[0]}");
+                    Logger.Information($"Generating output for run id:{args[0]}");
                     RunManager.GenerateOutputFiles(runId);
                     break;
             }
@@ -56,11 +56,11 @@ namespace Olsson.GET.Clients.Agent
         {
             if (e.ExceptionObject is Exception ex)
             {
-                Logger.LogError("Global Error Executing Run", ex);
+                Logger.Error("Global Error Executing Run", ex);
             }
             else
             {
-                Logger.LogError("Global Error Executing Run");
+                Logger.Error("Global Error Executing Run");
             }
         }
     }
