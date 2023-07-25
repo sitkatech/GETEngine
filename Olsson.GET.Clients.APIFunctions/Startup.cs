@@ -13,7 +13,6 @@ using Serilog;
 
 public class Startup : FunctionsStartup
 {
-    private static readonly ILogger _logger = Logging.GetLogger<Startup>();
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.Services.AddSingleton<ManagerFactory>();
