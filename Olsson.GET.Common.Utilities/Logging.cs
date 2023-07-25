@@ -17,8 +17,6 @@ namespace Olsson.GET.Common.Utilities
                 ? "${HOME}\\site\\wwwroot\\App_Data\\Logs\\"
                 : "c:\\Logs\\GET\\";
 
-            Console.WriteLine(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
-
             var outputTemplate =
                 "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{MethodName}{NewLine}{Exception}";
 
