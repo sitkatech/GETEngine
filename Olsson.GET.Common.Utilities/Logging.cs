@@ -13,7 +13,7 @@ namespace Olsson.GET.Common.Utilities
         {
             var assemblyName = AssemblyName.GetAssemblyName(Assembly.GetExecutingAssembly().Location).Name;
 
-            var logPath = ConfigurationHelper.GetEnvironment() == "Production"
+            var logPath = ConfigurationHelper.GetEnvironment() == "Development"
                 ? "${HOME}\\site\\wwwroot\\App_Data\\Logs\\"
                 : "c:\\Logs\\GET\\";
 
