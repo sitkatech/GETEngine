@@ -46,6 +46,7 @@ namespace Olsson.GET.Managers.Runs
         private static readonly List<int> RunStatusesToDelete = new List<int> { RunStatus.Complete.RunStatusID, RunStatus.InvalidInput.RunStatusID, RunStatus.InvalidOutput.RunStatusID, RunStatus.SystemError.RunStatusID };
         private static readonly List<int> FinishedStatuses = new List<int> { RunStatus.Complete.RunStatusID, RunStatus.InvalidOutput.RunStatusID, RunStatus.SystemError.RunStatusID, RunStatus.InvalidInput.RunStatusID, RunStatus.HasDryCells.RunStatusID };
         private static readonly int MaxNumRestarts = 1;
+        private static readonly decimal ContainerDefaultMemory = 5.0m;
         public Run CreateOrUpdateRun(Run run)
         {
             Logger.LogInformation("Creating or Updating run");
@@ -1063,7 +1064,7 @@ namespace Olsson.GET.Managers.Runs
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
                         run.Scenario.InputImage.ImageName,
                         run.Scenario.InputImage.CpuCoreCount ?? 1,
-                        decimal.ToDouble(run.Scenario.InputImage.Memory ?? 3.5m),
+                        decimal.ToDouble(run.Scenario.InputImage.Memory ?? ContainerDefaultMemory),
                         envVars,
                         processType,
                         run.Scenario.InputImage.IsLinux);
@@ -1100,7 +1101,7 @@ namespace Olsson.GET.Managers.Runs
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
                        run.Image.ImageName,
                        run.Image.CpuCoreCount ?? 1,
-                       decimal.ToDouble(run.Image.Memory ?? 3.5m),
+                       decimal.ToDouble(run.Image.Memory ?? ContainerDefaultMemory),
                        envVars,
                        processType,
                        run.Image.IsLinux);
