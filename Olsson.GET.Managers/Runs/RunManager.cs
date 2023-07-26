@@ -1056,9 +1056,9 @@ namespace Olsson.GET.Managers.Runs
                     Dictionary<string, string> envVars = new Dictionary<string, string>
                     {
                         { "SOURCE_FOLDER", ConfigurationHelper.AppSettings.AzureContainerVolumeName },
-                        { "RUNANALYSISURL", GetAnalysisUrl(runId) },
+                        { "ANALYSIS_URL", GetAnalysisUrl(runId) }, // this one is named "ANALYSIS_URL" because I don't have control of the linux containers at all
                         { "MODEL_ID", run.ModelID.ToString() },
-                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }
+                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() } // i'm guessing this isn't being used at all because the linux containers are small and simple
                     };
 
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
