@@ -1,8 +1,10 @@
 
+using System;
 using System.Diagnostics;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Customers;
