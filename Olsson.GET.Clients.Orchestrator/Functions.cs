@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.Shared.Enums;
 using Olsson.GET.Common.Shared.Extensions;
 using Olsson.GET.Common.Utilities;
@@ -6,7 +7,6 @@ using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
 using System;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace Olsson.GET.Clients.Orchestrator
 {
@@ -26,14 +26,14 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Information($"GenerateInputs Started [{runId}]");
+                Logger.LogInformation($"GenerateInputs Started [{runId}]");
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Input);
 
-                Logger.Information($"GenerateInputs Completed [{runId}]");
+                Logger.LogInformation($"GenerateInputs Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -42,16 +42,16 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Information("Test to see if changes are being propagated");
-                Logger.Information($"RunAnalysis Started [{runId}]");
+                Logger.LogInformation("Test to see if changes are being propagated");
+                Logger.LogInformation($"RunAnalysis Started [{runId}]");
 
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Analysis);
 
-                Logger.Information($"RunAnalysis Completed [{runId}]");
+                Logger.LogInformation($"RunAnalysis Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -60,15 +60,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Information($"GenerateOutputs Started [{runId}]");
+                Logger.LogInformation($"GenerateOutputs Started [{runId}]");
 
                 await RunManager.StartContainer(int.Parse(runId), AgentProcessType.Output);
 
-                Logger.Information($"GenerateOutputs Completed [{runId}]");
+                Logger.LogInformation($"GenerateOutputs Completed [{runId}]");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
         }
@@ -77,15 +77,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Information("CleanExitedContainers Started");
+                Logger.LogInformation("CleanExitedContainers Started");
 
                 await RunManager.CleanCompletedRuns();
 
-                Logger.Information("CleanExitedContainers Completed");
+                Logger.LogInformation("CleanExitedContainers Completed");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
 
@@ -95,15 +95,15 @@ namespace Olsson.GET.Clients.Orchestrator
         {
             try
             {
-                Logger.Information("FailLongProcessingRuns Started");
+                Logger.LogInformation("FailLongProcessingRuns Started");
 
                 await RunManager.FailLongProcessingRuns();
 
-                Logger.Information("FailLongProcessingRuns Completed");
+                Logger.LogInformation("FailLongProcessingRuns Completed");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 Console.Write(ex.AllExceptionMessages());
             }
 

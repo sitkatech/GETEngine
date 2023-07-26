@@ -1,4 +1,5 @@
-﻿using Olsson.GET.Accessors.EntityFramework;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -6,7 +7,6 @@ using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Serilog;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 
@@ -96,7 +96,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         public void GenerateInputFiles(Run run)
         {
-            Logger.Information("Generating Modflow input files");
+            Logger.LogInformation("Generating Modflow input files");
             var modflowFileAccessor = AccessorFactory.CreateAccessor<IModelFileAccessorFactory>().CreateModflowFileAccessor(Model);
             var fileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
             var existingFlows = modflowFileAccessor.GetLocationRates();

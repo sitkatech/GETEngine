@@ -1,4 +1,5 @@
-﻿using Olsson.GET.Common.DataContracts.Models;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
@@ -7,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Serilog;
 
 namespace Olsson.GET.Engines
 {
@@ -58,7 +58,7 @@ namespace Olsson.GET.Engines
                 };
 
                 var argumentsAsString = string.Join(", ", processStartArgs.Select(x => $"{x.Key}: {x.Value}"));
-                Logger.Information($"Starting {modelEngineExeName} with arguments: {argumentsAsString}");
+                Logger.LogInformation($"Starting {modelEngineExeName} with arguments: {argumentsAsString}");
                 using (var process = Process.Start(processStartInfo))
                 {
                     var consoleOut = new StringBuilder();
@@ -72,7 +72,7 @@ namespace Olsson.GET.Engines
 
                     process.WaitForExit();
 
-                    Logger.Information($"{modelEngineExeName} exit code: {process.ExitCode}");
+                    Logger.LogInformation($"{modelEngineExeName} exit code: {process.ExitCode}");
 
                     var analysisResult = new AnalysisResult()
                     {
@@ -88,7 +88,7 @@ namespace Olsson.GET.Engines
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.LogError(ex.Message);
                 return new AnalysisResult() { Success = false };
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.DataMovement;
 using Microsoft.WindowsAzure.Storage.File;
@@ -9,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Serilog;
 
 
 namespace Olsson.GET.Accessors.FileIO
@@ -34,7 +34,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async Task GetFile(string filePath, string fileLocation, string destLocation)
         {
-            Logger.Information($"Attempting to get file from path: \"{filePath}\", file location: \"{fileLocation}\" and destLocation: \"{destLocation}\"");
+            Logger.LogInformation($"Attempting to get file from path: \"{filePath}\", file location: \"{fileLocation}\" and destLocation: \"{destLocation}\"");
             var blockBlob = await GetBlockBlobReference(fileLocation, filePath);
 
             // Setup the number of the concurrent operations
@@ -110,7 +110,7 @@ namespace Olsson.GET.Accessors.FileIO
             // Setup the transfer context and track the copy progress
             var context = new SingleTransferContext();
 
-            Logger.Information($"saving at destinationFilePath {destinationFilePath}, file location {fileLocation} originfilepath {originFilePath}");
+            Logger.LogInformation($"saving at destinationFilePath {destinationFilePath}, file location {fileLocation} originfilepath {originFilePath}");
             await TransferManager.UploadAsync(originFilePath, blockBlob, null, context, CancellationToken.None);
         }
 
@@ -173,7 +173,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async Task CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
-            Logger.Information($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
+            Logger.LogInformation($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
             var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
 
             CloudFileShare cloudFileShare = GetCloudFileShare(destFileLocation);
@@ -190,7 +190,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         public async Task CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
-            Logger.Information($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
+            Logger.LogInformation($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
 
             var srcFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(srcFilePath);

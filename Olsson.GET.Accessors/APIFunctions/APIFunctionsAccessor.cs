@@ -5,7 +5,7 @@ using Olsson.GET.Common.Utilities;
 using System;
 using System.Net.Http;
 using System.Text;
-using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace Olsson.GET.Accessors.APIFunctions
 {
@@ -14,21 +14,21 @@ namespace Olsson.GET.Accessors.APIFunctions
         private static readonly ILogger Logger = Logging.GetLogger<APIFunctionsAccessor>();
         public void MakeFunctionCall(string url)
         {
-            Logger.Information($"Begin: MakeFunctionCall to url: \"{url}\"");
+            Logger.LogInformation($"Begin: MakeFunctionCall to url: \"{url}\"");
             using (HttpClient client = new HttpClient())
             {
                 using (HttpResponseMessage response = client.GetAsync(url).Result)
                 using (HttpContent respContent = response.Content)
                 {
                     var tr = respContent.ReadAsStringAsync().Result;
-                    Logger.Information($"Finished: MakeFunctionCall to url: \"{url}\" with result \"{tr}\"");
+                    Logger.LogInformation($"Finished: MakeFunctionCall to url: \"{url}\" with result \"{tr}\"");
                 }
             }
         }
 
         public void NotificationFunctionCall(int runId, bool isSystemFailure, Exception ex)
         {
-            Logger.Information($"Begin: NotificationFunctionCall for RunID: \"{runId}\"");
+            Logger.LogInformation($"Begin: NotificationFunctionCall for RunID: \"{runId}\"");
             var notification = new NotificationModel
             {
                 Exception = ex,
@@ -49,7 +49,7 @@ namespace Olsson.GET.Accessors.APIFunctions
                     using (HttpContent respContent = response.Content)
                     {
                         var tr = respContent.ReadAsStringAsync().Result;
-                        Logger.Information($"Finished: NotificationFunctionCall for RunID: \"{runId}\" with response \"{tr}\"");
+                        Logger.LogInformation($"Finished: NotificationFunctionCall for RunID: \"{runId}\" with response \"{tr}\"");
                     }
                 }
             }

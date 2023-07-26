@@ -1,55 +1,39 @@
-﻿using System;
-using System.Reflection;
-using Serilog;
-using Serilog.Events;
-using Serilog.Formatting.Json;
+﻿using Microsoft.Extensions.Logging;
 
 
 namespace Olsson.GET.Common.Utilities
 {
     public class Logging
     {
+        private static readonly ILoggerFactory _loggerFactory;
         static Logging()
         {
-            var assemblyName = AssemblyName.GetAssemblyName(Assembly.GetExecutingAssembly().Location).Name;
-
-            var logPath = ConfigurationHelper.GetEnvironment() == "Development"
-                ? "${HOME}\\site\\wwwroot\\App_Data\\Logs\\"
-                : "c:\\Logs\\GET\\";
-
-            var outputTemplate =
-                "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{MethodName}{NewLine}{Exception}";
-
-            Log.Logger = new LoggerConfiguration()
-                // add console as logging target
                 
-                .WriteTo.Console(outputTemplate: outputTemplate)
-                // add rolling file logging target
-                .WriteTo.File($"{logPath}{assemblyName}.log",
-                    restrictedToMinimumLevel: LogEventLevel.Information,
-                    rollingInterval: RollingInterval.Day, 
-                    fileSizeLimitBytes:10000000,
-                    retainedFileCountLimit:10,
-                    outputTemplate:outputTemplate)
-                // add Azure Table Storage
-                .WriteTo.AzureTableStorage(ConfigurationHelper.ConnectionStrings.AzureStorageAccount,
-                    storageTableName: "Logs")
-                .Enrich.WithCaller()
-                // set default minimum level
-                .MinimumLevel.Information()
-                .CreateLogger();
-            
+            _loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter("Default", LogLevel.Information)
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)
+                    .AddConsole();
+            });
         }
+
+        
 
         public static ILogger GetLogger<T>()
         {
-            return Log.Logger.ForContext<T>();
+            return _loggerFactory.CreateLogger<T>();
         }
 
-        public static ILogger GetLogger()
+        public static ILogger GetLogger(string name)
         {
-            return Log.Logger;
+            return _loggerFactory.CreateLogger(name);
         }
 
+        //public static ILog GetLogger(Type type, string subType)
+        //{
+        //    return LogManager.GetLogger(Assembly.GetEntryAssembly(),type.FullName + "." + subType);
+        //}
     }
 }

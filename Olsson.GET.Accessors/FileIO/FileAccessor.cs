@@ -1,9 +1,9 @@
-﻿using Olsson.GET.Common.DataContracts.Files;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Common.DataContracts.Files;
 using Olsson.GET.Common.Utilities;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
-using Serilog;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -14,7 +14,7 @@ namespace Olsson.GET.Accessors.FileIO
         {
             var files = Directory.GetFiles(ConfigurationHelper.AppSettings.ModflowDataFolder);
 
-            _logger.Information($"Found {files.Length} files in {ConfigurationHelper.AppSettings.ModflowDataFolder}. {string.Join(", ", files)} ");
+            _logger.LogInformation($"Found {files.Length} files in {ConfigurationHelper.AppSettings.ModflowDataFolder}. {string.Join(", ", files)} ");
 
             var models = new List<FileModel>();
 

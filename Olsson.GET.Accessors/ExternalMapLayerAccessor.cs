@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.Utilities;
-using Serilog;
 
 namespace Olsson.GET.Accessors.GETPage
 {

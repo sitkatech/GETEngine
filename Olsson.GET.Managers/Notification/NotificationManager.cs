@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.Customers;
 using Olsson.GET.Accessors.Notification;
 using Olsson.GET.Accessors.Runs;
@@ -15,7 +15,7 @@ namespace Olsson.GET.Managers.Notification
 
         public Task SendPasswordResetEmail(string toAddress, string resetLink)
         {
-            Logger.Information($"Sending password reset email to {toAddress}");
+            Logger.LogInformation($"Sending password reset email to {toAddress}");
 
             return AccessorFactory.CreateAccessor<IEmailAccessor>().SendEmail(
                  new string[] { toAddress },
@@ -29,12 +29,12 @@ namespace Olsson.GET.Managers.Notification
         {
             var successful = string.IsNullOrWhiteSpace(errorMessage);
 
-            Logger.Information($"Sending run completed email for RunId {runId} - {(successful ? "Success" : "Failure")}");
+            Logger.LogInformation($"Sending run completed email for RunId {runId} - {(successful ? "Success" : "Failure")}");
             
             var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId);
             if (run == null)
             {
-                Logger.Warning($"Unable to find RunId {runId}");
+                Logger.LogWarning($"Unable to find RunId {runId}");
                 return;
             }
 

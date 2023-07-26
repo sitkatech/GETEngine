@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Olsson.GET.Common.Utilities
 {
@@ -8,6 +10,7 @@ namespace Olsson.GET.Common.Utilities
     {
 
         public static ConnectionStrings ConnectionStrings;
+        private static readonly ILogger _logger = Logging.GetLogger(nameof(ConfigurationHelper));
         public static AppSettings AppSettings;
         static ConfigurationHelper()
         {
@@ -16,6 +19,7 @@ namespace Olsson.GET.Common.Utilities
 
         public static void Build(string executionDirectory = null)
         {
+            _logger.LogInformation($"setting with {executionDirectory}");
             var configBuilder = new ConfigurationBuilder();
 
             string basePath = !string.IsNullOrEmpty(executionDirectory) ? $"{executionDirectory}\\" : "";

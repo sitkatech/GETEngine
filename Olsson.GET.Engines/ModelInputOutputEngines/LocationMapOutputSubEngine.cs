@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -37,11 +37,11 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         private DataContractsModels.Model Model { get; }
         public (RelatedResultDetails OutputResults, OutputDataInvalidException Exception) CreateWaterLevelHeatMapResults(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, bool isDifferential)
         {
-            Logger.Information("Creating Water Level Heat Map");
+            Logger.LogInformation("Creating Water Level Heat Map");
 
             if (!StressPeriodsAreValid(stressPeriods)) return (null, null);
 
-            Logger.Debug("Getting location position map.");
+            Logger.LogDebug("Getting location position map.");
             var locations = modflowFileAccessor.GetLocationPositionMap();
             if (!LocationsAreValid(locations)) return (null, null);
 
@@ -52,31 +52,31 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             List<Common.DataContracts.Runs.MapData> heatMap;
             if (isDifferential)
             {
-                Logger.Information("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("Run is differential -- comparing to baseline.");
 
                 var baseline = modflowFileAccessor.GetBaselineMapData();
                 if (!MapDataIsValid(baseline)) return (null, null);
 
                 string calculateColor(MapLocationState state, double value, double min, double max) => GetDifferentialColor(state, value, min, max, false);
 
-                Logger.Debug("Creating heat map legend from map stats.");
+                Logger.LogDebug("Creating heat map legend from map stats.");
                 stats = CalculateDifferentialFlowStats(baseline, run, stressPeriods, locations);
                 var legend = GetDifferentialLegendData(stats, calculateColor);
 
-                Logger.Debug("Creating heat map colors and locations.");
+                Logger.LogDebug("Creating heat map colors and locations.");
                 heatMap = CreateDifferentialFlowHeatMapData(baseline, run, modflowFileAccessor, stressPeriods, locations, stats, legend, calculateColor);
             }
             else
             {
-                Logger.Information("Run is non-differential -- ignoring baseline data even if present.");
+                Logger.LogInformation("Run is non-differential -- ignoring baseline data even if present.");
 
                 string calculateColor(MapLocationState state, double value, double min, double max) => GetNonDifferentialColor(state, value, min, max);
 
-                Logger.Debug("Creating heat map legend from map stats.");
+                Logger.LogDebug("Creating heat map legend from map stats.");
                 stats = CalculateMapStats(run, stressPeriods, locations);
                 var legend = GetLegendData(stats, calculateColor);
 
-                Logger.Debug("Creating heat map colors and locations.");
+                Logger.LogDebug("Creating heat map colors and locations.");
                 heatMap = CreateHeatMapData(run, modflowFileAccessor, stressPeriods, locations, stats, legend, calculateColor);
             }
 
@@ -99,7 +99,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 return (null, null);
             }
 
-            Logger.Information("Heat map result calculated.");
+            Logger.LogInformation("Heat map result calculated.");
 
             // We allow locations to have dry cells on non-differential runs, but it probably indicates a model issue on a differential run
             var invalidOutput = stats.HasRanDry && isDifferential;
@@ -115,15 +115,15 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             var title = isDifferential ? "Water Level Change By Zone" : "Water Level By Zone";
 
-            Logger.Information($"Creating {title} Heat Map");
+            Logger.LogInformation($"Creating {title} Heat Map");
 
             if (!modflowFileAccessor.OutputLocationZonesExists() || IsNullOrWhiteSpace(outputZoneGeoJSONRaw))
             {
-                Logger.Warning($"Not generating {title} map because Output Zone information is missing.");
+                Logger.LogWarning($"Not generating {title} map because Output Zone information is missing.");
                 return null;
             }
 
-            Logger.Debug("Getting location position map.");
+            Logger.LogDebug("Getting location position map.");
             var locations = modflowFileAccessor.GetLocationPositionMap();
             if (!LocationsAreValid(locations)) return null;
             var sortedLocations = new HashSet<string>(locations);
@@ -152,7 +152,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             if (isDifferential)
             {
-                Logger.Information("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("Run is differential -- comparing to baseline.");
 
                 var baseline = modflowFileAccessor.GetBaselineMapData();
                 if (!MapDataIsValidForWaterLevelByZone(baseline, stressPeriods.Count)) return null;
@@ -167,7 +167,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     || outputZones.Any(x => dataForZones.All(y => x.Name != y.ZoneName))
                     || outputZones.Any(x => x.ZoneNumber != dataForZones.Single(y => y.ZoneName == x.Name).ZoneNumber))
                 {
-                    Logger.Warning($"Not returning {title} map because the zones found in the OutputZoneGeoJSON and the Zones from the OutputZones.csv do not match.");
+                    Logger.LogWarning($"Not returning {title} map because the zones found in the OutputZoneGeoJSON and the Zones from the OutputZones.csv do not match.");
                     return null;
                 }
 
@@ -191,7 +191,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     || outputZones.Any(x => dataForZones.All(y => x.Name != y.ZoneName))
                     || outputZones.Any(x => x.ZoneNumber != dataForZones.Single(y => y.ZoneName == x.Name).ZoneNumber))
                 {
-                    Logger.Warning($"Not returning {title} map because the zones found in the OutputZoneGeoJSON and the Zones from the OutputZones.csv do not match.");
+                    Logger.LogWarning($"Not returning {title} map because the zones found in the OutputZoneGeoJSON and the Zones from the OutputZones.csv do not match.");
                     return null;
                 }
 
@@ -249,7 +249,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 }
             };
 
-            Logger.Information("Creating Water Level By Zone Heat Map created.");
+            Logger.LogInformation("Creating Water Level By Zone Heat Map created.");
 
             return new RelatedResultDetails
             {
@@ -398,17 +398,17 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         public RelatedResultDetails CreateDrawdownHeatMapResults(IModelFileAccessor modflowFileAccessor, List<StressPeriod> stressPeriods, bool isDifferential)
         {
-            Logger.Information("Creating Drawdown Heat Map");
+            Logger.LogInformation("Creating Drawdown Heat Map");
 
             if (isDifferential)
             {
-                Logger.Warning("Not generating heat map because run is differential.");
+                Logger.LogWarning("Not generating heat map because run is differential.");
                 return null;
             }
 
             if (!StressPeriodsAreValid(stressPeriods)) return null;
 
-            Logger.Debug("Getting location position map.");
+            Logger.LogDebug("Getting location position map.");
             var locations = modflowFileAccessor.GetLocationPositionMap();
             if (!LocationsAreValid(locations)) return (null);
 
@@ -417,11 +417,11 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             string calculateColor(MapLocationState state, double value, double min, double max) => GetDifferentialColor(state, value, min, max, true);
 
-            Logger.Debug("Creating heat map legend from map stats.");
+            Logger.LogDebug("Creating heat map legend from map stats.");
             var stats = CalculateMapStats(drawdown, stressPeriods, locations);
             var legend = GetDifferentialLegendData(stats, calculateColor);
 
-            Logger.Debug("Creating heat map colors and locations.");
+            Logger.LogDebug("Creating heat map colors and locations.");
             var heatMap = CreateHeatMapData(drawdown, modflowFileAccessor, stressPeriods, locations, stats, legend, calculateColor);
 
             var runResultDetails = heatMap.OrderBy(a => a.CurrentStressPeriod).Select(a => new RunResultDetails
@@ -443,7 +443,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 return null;
             }
 
-            Logger.Information("Heat map result calculated.");
+            Logger.LogInformation("Heat map result calculated.");
 
             return (new RelatedResultDetails
             {
@@ -454,7 +454,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private MapDataStats CalculateDifferentialFlowStats(IEnumerable<MapOutputData> baseline, IEnumerable<MapOutputData> run, List<StressPeriod> stressPeriods, List<string> locations)
         {
-            Logger.Debug("Calculating heat map flow change.");
+            Logger.LogDebug("Calculating heat map flow change.");
 
             var result = new MapDataStats
             {
@@ -498,7 +498,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
         private MapDataStats CalculateMapStats(IEnumerable<MapOutputData> mapOutput, List<StressPeriod> stressPeriods, List<string> locations)
         {
-            Logger.Debug("Calculating non-differential heat map stats.");
+            Logger.LogDebug("Calculating non-differential heat map stats.");
 
             var result = new MapDataStats
             {
@@ -1248,7 +1248,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             if (stressPeriods == null || !stressPeriods.Any())
             {
-                Logger.Warning("Not generating heat map because no stress period data found.");
+                Logger.LogWarning("Not generating heat map because no stress period data found.");
                 return false;
             }
             return true;
@@ -1258,7 +1258,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             if (locations == null || !locations.Any())
             {
-                Logger.Debug("Not generating heat map because location position map was null or empty.");
+                Logger.LogDebug("Not generating heat map because location position map was null or empty.");
                 return false;
             }
             return true;
@@ -1268,7 +1268,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             if (mapOutput == null)
             {
-                Logger.Debug("Not generating heat map because map output was null.");
+                Logger.LogDebug("Not generating heat map because map output was null.");
                 return false;
             }
             return true;
@@ -1278,13 +1278,13 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             if (mapOutput == null)
             {
-                Logger.Debug("Not generating heat map because map output was null.");
+                Logger.LogDebug("Not generating heat map because map output was null.");
                 return false;
             }
 
             if (mapOutput.Any(x => x.StressPeriod > numStressPeriods))
             {
-                Logger.Debug("Not generating heat map because one or more map output cells have a greater number of stress periods than what the model has returned as its highest stress period");
+                Logger.LogDebug("Not generating heat map because one or more map output cells have a greater number of stress periods than what the model has returned as its highest stress period");
                 return false;
             }
 

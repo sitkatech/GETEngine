@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.Utilities;
 using System.Linq;

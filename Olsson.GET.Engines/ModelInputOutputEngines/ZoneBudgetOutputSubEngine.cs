@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
@@ -32,7 +32,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var asrData = modflowFileAccessor.GetZoneBudgetAsrDataNameMap();
             if (asrData == null || !asrData.Any())
             {
-                Logger.Warning("Not generating zone budget because no asr data found.");
+                Logger.LogWarning("Not generating zone budget because no asr data found.");
                 return new List<RelatedResultDetails>();
             }
             var asrDict = asrData.ToDictionary(a => a.Key, a => a.Name);
@@ -40,7 +40,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var runData = modflowFileAccessor.GetRunZoneBudgetItems(asrData);
             if (runData == null)
             {
-                Logger.Warning("Not generating zone budget because no run file found.");
+                Logger.LogWarning("Not generating zone budget because no run file found.");
                 return new List<RelatedResultDetails>();
             }
 
@@ -52,16 +52,16 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 var baselineData = modflowFileAccessor.GetBaselineZoneBudgetItems(asrData);
                 if (baselineData == null)
                 {
-                    Logger.Warning("Not generating zone budget because no baseline file found.");
+                    Logger.LogWarning("Not generating zone budget because no baseline file found.");
                     return new List<RelatedResultDetails>();
                 }
 
-                Logger.Information("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("Run is differential -- comparing to baseline.");
                 SummarizeDifferentialZoneBudgetData(modflowFileAccessor, stressPeriods, runData, baselineData, asrDict, byZoneDictionary, byBudgetItemDictionary, outputVolumeUnitEnum);
             }
             else
             {
-                Logger.Information("Run is non-differential -- ignoring baseline data even if present.");
+                Logger.LogInformation("Run is non-differential -- ignoring baseline data even if present.");
                 SummarizeNonDifferentialZoneBudgetData(modflowFileAccessor, stressPeriods, runData, asrDict, byZoneDictionary, byBudgetItemDictionary, outputVolumeUnitEnum);
             }
 
@@ -92,13 +92,13 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var observedData = modflowFileAccessor.GetObservedZoneBudget(isDifferential);
             if (observedData == null)
             {
-                Logger.Debug("Observed data is not present -- skipping adding it to chart.");
+                Logger.LogDebug("Observed data is not present -- skipping adding it to chart.");
                 return;
             }
 
             if (observedData.Any(x => x.Period > Model.NumberOfStressPeriods))
             {
-                Logger.Debug($"Observed data has a period outside the model duration.");
+                Logger.LogDebug($"Observed data has a period outside the model duration.");
                 throw new OutputDataInvalidException("Too many stress periods in observed data.", RunStatus.InvalidOutput.RunStatusID);
             }
 
@@ -176,14 +176,14 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     var stressPeriod = stressPeriods[baselineItem.Period - 1];
                     var zoneValue = GetFriendlyZoneBudgetName(modflowFileAccessor, baselineItem.Zone);
 
-                    Logger.Debug($"@ [{baselineItem.Period}-{baselineItem.Step}-{baselineItem.Zone}] - Processing baseline budget items [{string.Join(",", baselineItem.Values.Select(a => a.Key))}]  Found run budget data items [{string.Join(",", runItem.Values.Select(a => a.Key))}]");
+                    Logger.LogDebug($"@ [{baselineItem.Period}-{baselineItem.Step}-{baselineItem.Zone}] - Processing baseline budget items [{string.Join(",", baselineItem.Values.Select(a => a.Key))}]  Found run budget data items [{string.Join(",", runItem.Values.Select(a => a.Key))}]");
 
                     var baselineBudgetData = GetValues(baselineItem, asrDict).GroupBy(a => a.Key).Where(a => a.Count() == 2)
                         .Select(a => new { BudgetItemName = a.Key, Value = a.First().Value - a.Last().Value }).ToList();
                     var runBudgetData = GetValues(runItem, asrDict).GroupBy(a => a.Key).Where(a => a.Count() == 2)
                         .Select(a => new { BudgetItemName = a.Key, Value = a.First().Value - a.Last().Value }).ToList();
 
-                    Logger.Debug($"@ [{baselineItem.Period}-{baselineItem.Step}-{baselineItem.Zone}] - Found baseline budget data items [{string.Join(",", baselineBudgetData.Select(a=>a.BudgetItemName))}]  Found run budget data items [{string.Join(",", runBudgetData.Select(a => a.BudgetItemName))}]");
+                    Logger.LogDebug($"@ [{baselineItem.Period}-{baselineItem.Step}-{baselineItem.Zone}] - Found baseline budget data items [{string.Join(",", baselineBudgetData.Select(a=>a.BudgetItemName))}]  Found run budget data items [{string.Join(",", runBudgetData.Select(a => a.BudgetItemName))}]");
 
                     foreach (var baselineBudgetDataItem in baselineBudgetData)
                     {

@@ -1,8 +1,9 @@
-﻿using Olsson.GET.Common.Utilities;
+﻿using Microsoft.Extensions.Logging;
+using Olsson.GET.Accessors.APIFunctions;
+using Olsson.GET.Common.Utilities;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Serilog;
 
 namespace SqlServerTypes
 {
@@ -36,7 +37,7 @@ namespace SqlServerTypes
         private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyName)
         {
             var path = Path.Combine(nativeBinaryPath, assemblyName);
-            Logger.Information($"Loading library at path: \"{path}\"");
+            Logger.LogInformation($"Loading library at path: \"{path}\"");
             var ptr = LoadLibrary(path);
             if (ptr == IntPtr.Zero)
             {

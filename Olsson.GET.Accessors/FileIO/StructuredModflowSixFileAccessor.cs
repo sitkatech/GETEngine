@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.Extensions.Logging;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
@@ -35,6 +36,7 @@ namespace Olsson.GET.Accessors.FileIO
             return $"{layer}|{row}|{column}";
         }
 
+        private static readonly ILogger Logger = Logging.GetLogger<StructuredModflowSixFileAccessor>();
 
         protected override string DisFileKey => StructuredDisFileKey;
         protected override Type LocationProportionMapperType => typeof(StructuredModflowSixProportionMapper);

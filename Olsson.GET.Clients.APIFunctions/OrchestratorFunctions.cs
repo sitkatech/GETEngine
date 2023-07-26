@@ -6,11 +6,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.WebUtilities;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Newtonsoft.Json;
 using Olsson.GET.Common.Utilities;
-using Serilog;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
@@ -27,8 +27,8 @@ namespace Olsson.GET.Clients.APIFunctions
         [FunctionName("RunAnalysis")]
         public HttpResponseMessage RunAnalysis([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
         {
-            _logger.Information("Test to see if changes are being propagated");
-            _logger.Information("C# HTTP trigger function processed a request: Run Analysis.");
+            _logger.LogInformation("Test to see if changes are being propagated");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Run Analysis.");
 
             // parse query parameter
             var queryParams = QueryHelpers.ParseQuery(req.RequestUri?.Query);
@@ -62,7 +62,7 @@ namespace Olsson.GET.Clients.APIFunctions
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
         {
 
-            _logger.Information("C# HTTP trigger function processed a request: Generate Outputs.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Generate Outputs.");
 
             // parse query parameter
             // parse query parameter
@@ -94,7 +94,7 @@ namespace Olsson.GET.Clients.APIFunctions
         [FunctionName("SendRunCompletedNotification")]
         public HttpResponseMessage SendRunCompletedNotification([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req)
         {
-            _logger.Information("C# HTTP trigger function processed a request: Send Run Completed Notification.");
+            _logger.LogInformation("C# HTTP trigger function processed a request: Send Run Completed Notification.");
 
             string requestBody = req.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<NotificationModel>(requestBody);

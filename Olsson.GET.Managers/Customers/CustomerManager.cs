@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
 using Olsson.GET.Accessors.Customers;
 using Olsson.GET.Common.DataContracts.Customers;
 using Olsson.GET.Common.DataContracts.Users;
@@ -13,14 +13,14 @@ namespace Olsson.GET.Managers.Customers
 
         public CustomerDto[] FindAllCustomers()
         {
-            Logger.Information($"Finding all customers");
+            Logger.LogInformation($"Finding all customers");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().FindAllCustomers();
         }
 
         public CustomerDto FindCustomerById(int customerId)
         {
-            Logger.Information($"Finding customer by id {customerId}");
+            Logger.LogInformation($"Finding customer by id {customerId}");
 
             var customer = AccessorFactory.CreateAccessor<ICustomerAccessor>().FindCustomerById(customerId);
 
@@ -29,7 +29,7 @@ namespace Olsson.GET.Managers.Customers
 
         public bool CanCreateNewTrialRuns(int customerId)
         {
-            Logger.Information($"Checking for trial run creating for customer {customerId}");
+            Logger.LogInformation($"Checking for trial run creating for customer {customerId}");
 
             var customer = AccessorFactory.CreateAccessor<ICustomerAccessor>().FindCustomerById(customerId);
 
@@ -45,49 +45,49 @@ namespace Olsson.GET.Managers.Customers
 
         public List<CustomerModelScenarioDto> FindCustomerModelScenarioDtos()
         {
-            Logger.Information("Finding all customermodelscenarios");
+            Logger.LogInformation("Finding all customermodelscenarios");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().FindCustomerModelScenarios();
         }
 
         public User[] FindUsersForCustomer(int customerId)
         {
-            Logger.Information($"Finding users for customer {customerId}");
+            Logger.LogInformation($"Finding users for customer {customerId}");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().FindUsersForCustomer(customerId);
         }
 
         public CustomerDto CreateOrUpdateCustomer(CustomerDto customerDto)
         {
-            Logger.Information($"Creating or updating customer {customerDto.CustomerName}");
+            Logger.LogInformation($"Creating or updating customer {customerDto.CustomerName}");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().CreateOrUpdateCustomer(customerDto);
         }
 
         public CustomerModelScenario[] SaveCustomerModelScenarios(int customerId, CustomerModelScenario[] customerModelScenarios)
         {
-            Logger.Information($"Saving customer model scenarios.");
+            Logger.LogInformation($"Saving customer model scenarios.");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().SaveCustomerModelScenarios(customerId, customerModelScenarios);
         }
 
         public CustomerModelWithScenariosDto[] FindAllModelsForCustomer(int customerId)
         {
-            Logger.Information($"Finding all models for customer: {customerId}");
+            Logger.LogInformation($"Finding all models for customer: {customerId}");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().FindAllModelsForCustomer(customerId);
         }
 
         public CustomerModelWithScenariosDto FindModelForCustomer(int customerId, int modelId, int scenarioId)
         {
-            Logger.Information($"Finding model for customer: {customerId}, model: {modelId}, scenario: {scenarioId}");
+            Logger.LogInformation($"Finding model for customer: {customerId}, model: {modelId}, scenario: {scenarioId}");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().FindModelForCustomer(customerId, modelId, scenarioId);
         }
 
         public vModelCountScenarioCountForCustomerID GetModelCountScenarioCountForCustomerId(int customerId)
         {
-            Logger.Information($"Finding model count scenario count for customer: {customerId}");
+            Logger.LogInformation($"Finding model count scenario count for customer: {customerId}");
 
             return AccessorFactory.CreateAccessor<ICustomerAccessor>().GetModelCountScenarioCountForCustomerId(customerId);
         }
