@@ -1035,10 +1035,13 @@ namespace Olsson.GET.Managers.Runs
             Exception startException = null;
             var containerStarted = false;
 
+            var sasToken = blobFileAccessor.GetAgentFileShareSASToken();
+
             // run custom image
             if (processType == AgentProcessType.Input && run.Scenario.InputImage != null)
             {
                 blobFileAccessor.CreateFileShare(run.FileStorageLocator).Wait();
+                
 
                 //move input files into file storage
                 var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
@@ -1058,7 +1061,9 @@ namespace Olsson.GET.Managers.Runs
                         { "SOURCE_FOLDER", ConfigurationHelper.AppSettings.AzureContainerVolumeName },
                         { "ANALYSIS_URL", GetAnalysisUrl(runId) }, // this one is named "ANALYSIS_URL" because I don't have control of the linux containers at all
                         { "MODEL_ID", run.ModelID.ToString() },
-                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() } // i'm guessing this isn't being used at all because the linux containers are small and simple
+                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }, // i'm guessing this isn't being used at all because the linux containers are small and simple
+                        { "STORAGE_ACCOUNT", ConfigurationHelper.AppSettings.AzureStorageAccountName},
+                        { "SAS_TOKEN", sasToken}
                     };
 
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
@@ -1093,7 +1098,9 @@ namespace Olsson.GET.Managers.Runs
                         { "PROCESSTYPE", ((int)processType).ToString()  },
                         { "RUN_ID", runId.ToString() },
                         { "MODEL_ID", run.ModelID.ToString() },
-                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }
+                        { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() },
+                        { "STORAGE_ACCOUNT", ConfigurationHelper.AppSettings.AzureStorageAccountName },
+                        { "SAS_TOKEN", sasToken}
                     };
 
                 try

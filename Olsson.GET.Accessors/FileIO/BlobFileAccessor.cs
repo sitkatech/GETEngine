@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -124,6 +125,17 @@ namespace Olsson.GET.Accessors.FileIO
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(shareName);
             await cloudFileShare.CreateIfNotExistsAsync();
+        }
+
+        public string GetAgentFileShareSASToken()
+        {
+            CloudFileShare cloudFileShare = GetCloudFileShare("agent");
+            var sasToken = cloudFileShare.GetSharedAccessSignature(new SharedAccessFilePolicy()
+            {
+                Permissions = SharedAccessFilePermissions.Read,
+                SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(2)
+            });
+            return sasToken;
         }
 
         public async Task<List<string>> GetFilesInShareDirectory(string fileLocation)

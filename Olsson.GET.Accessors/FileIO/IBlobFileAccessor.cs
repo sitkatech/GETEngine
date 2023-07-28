@@ -28,5 +28,7 @@ namespace Olsson.GET.Accessors.FileIO
         Task CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false);
 
         Task DeleteCloudFileShare(string fileLocator);
+
+        string GetAgentFileShareSASToken();
     }
 }

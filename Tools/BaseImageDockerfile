@@ -11,9 +11,22 @@ RUN powershell -Command \
     Start-Process -Wait -FilePath ($output + $fileName) -ArgumentList '/quiet', '/install', '/norestart'; \
     Remove-Item -Path ($output + $fileName)
 
+RUN powershell -Command \
+    New-Item -Path 'C:\' -Name 'azcopy' -ItemType Directory; \
+    $url = 'https://aka.ms/downloadazcopy-v10-windows'; \
+    $fileName = 'azcopy.zip'; \
+    $output = 'C:\temp\'; \
+    $destination = 'C:\azcopy\'; \
+    Invoke-WebRequest -Uri $url -OutFile ($output + $fileName); \
+    Expand-Archive ($output + $fileName) -DestinationPath $output -Force; \
+    $azCopyExe = Get-ChildItem -Path 'C:\temp\' -Filter azcopy.exe -Recurse -ErrorAction SilentlyContinue -Force; \
+    Write-Output $azCopyExe.FullName; \
+    Move-Item -Path $azCopyExe.FullName -Destination 'C:\azcopy\'; \
+    Remove-Item -Path ($output) -Recurse; 
+
+
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'Continue'; $verbosePreference='Continue';"] 
 
-COPY Agent/ /agent/
 ADD ModelStartContainerEntrypoint.ps1 /
 
 ENTRYPOINT [ "powershell", "C:\\ModelStartContainerEntrypoint.ps1" ]
