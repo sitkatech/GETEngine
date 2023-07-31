@@ -25,7 +25,7 @@ public class Startup : FunctionsStartup
         {
             options.SerializerSettings.ContractResolver = new DefaultContractResolver();
         });
-
-        ConfigurationHelper.Build(Environment.CurrentDirectory);
+        string appRootPath = builder.GetContext().ApplicationRootPath;
+        ConfigurationHelper.Build(appRootPath);
     }
 }
