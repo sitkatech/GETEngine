@@ -1,7 +1,7 @@
 Write-Host Start container
 
-Write-Host Download latest agent build
-$agentPath = 'https://' + $env:STORAGE_ACCOUNT + '.file.core.windows.net/agent/?' + $env:SAS_TOKEN + '';
+$agentPath = 'https://' + $env:STORAGE_ACCOUNT + '.file.core.windows.net/agent/' + $env:SAS_TOKEN + '';
+Write-Host Download latest agent build from $agentPath
 & 'C:\\azcopy\\azcopy.exe' copy $agentPath 'C:\\' --recursive
 
 Write-Host Extract latest agent build

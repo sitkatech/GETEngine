@@ -130,9 +130,10 @@ namespace Olsson.GET.Accessors.FileIO
         public string GetAgentFileShareSASToken()
         {
             CloudFileShare cloudFileShare = GetCloudFileShare("agent");
+             
             var sasToken = cloudFileShare.GetSharedAccessSignature(new SharedAccessFilePolicy()
             {
-                Permissions = SharedAccessFilePermissions.Read,
+                Permissions = SharedAccessFilePermissions.Read | SharedAccessFilePermissions.List,
                 SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(2)
             });
             return sasToken;
