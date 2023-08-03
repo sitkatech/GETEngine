@@ -52,7 +52,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             List<Common.DataContracts.Runs.MapData> heatMap;
             if (isDifferential)
             {
-                Logger.LogInformation("Run is differential -- comparing to baseline.");
+                Logger.LogInformation("CreateWaterLevelHeatMapResults: Run is differential -- comparing to baseline.");
 
                 var baseline = modflowFileAccessor.GetBaselineMapData();
                 if (!MapDataIsValid(baseline)) return (null, null);
@@ -1016,6 +1016,28 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                         document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, false));
                     }
                 }
+                else if (feature.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.GeometryCollection)
+                {
+                    Logger.LogDebug("Writing Geometry collection");
+                    var geometryCollection = feature.Geometry as GeoJSON.Net.Geometry.GeometryCollection;
+                    foreach (var geometry in geometryCollection.Geometries)
+                    {
+                        if (geometry.Type == GeoJSON.Net.GeoJSONObjectType.Polygon)
+                        {
+                            var polygon = geometry as GeoJSON.Net.Geometry.Polygon;
+                            document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, false));
+                        }
+                        else if (geometry.Type == GeoJSON.Net.GeoJSONObjectType.MultiPolygon)
+                        {
+                            var multiPolygon = geometry as GeoJSON.Net.Geometry.MultiPolygon;
+
+                            foreach (var polygon in multiPolygon.Coordinates)
+                            {
+                                document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, false));
+                            }
+                        }
+                    }
+                }
             }
 
             var kml = new Kml();
@@ -1075,6 +1097,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                 }
                 else if (feature.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.GeometryCollection)
                 {
+                    Logger.LogDebug("Writing Geometry collection");
                     var geometryCollection = feature.Geometry as GeoJSON.Net.Geometry.GeometryCollection;
                     foreach (var geometry in geometryCollection.Geometries)
                     {

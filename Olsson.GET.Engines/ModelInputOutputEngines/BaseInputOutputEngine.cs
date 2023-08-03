@@ -30,8 +30,11 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         protected static void WriteKmlFile(Run run, IBlobFileAccessor fileAccessor, RunResultDetails result, bool hidden, string name)
         {
             var kmlContent = Encoding.UTF8.GetBytes(result.ResultSets[0].MapData.KmlString);
+            
+            var outputFileName = $"{(hidden ? "!" : "")}{result.RunResultId.ToString().PadLeft(3, '0')}-{name}.kml";
 
-            fileAccessor.SaveFile(StorageLocations.OutputFilePathForRun(run.FileStorageLocator, $"{(hidden ? "!" : "")}{result.RunResultId.ToString().PadLeft(3, '0')}-{name}.kml"),
+            _logger.LogInformation($"Writing file to {run.FileStorageLocator}{outputFileName}");
+            fileAccessor.SaveFile(StorageLocations.OutputFilePathForRun(run.FileStorageLocator, outputFileName),
                 ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
                 kmlContent,
                 "application/vnd.google-earth.kml+xml"
