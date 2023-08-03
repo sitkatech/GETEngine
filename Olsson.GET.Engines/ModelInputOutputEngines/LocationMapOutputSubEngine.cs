@@ -1073,6 +1073,26 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                         document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, true));
                     }
                 }
+                else if (feature.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.GeometryCollection)
+                {
+                    var geometryCollection = feature.Geometry as GeoJSON.Net.Geometry.GeometryCollection;
+                    foreach (var geometry in geometryCollection.Geometries)
+                    {
+                        if (geometry.Type == GeoJSON.Net.GeoJSONObjectType.Polygon)
+                        {
+                            var polygon = geometry as GeoJSON.Net.Geometry.Polygon;
+                            document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, true));
+                        } else if (geometry.Type == GeoJSON.Net.GeoJSONObjectType.MultiPolygon)
+                        {
+                            var multiPolygon = geometry as GeoJSON.Net.Geometry.MultiPolygon;
+
+                            foreach (var polygon in multiPolygon.Coordinates)
+                            {
+                                document.AddFeature(CreatePlacemark(polygon, hexColor, feature.Properties, placemarkName, placemarkDescription, true));
+                            }
+                        }
+                    }
+                }
             }
 
             var kml = new Kml();
