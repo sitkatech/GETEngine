@@ -1225,10 +1225,13 @@ namespace Olsson.GET.Managers.Runs
             var storageFilesCopied = new List<string>();
             var usesFileStorage = run.Scenario.InputImage != null && run.Scenario.InputImage.IsLinux;
 
+
+            #region RetrieveFiles
             // RL 12/22/22: there seems to be an expectation that GenerateInputFiles will generate at lease one file
             // get files from generate input container
             if (usesFileStorage)
             {
+                Logger.LogInformation($"Begin: File Share retrieval from \"{run.FileStorageLocator}\" file share.");
                 var modelFiles = fileAccessor.GetFilesInModflowDataFolder(true);
 
                 storageFiles = blobFileAccessor.GetFilesInShareDirectory(run.FileStorageLocator, true).Result;
@@ -1241,12 +1244,14 @@ namespace Olsson.GET.Managers.Runs
                         fileAccessor.DeleteFile(destinationPath);
                         blobFileAccessor.GetSharedFile(storageFile, run.FileStorageLocator, destinationPath).Wait();
                         storageFilesCopied.Add(storageFile);
+                        Logger.LogInformation($"Downloaded \"{storageFile}\" to \"{destinationPath}\"");
                     }
                 }
-                
+                Logger.LogInformation($"End: File Share retrieval.");
             }
             else
             {
+                Logger.LogInformation($"Begin: blob retrieval from \"{run.FileStorageLocator}\".");
                 storageFiles = blobFileAccessor.GetFilesInDirectory(
                     StorageLocations.GenerateInputOutputFolderPath(run.FileStorageLocator),
                     ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
@@ -1258,8 +1263,11 @@ namespace Olsson.GET.Managers.Runs
                     blobFileAccessor.GetFile(
                         StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
                         ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, destPath).Wait();
+                    Logger.LogInformation($"Downloaded \"{blobFile}\" to \"{destPath}\"");
                 }
             }
+            #endregion
+
 
 
             // Run the Analysis engine
