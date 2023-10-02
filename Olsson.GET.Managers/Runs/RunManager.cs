@@ -1151,6 +1151,7 @@ namespace Olsson.GET.Managers.Runs
             }
         }
 
+        // todo: SMG 10/2/23 we may need to do something with this for IWFM models, but as far as I know so far we are only doing custom scenarios with IWFM models
         public bool GenerateInputFiles(int runId)
         {
             Logger.LogInformation($"Generating input files for run {runId}:");
