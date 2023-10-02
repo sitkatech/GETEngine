@@ -1225,45 +1225,43 @@ namespace Olsson.GET.Managers.Runs
             var usesFileStorage = run.Scenario.InputImage != null && run.Scenario.InputImage.IsLinux;
 
             // RL 12/22/22: there seems to be an expectation that GenerateInputFiles will generate at lease one file
-            // For IWFM, we are actually not doing anything so we need to skip the transferring of input files to the container and just run Analysis
-            if (run.Model.ModelEngineTypeID != (int)ModelEngineTypeEnum.IWFM)
+            // get files from generate input container
+            if (usesFileStorage)
             {
-                // get files from generate input container
-                if (usesFileStorage)
+                var modelFiles = fileAccessor.GetFilesInModflowDataFolder(true);
+
+                storageFiles = blobFileAccessor.GetFilesInShareDirectory(run.FileStorageLocator, true).Result;
+                foreach (var storageFile in storageFiles)
                 {
-                    var modelFiles = fileAccessor.GetFilesInModflowDataFolder();
+                    var destinationPath = $"{ConfigurationHelper.AppSettings.ModflowDataFolder}\\{storageFile.Replace("/", "\\")}";
 
-                    storageFiles = blobFileAccessor.GetFilesInShareDirectory(run.FileStorageLocator).Result;
-
-                    foreach (var file in storageFiles)
+                    if (modelFiles.Any(x => x.Path.Equals(destinationPath, StringComparison.InvariantCultureIgnoreCase)))
                     {
-                        if (modelFiles.Any(x => x.Name.Equals(file, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            var destPath = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, file);
-                            fileAccessor.DeleteFile(destPath);
-                            blobFileAccessor.GetSharedFile(file, run.FileStorageLocator, destPath).Wait();
-                            storageFilesCopied.Add(file);
-                        }
+                        fileAccessor.DeleteFile(destinationPath);
+                        blobFileAccessor.GetSharedFile(storageFile, run.FileStorageLocator, destinationPath).Wait();
+                        storageFilesCopied.Add(storageFile);
                     }
                 }
-                else
-                {
-                    storageFiles = blobFileAccessor.GetFilesInDirectory(
-                        StorageLocations.GenerateInputOutputFolderPath(run.FileStorageLocator),
-                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+                
+            }
+            else
+            {
+                storageFiles = blobFileAccessor.GetFilesInDirectory(
+                    StorageLocations.GenerateInputOutputFolderPath(run.FileStorageLocator),
+                    ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
 
-                    foreach (var blobFile in storageFiles)
-                    {
-                        var destPath = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, blobFile);
-                        fileAccessor.DeleteFile(destPath);
-                        blobFileAccessor.GetFile(
-                            StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
-                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, destPath).Wait();
-                    }
+                foreach (var blobFile in storageFiles)
+                {
+                    var destPath = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, blobFile);
+                    fileAccessor.DeleteFile(destPath);
+                    blobFileAccessor.GetFile(
+                        StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder, destPath).Wait();
                 }
             }
 
-            //Run Modflow
+
+            // Run the Analysis engine
             var analysisEngine = new AnalysisEngine();
             var analysisEngineSuccess = false;
             foreach (var modelExecutable in run.Model.ModelExecutables.OrderBy(x => x.RunOrder))
@@ -1280,29 +1278,27 @@ namespace Olsson.GET.Managers.Runs
 
             runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, analysisEngineSuccess ? RunStatus.AnalysisSuccess.RunStatusID : RunStatus.AnalysisFailed.RunStatusID);
 
-            if (run.Model.ModelEngineTypeID != (int)ModelEngineTypeEnum.IWFM)
+            // clean up files in storage
+            if (usesFileStorage)
             {
-                if (usesFileStorage)
+                // move copied files into model outputs
+                foreach (var file in storageFilesCopied)
                 {
-                    // move copied files into model outputs
-                    foreach (var file in storageFilesCopied)
-                    {
-                        blobFileAccessor.CopyFromFileShareToBlobStorage(file, run.FileStorageLocator,
-                            StorageLocations.ModelOutputFolderPath(run.Image.ImageName, file),
-                            ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
-                    }
-
-                    // delete files from generate input
-                    blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator).Wait();
+                    blobFileAccessor.CopyFromFileShareToBlobStorage(file, run.FileStorageLocator,
+                        StorageLocations.ModelOutputFolderPath(run.Image.ImageName, file),
+                        ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
                 }
-                else
+
+                // delete files from generate input
+                blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator).Wait();
+            }
+            else
+            {
+                foreach (var blobFile in storageFiles)
                 {
-                    foreach (var blobFile in storageFiles)
-                    {
-                        blobFileAccessor.DeleteFile(
-                            StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
-                            ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Wait();
-                    }
+                    blobFileAccessor.DeleteFile(
+                        StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Wait();
                 }
             }
 

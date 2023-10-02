@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
+using Olsson.GET.Common.Shared;
 
 namespace Olsson.GET.Tests.AccessorTests;
 
@@ -40,9 +41,19 @@ public class BlobStorageAccessorTests : BaseAccessorTest
             {
                 _fileAccessor.DeleteFile(destinationPath);
                 _blobFileAccessor.GetSharedFile(storageFile, fileStorageLocator, destinationPath).Wait();
-                storageFilesCopied.Add(destinationPath);
+                storageFilesCopied.Add(storageFile);
             }
         }
+
+
+        // test uploading to blob storage to see if folders work there
+        foreach (var file in storageFilesCopied)
+        {
+            _blobFileAccessor.CopyFromFileShareToBlobStorage(file, fileStorageLocator,
+                StorageLocations.ModelOutputFolderPath(fileStorageLocator, file),
+                ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
+        }
+
 
         Assert.IsNotNull(modelFiles);
         Assert.IsNotNull(storageFilesCopied);
