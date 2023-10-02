@@ -19,7 +19,7 @@ namespace Olsson.GET.Accessors.FileIO
 
         Task CreateFileShare(string shareName);
 
-        Task<List<string>> GetFilesInShareDirectory(string fileLocation);
+        Task<List<string>> GetFilesInShareDirectory(string fileLocation, bool recursive = false);
 
         Task GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation);
 

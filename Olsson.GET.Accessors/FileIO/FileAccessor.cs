@@ -10,9 +10,11 @@ namespace Olsson.GET.Accessors.FileIO
     public class FileAccessor : IFileAccessor
     {
         private static readonly ILogger _logger = Logging.GetLogger<FileAccessor>();
-        public List<FileModel> GetFilesInModflowDataFolder()
+        public List<FileModel> GetFilesInModflowDataFolder(bool recursive = false)
         {
-            var files = Directory.GetFiles(ConfigurationHelper.AppSettings.ModflowDataFolder);
+            var files = recursive 
+                ? Directory.GetFiles(ConfigurationHelper.AppSettings.ModflowDataFolder,"*", SearchOption.AllDirectories)
+                : Directory.GetFiles(ConfigurationHelper.AppSettings.ModflowDataFolder);
 
             _logger.LogInformation($"Found {files.Length} files in {ConfigurationHelper.AppSettings.ModflowDataFolder}. {string.Join(", ", files)} ");
 

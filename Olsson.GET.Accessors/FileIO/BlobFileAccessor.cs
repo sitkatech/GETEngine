@@ -139,7 +139,7 @@ namespace Olsson.GET.Accessors.FileIO
             return sasToken;
         }
 
-        public async Task<List<string>> GetFilesInShareDirectory(string fileLocation)
+        public async Task<List<string>> GetFilesInShareDirectory(string fileLocation, bool recursive = false)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(fileLocation);
 
@@ -147,22 +147,110 @@ namespace Olsson.GET.Accessors.FileIO
             
             FileContinuationToken fileContinuationToken = null;
             var files = new List<IListFileItem>();
+
+
+            if (recursive)
+            {
+                do
+                { 
+
+                    var resultSegment = await directory.ListFilesAndDirectoriesSegmentedAsync(
+
+                        maxResults: null,
+                        currentToken: fileContinuationToken,
+                        options: new FileRequestOptions(),
+                        operationContext: null,
+                        cancellationToken: CancellationToken.None);
+
+                    // Get the value of the continuation token returned by the listing call.
+                    fileContinuationToken = resultSegment.ContinuationToken;
+
+                    resultSegment.Results.ToList().ForEach(fileItem =>
+                    {
+                        if (fileItem is CloudFileDirectory)
+                        {
+                            var subDirFiles = GetSubDirFiles((CloudFileDirectory)fileItem).Result;
+                            files.AddRange(subDirFiles);
+                        }
+                        else
+                        {
+                            files.Add(fileItem);
+                        }
+                    });
+
+                } while (fileContinuationToken != null);
+            }
+            else
+            {
+                do
+                {
+                    var resultSegment = await directory.ListFilesAndDirectoriesSegmentedAsync(
+
+                        maxResults: null,
+                        currentToken: fileContinuationToken,
+                        options: null,
+                        operationContext: null,
+                        cancellationToken: CancellationToken.None);
+
+                    // Get the value of the continuation token returned by the listing call.
+                    fileContinuationToken = resultSegment.ContinuationToken;
+
+                    files.AddRange(resultSegment.Results);
+                } while (fileContinuationToken != null);
+            }
+
+
+            var test = files[0].Uri;
+
+            if (recursive)
+            {
+                return files.Select(a =>
+                {
+                    var segments = a.Uri.Segments;
+                    return Uri.UnescapeDataString(String.Join("", segments.Skip(2)));
+
+                }).ToList();
+            } 
+
+
+            return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
+        }
+
+
+        public async Task<List<IListFileItem>> GetSubDirFiles(CloudFileDirectory directory)
+        {
+            FileContinuationToken fileContinuationToken = null;
+            var files = new List<IListFileItem>();
             do
             {
+
                 var resultSegment = await directory.ListFilesAndDirectoriesSegmentedAsync(
-                    
+
                     maxResults: null,
                     currentToken: fileContinuationToken,
-                    options: null,
+                    options: new FileRequestOptions(),
                     operationContext: null,
                     cancellationToken: CancellationToken.None);
 
                 // Get the value of the continuation token returned by the listing call.
                 fileContinuationToken = resultSegment.ContinuationToken;
-                files.AddRange(resultSegment.Results);
+
+                resultSegment.Results.ToList().ForEach(fileItem =>
+                {
+                    if (fileItem is CloudFileDirectory)
+                    {
+                        var subDirFiles = GetSubDirFiles((CloudFileDirectory)fileItem).Result;
+                        files.AddRange(subDirFiles);
+                    }
+                    else
+                    {
+                        files.Add(fileItem);
+                    }
+                });
+                
             } while (fileContinuationToken != null);
 
-            return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
+            return files;
         }
 
         public async Task GetSharedFile(string srcFilePath, string srcFileLocation, string destLocation)

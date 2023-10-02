@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Olsson.GET.Common.Utilities;
 
 namespace Olsson.GET.Tests.AccessorTests
 {
@@ -12,6 +13,7 @@ namespace Olsson.GET.Tests.AccessorTests
         public void Init()
         {
             transaction = new TransactionScope();
+            ConfigurationHelper.Build();
         }
 
         [TestCleanup]

@@ -25,6 +25,33 @@
   </PropertyGroup>
     
   <ItemGroup>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_Boundaries.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_ElemPump.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_Groundwater.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_Pumping.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_SpecifiedHead.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_TimeSeriesBC.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_TimeSeriesPump - Copy.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_TimeSeriesPump.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_WellPump.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="ModflowTestFiles\CreateModflowFileAccessor\StructuredModFlow2005\test.nam">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -659,6 +686,7 @@
     <Folder Include="ModflowTestFiles\ModflowSixStructured\GetSegmentReachZones\DoesntExist\" />
     <Folder Include="ModflowTestFiles\Structured\GetLocationZones\FileNotFound\" />
     <Folder Include="ModflowTestFiles\Unstructured\GetLocationZones\FileNotFound\" />
+    <Folder Include="IWFMTestFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\Baseline.lst">
