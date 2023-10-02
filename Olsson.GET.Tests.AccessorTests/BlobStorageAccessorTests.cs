@@ -59,5 +59,12 @@ public class BlobStorageAccessorTests : BaseAccessorTest
         Assert.IsNotNull(storageFilesCopied);
     }
 
+    [TestMethod]
+    public void FileShareDirectoryTest()
+    {
+        var storageFiles = _blobFileAccessor.GetFilesInShareDirectory("775442a9-30ef-4fcf-93ef-e582d800f236", true).Result;
+        Assert.IsNotNull(storageFiles);
+    }
+
 
 }

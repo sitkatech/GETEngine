@@ -200,13 +200,15 @@ namespace Olsson.GET.Accessors.FileIO
             }
 
 
-            var test = files[0].Uri;
 
             if (recursive)
             {
                 return files.Select(a =>
                 {
                     var segments = a.Uri.Segments;
+
+                    var message = String.Join("|", segments);
+                    Logger.LogInformation($"File share path segments joined with | \"{message}\" found {segments.Length} total segments.");
                     return Uri.UnescapeDataString(String.Join("", segments.Skip(2)));
 
                 }).ToList();
