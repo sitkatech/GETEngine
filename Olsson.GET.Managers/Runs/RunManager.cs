@@ -1239,13 +1239,10 @@ namespace Olsson.GET.Managers.Runs
                 {
                     var destinationPath = $"{ConfigurationHelper.AppSettings.ModflowDataFolder}\\{storageFile.Replace("/", "\\")}";
 
-                    if (modelFiles.Any(x => x.Path.Equals(destinationPath, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        fileAccessor.DeleteFile(destinationPath);
-                        blobFileAccessor.GetSharedFile(storageFile, run.FileStorageLocator, destinationPath).Wait();
-                        storageFilesCopied.Add(storageFile);
-                        Logger.LogInformation($"Downloaded \"{storageFile}\" to \"{destinationPath}\"");
-                    }
+                    fileAccessor.DeleteFile(destinationPath);
+                    blobFileAccessor.GetSharedFile(storageFile, run.FileStorageLocator, destinationPath).Wait();
+                    storageFilesCopied.Add(storageFile);
+                    Logger.LogInformation($"Downloaded \"{storageFile}\" to \"{destinationPath}\"");
                 }
                 Logger.LogInformation($"End: File Share retrieval.");
             }
