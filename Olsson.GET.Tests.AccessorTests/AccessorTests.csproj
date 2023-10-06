@@ -25,6 +25,15 @@
   </PropertyGroup>
     
   <ItemGroup>
+    <None Update="IWFMTestFiles\LocationMapCoordinates.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Preprocessor\MercedWRM_Nodes.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IWFMTestFiles\Results\MercedWRM_Hydrographs_HeadAll.out">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="IWFMTestFiles\Simulation\Groundwater\MercedWRM_Boundaries.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -689,7 +698,6 @@
     <Folder Include="ModflowTestFiles\ModflowSixStructured\GetSegmentReachZones\DoesntExist\" />
     <Folder Include="ModflowTestFiles\Structured\GetLocationZones\FileNotFound\" />
     <Folder Include="ModflowTestFiles\Unstructured\GetLocationZones\FileNotFound\" />
-    <Folder Include="IWFMTestFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModflowTestFiles\ModflowSixStructured\GetAquiferFlowData\Baseline.lst">

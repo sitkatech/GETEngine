@@ -10,6 +10,7 @@
         private const string OUTPUT_FOLDER_NAME = "outputs";
         private const string GENERATE_INPUT_OUTPUT_FOLDER_NAME = "generateinputoutputs";
         private const string ANALYSIS_OUTPUT_FOLDER_NAME = "analysisoutputs";
+        private const string USER_DATA_FILE_NAME = "userdata.json";
 
         public static string InputFolderPathForRun(string fileStorageLocator)
         {
@@ -62,6 +63,10 @@
         public static string ModelOutputFolderPath(string modelName, string fileName)
         {
             return $"{modelName}/{fileName}";
+        }
+        public static string UserDataFilePathForRun(string fileStorageLocator)
+        {
+            return $"{InputFolderPathForRun(fileStorageLocator)}/{USER_DATA_FILE_NAME}";
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 
@@ -47,5 +49,7 @@ namespace Olsson.GET.Accessors.FileIO
         IEnumerable<ObservedImpactToBaseflow> GetObservedImpactToBaseflow(bool isDifferential);
         IEnumerable<ObservedZoneBudgetData> GetObservedZoneBudget(bool isDifferential);
         IEnumerable<ObservedPointOfInterest> GetObservedPointsOfInterest(bool isDifferential);
+        Dictionary<int, Tuple<double, double>> GetIWFMNodeLocations();
+        TextReader GetIWFMHeadAllOutputFile();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.SqlServer.Server;
 using Microsoft.SqlServer.Types;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
@@ -88,6 +89,8 @@ namespace Olsson.GET.Accessors.FileIO
         private const string RunZoneBudgetFileName = "Scenario.2.csv";
         private const string PointsOfInterestFileName = "PointsOfInterest.csv";
         private const string SettingsFileName = "settings.txt";
+        private const string IWFMResultsDirectory = "Results";
+        private const string IWFMResultsHeadAllFilePortion = "HeadAll.out";
 
         protected IFileFormatter FileFormatter { get; set; }
 
@@ -1527,5 +1530,59 @@ namespace Olsson.GET.Accessors.FileIO
 
             return result;
         }
+
+        public class NodeLatLng
+        {
+            public int Node { get; set; }
+            public double Lat { get; set; }
+            public double Lng { get; set; }
+        }
+
+        public sealed class NodeLatLngMap : ClassMap<NodeLatLng>
+        {
+            public NodeLatLngMap()
+            {
+                Map(m => m.Node).Name("node");
+                Map(m => m.Lat).Name("lat");
+                Map(m => m.Lng).Name("long");
+            }
+        }
+
+        public Dictionary<int, Tuple<double, double>> GetIWFMNodeLocations()
+        {
+            var result = new Dictionary<int, Tuple<double, double>>();
+            if (FileExists(LocationMapCoordinatesFileName))
+            {
+                var reader = new CsvReader(GetFileData(LocationMapCoordinatesFileName));
+                reader.Configuration.RegisterClassMap<NodeLatLngMap>();
+                reader.Read();
+                reader.ReadHeader();
+                while (reader.Read())
+                {
+                    var record = reader.GetRecord<NodeLatLng>();
+                    var key = record.Node;
+
+                    if (!result.ContainsKey(key))
+                    {
+                        result[key] = Tuple.Create(record.Lat, record.Lng);
+                    }
+                }
+            }
+            return result;
+
+            
+        }
+
+        public TextReader GetIWFMHeadAllOutputFile()
+        {
+            var resultsPath = System.IO.Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, IWFMResultsDirectory);
+            var headAllOutputFile
+                = Directory.EnumerateFiles(resultsPath).Single(x => x.Contains(IWFMResultsHeadAllFilePortion));
+
+
+            return GetFileData(String.Join("\\", headAllOutputFile.Split("\\").Skip(1)));
+        }
+
+
     }
 }

@@ -9,6 +9,19 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
 using Olsson.GET.Common.Shared;
+using System.Text;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Olsson.GET.Accessors.EntityFramework;
+using Olsson.GET.Common.DataContracts.APIFunctionModels;
+using Olsson.GET.Common.DataContracts.Runs;
+using Model = Olsson.GET.Common.DataContracts.Models.Model;
+using ModelExecutable = Olsson.GET.Common.DataContracts.Models.ModelExecutable;
+using CsvHelper;
+using NetTopologySuite.Geometries;
+using static Olsson.GET.Accessors.FileIO.ModelFileAccessor;
+using System.Globalization;
+using System.Reflection.PortableExecutable;
 
 namespace Olsson.GET.Tests.AccessorTests;
 
@@ -18,6 +31,10 @@ public class BlobStorageAccessorTests : BaseAccessorTest
     private readonly IContainerAccessor _containerAccessor = new AccessorFactory().CreateAccessor<IContainerAccessor>();
     private readonly IBlobFileAccessor _blobFileAccessor = new AccessorFactory().CreateAccessor<IBlobFileAccessor>();
     private readonly IFileAccessor _fileAccessor = new AccessorFactory().CreateAccessor<IFileAccessor>();
+    //private readonly IModelFileAccessor _modelFileAccessor = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
+    //{
+    //    ModelEngineTypeID = (int)ModelEngineTypeEnum.IWFM,
+    //});
 
     [TestMethod]
     public void CanUploadDirectoryToFileStorage()
@@ -62,8 +79,98 @@ public class BlobStorageAccessorTests : BaseAccessorTest
     [TestMethod]
     public void FileShareDirectoryTest()
     {
-        var storageFiles = _blobFileAccessor.GetFilesInShareDirectory("775442a9-30ef-4fcf-93ef-e582d800f236", true).Result;
+        var storageFiles = _blobFileAccessor.GetFilesInShareDirectory("3bcca1a5-7bca-4fc2-a5e5-58af4556c330", true).Result;
         Assert.IsNotNull(storageFiles);
+    }
+
+    [TestMethod]
+    public void GetUserDataFileTest()
+    {
+        ConfigurationHelper.AppSettings.ModflowDataFolder = $@"IWFMTestFiles";
+        var testFileStorageLocator = "1f06e793-827a-4aa3-a236-fd8940b6d395";
+        var file = _blobFileAccessor.GetFile(StorageLocations.UserDataFilePathForRun(testFileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+        var userDataObject = JsonConvert.DeserializeObject<UserDataJson>(Encoding.UTF8.GetString(file));
+        
+        var modelFileAccessor = new ModelFileAccessorFactory().CreateModflowFileAccessor(new Model
+        {
+            ModelEngineTypeID = (int)ModelEngineTypeEnum.IWFM,
+        });
+
+        var nodeLocations = modelFileAccessor.GetIWFMNodeLocations();
+
+        Dictionary<int, Point> nodePoints = nodeLocations.ToDictionary(x => x.Key, x => new Point(x.Value.Item2, x.Value.Item1));
+        // find the closest node to each of the input locations
+        userDataObject.UserDataPointInputs.ForEach(inputPoint =>
+        {
+            var inputPointGeometry = new Point(inputPoint.Lng, inputPoint.Lat);
+            var closestNode = nodePoints.Keys.Select(x => new
+                { Node = x, Distance = nodePoints[x].Distance(inputPointGeometry) })
+                .OrderBy(x => x.Distance)
+                .First().Node;
+
+            inputPoint.ClosestNode = closestNode;
+        });
+
+        // since we have the closest node, now we need to parse the HeadAll.out file for the model and get the results for the node.
+
+        var nodeValuesDictionary = new Dictionary<DateTime, Dictionary<int,List<double>>>();
+        var reader = modelFileAccessor.GetIWFMHeadAllOutputFile();
+        string line;
+        DateTime currentTimeStep = default;
+        while ((line = reader.ReadLine()) != null)
+        {
+            // Skip empty lines
+            if (string.IsNullOrWhiteSpace(line) || line.StartsWith("*"))
+                continue;
+
+            string[] parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var isNewTimestepRow = DateTime.TryParseExact(parts[0].Replace("24:00", "00:00"), "MM/dd/yyyy_HH:mm",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out DateTime dateTime);
+
+            if (isNewTimestepRow)
+            {
+                currentTimeStep = dateTime; // may need to add a day here due to the 24:00 -> 00:00 above
+                parts = parts.Skip(1).ToArray();
+                // the rest of the parts should now be just the number of nodes
+            }
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if(!nodeValuesDictionary.ContainsKey(currentTimeStep))
+                {
+                    nodeValuesDictionary.Add(currentTimeStep, new Dictionary<int, List<double>>());
+                }
+
+                if (!nodeValuesDictionary[currentTimeStep].ContainsKey(i + 1))
+                {
+                    nodeValuesDictionary[currentTimeStep][i + 1] = new List<double>();
+                }
+
+                nodeValuesDictionary[currentTimeStep][i + 1].Add(Double.Parse(parts[i]));
+            }
+        }
+
+
+        userDataObject.UserDataPointInputs.ForEach(inputPoint =>
+        {
+            inputPoint.WaterLevelsByTimestep = new Dictionary<DateTime, double>();
+
+            foreach (var dateTime in nodeValuesDictionary.Keys)
+            {
+                var valueToAdd = nodeValuesDictionary[dateTime][inputPoint.ClosestNode].Last();
+                inputPoint.WaterLevelsByTimestep.Add(dateTime, valueToAdd);
+            }
+        });
+        _blobFileAccessor
+            .SaveFile(
+                StorageLocations.OutputFilePathForRun(testFileStorageLocator,
+                    $"{2.ToString().PadLeft(3, '0')}-TimeSeriesData.json"),
+                ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
+                Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userDataObject))).Wait();
+
+        Assert.IsNotNull(userDataObject);
     }
 
 
