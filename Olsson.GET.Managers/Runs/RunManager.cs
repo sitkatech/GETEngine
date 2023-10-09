@@ -1294,9 +1294,6 @@ namespace Olsson.GET.Managers.Runs
                         StorageLocations.ModelOutputFolderPath(run.Image.ImageName, file),
                         ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
                 }
-
-                // delete files from generate input
-                blobFileAccessor.DeleteCloudFileShare(run.FileStorageLocator).Wait();
             }
             else
             {
