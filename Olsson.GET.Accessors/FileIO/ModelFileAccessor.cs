@@ -1576,11 +1576,12 @@ namespace Olsson.GET.Accessors.FileIO
         public TextReader GetIWFMHeadAllOutputFile()
         {
             var resultsPath = System.IO.Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, IWFMResultsDirectory);
-            var headAllOutputFile
+            var fullHeadAllOutputFilePath
                 = Directory.EnumerateFiles(resultsPath).Single(x => x.Contains(IWFMResultsHeadAllFilePortion));
 
+            var relativeHeadAllOutputFilePath = fullHeadAllOutputFilePath.Replace($"{ConfigurationHelper.AppSettings.ModflowDataFolder}\\", "");
 
-            return GetFileData(String.Join("\\", headAllOutputFile.Split("\\").Skip(1)));
+            return GetFileData(relativeHeadAllOutputFilePath);
         }
 
 
