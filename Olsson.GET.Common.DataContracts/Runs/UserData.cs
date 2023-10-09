@@ -11,11 +11,11 @@ namespace Olsson.GET.Common.DataContracts.Runs
         public string Name { get; set; }
 
         [DataMember(Name = "PivotedRunWellInputs")]
-        public List<UserDataPointInput> UserDataPointInputs { get; set; }
+        public List<UserDataPoint> UserDataPointInputs { get; set; }
     }
 
     [DataContract]
-    public class UserDataPointInput
+    public class UserDataPoint
     {
         [DataMember]
         public string Name { get; set; }
@@ -28,7 +28,13 @@ namespace Olsson.GET.Common.DataContracts.Runs
         [DataMember]
         public int ClosestNode { get; set; }
         [DataMember]
-        public Dictionary<DateTime, double> WaterLevelsByTimestep { get; set; }
+        public List<UserDataPointTimeStep> TimeSteps { get; set; }
+    }
+
+    public class UserDataPointTimeStep
+    {
+        public DateTime DateTime { get; set; }
+        public double Value { get; set; }
     }
 
 

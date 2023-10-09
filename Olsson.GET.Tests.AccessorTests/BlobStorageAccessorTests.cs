@@ -155,12 +155,12 @@ public class BlobStorageAccessorTests : BaseAccessorTest
 
         userDataObject.UserDataPointInputs.ForEach(inputPoint =>
         {
-            inputPoint.WaterLevelsByTimestep = new Dictionary<DateTime, double>();
+            inputPoint.TimeSteps = new List<UserDataPointTimeStep>();
 
             foreach (var dateTime in nodeValuesDictionary.Keys)
             {
                 var valueToAdd = nodeValuesDictionary[dateTime][inputPoint.ClosestNode].Last();
-                inputPoint.WaterLevelsByTimestep.Add(dateTime, valueToAdd);
+                inputPoint.TimeSteps.Add(new UserDataPointTimeStep() { DateTime = dateTime, Value = valueToAdd });
             }
         });
         _blobFileAccessor

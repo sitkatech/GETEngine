@@ -74,12 +74,16 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             userDataObject.UserDataPointInputs.ForEach(inputPoint =>
             {
-                inputPoint.WaterLevelsByTimestep = new Dictionary<DateTime, double>();
+                inputPoint.TimeSteps = new List<UserDataPointTimeStep>();
 
                 foreach (var dateTime in parsedHeadAllOutputFile.Keys)
                 {
                     var valueToAdd = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
-                    inputPoint.WaterLevelsByTimestep.Add(dateTime, valueToAdd);
+                    inputPoint.TimeSteps.Add(new UserDataPointTimeStep()
+                    {
+                        DateTime = dateTime,
+                        Value = valueToAdd
+                    });
                 }
             });
 
