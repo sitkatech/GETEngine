@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Olsson.GET.Accessors.EntityFramework;
 using Role = Olsson.GET.Common.DataContracts.Users.Role;
@@ -27,7 +28,7 @@ namespace Olsson.GET.Accessors.Authentication
         {
             using (var db = DatabaseFactory.Create<PrimaryDBContext>())
             {
-                var role = EntityFramework.Role.All.SingleOrDefault(r => r.RoleName == roleName);
+                var role = EntityFramework.Role.All.SingleOrDefault(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
                 var userRole = db.UserRoles.SingleOrDefault(u => u.UserID == userID && u.RoleID == role.RoleID);
 
                 if (userRole != null)
@@ -42,7 +43,7 @@ namespace Olsson.GET.Accessors.Authentication
         {
             using (var db = DatabaseFactory.Create<PrimaryDBContext>())
             {
-                var role = EntityFramework.Role.All.SingleOrDefault(r => r.RoleName == roleName);
+                var role = EntityFramework.Role.All.SingleOrDefault(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase));
                 var user = db.Users.Include("UserRoles").SingleOrDefault(u => u.UserID == userID);
 
                 if (role != null && user != null && user.UserRoles.All(r => r.RoleID != role.RoleID))
@@ -123,7 +124,7 @@ namespace Olsson.GET.Accessors.Authentication
                 if (!roleIDs.Any())
                     return false;
 
-                return EntityFramework.Role.All.Any(r => r.RoleName == roleName && roleIDs.Contains(r.RoleID));
+                return EntityFramework.Role.All.Any(r => r.RoleName.Equals(roleName, StringComparison.OrdinalIgnoreCase) && roleIDs.Contains(r.RoleID));
             }
         }
 
