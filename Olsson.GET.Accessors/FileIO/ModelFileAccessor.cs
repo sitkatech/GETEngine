@@ -91,6 +91,7 @@ namespace Olsson.GET.Accessors.FileIO
         private const string SettingsFileName = "settings.txt";
         private const string IWFMResultsDirectory = "Results";
         private const string IWFMResultsHeadAllFilePortion = "HeadAll.out";
+        private const string IWFMResultsHeadAllBaselineFilePortion = "HeadAll.Baseline.out";
 
         protected IFileFormatter FileFormatter { get; set; }
 
@@ -1573,11 +1574,12 @@ namespace Olsson.GET.Accessors.FileIO
             
         }
 
-        public TextReader GetIWFMHeadAllOutputFile()
+        public TextReader GetIWFMHeadAllOutputFile(bool isDifferential = false)
         {
             var resultsPath = System.IO.Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, IWFMResultsDirectory);
+
             var fullHeadAllOutputFilePath
-                = Directory.EnumerateFiles(resultsPath).Single(x => x.Contains(IWFMResultsHeadAllFilePortion));
+                = Directory.EnumerateFiles(resultsPath).Single(x => x.Contains(isDifferential ? IWFMResultsHeadAllBaselineFilePortion : IWFMResultsHeadAllFilePortion));
 
             var relativeHeadAllOutputFilePath = fullHeadAllOutputFilePath.Replace($"{ConfigurationHelper.AppSettings.ModflowDataFolder}\\", "");
 

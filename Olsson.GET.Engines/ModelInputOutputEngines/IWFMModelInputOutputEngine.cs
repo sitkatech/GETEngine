@@ -19,6 +19,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
     public class IWFMModelInputOutputEngine : BaseInputOutputEngine, IModelInputOutputEngine
     {
         public const string BudgetGroundwaterFileName = "Budget/Groundwater.bud";
+        public const string BaselineBudgetGroundwaterFileName = "Budget/Groundwater.Baseline.bud";
 
         private Model Model { get; }
 
@@ -71,6 +72,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             });
 
             var parsedHeadAllOutputFile = ParseHeadAllOutputFile(modelFileAccessor);
+            var baselineHeadAllOutputFile = ParseHeadAllOutputFile(modelFileAccessor, true);
 
             userDataObject.UserDataPointInputs.ForEach(inputPoint =>
             {
@@ -78,7 +80,19 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
                 foreach (var dateTime in parsedHeadAllOutputFile.Keys)
                 {
-                    var valueToAdd = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                    double valueToAdd;
+                    if (run.IsDifferential)
+                    {
+                        // get the difference between baseline and the run value for differential results
+                        var runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        var baselineValue = baselineHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        valueToAdd = baselineValue - runValue;
+                    }
+                    else
+                    {
+                        valueToAdd = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                    }
+
                     inputPoint.TimeSteps.Add(new UserDataPointTimeStep()
                     {
                         DateTime = dateTime,
@@ -110,14 +124,32 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             {
                 StorageArea = storageArea
             };
-            var iwfmBudgetGroundwaterPeriods = new List<IWFMBudgetGroundwaterPeriod>();
 
+            // run result periods
+            var iwfmBudgetGroundwaterPeriods = new List<IWFMBudgetGroundwaterPeriod>();
             using (var fileLineEnumerator = lines.Skip(7).GetEnumerator())
             {
                 AddGroundwaterPeriodData(fileLineEnumerator, iwfmBudgetGroundwaterPeriods);
             }
-
             iwfmBudgetGroundwaterResult.Periods = iwfmBudgetGroundwaterPeriods;
+
+            // baseline periods
+            if (run.IsDifferential)
+            {
+                var baselineLines
+                    = System.IO.File
+                    .ReadLines(System.IO.Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, BaselineBudgetGroundwaterFileName))
+                    .SkipWhile(x => x.IndexOf("groundwater budget in ac.ft. for entire model area",
+                        StringComparison.InvariantCultureIgnoreCase) < 0).ToList();
+
+                var baselineStorageAreaLine = baselineLines.Skip(1).Take(1).Single();
+                var iwfmBaselineBudgetGroundwaterPeriods = new List<IWFMBudgetGroundwaterPeriod>();
+                using (var fileLineEnumerator = baselineLines.Skip(7).GetEnumerator())
+                {
+                    AddGroundwaterPeriodData(fileLineEnumerator, iwfmBaselineBudgetGroundwaterPeriods);
+                }
+                iwfmBudgetGroundwaterResult.BaselinePeriods = iwfmBaselineBudgetGroundwaterPeriods;
+            }
 
             fileAccessor
                 .SaveFile(
@@ -160,10 +192,11 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             return line.Trim().Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private Dictionary<DateTime, Dictionary<int, List<double>>> ParseHeadAllOutputFile(IModelFileAccessor modelFileAccessor)
+        private Dictionary<DateTime, Dictionary<int, List<double>>> ParseHeadAllOutputFile(
+            IModelFileAccessor modelFileAccessor, bool isDifferential = false)
         {
             var nodeValuesDictionary = new Dictionary<DateTime, Dictionary<int, List<double>>>();
-            var reader = modelFileAccessor.GetIWFMHeadAllOutputFile();
+            var reader = modelFileAccessor.GetIWFMHeadAllOutputFile(isDifferential);
             string line;
             DateTime currentTimeStep = default;
             while ((line = reader.ReadLine()) != null)

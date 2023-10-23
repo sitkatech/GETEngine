@@ -50,6 +50,6 @@ namespace Olsson.GET.Accessors.FileIO
         IEnumerable<ObservedZoneBudgetData> GetObservedZoneBudget(bool isDifferential);
         IEnumerable<ObservedPointOfInterest> GetObservedPointsOfInterest(bool isDifferential);
         Dictionary<int, Tuple<double, double>> GetIWFMNodeLocations();
-        TextReader GetIWFMHeadAllOutputFile();
+        TextReader GetIWFMHeadAllOutputFile(bool isDifferential = false);
     }
 }

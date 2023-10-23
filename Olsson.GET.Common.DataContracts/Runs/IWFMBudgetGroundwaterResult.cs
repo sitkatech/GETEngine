@@ -6,5 +6,6 @@ namespace Olsson.GET.Common.DataContracts.Runs
     {
         public double StorageArea { get; set; }
         public List<IWFMBudgetGroundwaterPeriod> Periods { get; set; }
+        public List<IWFMBudgetGroundwaterPeriod> BaselinePeriods { get; set; }
     }
 }
