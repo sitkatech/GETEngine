@@ -29,12 +29,15 @@ namespace Olsson.GET.Common.DataContracts.Runs
         public int ClosestNode { get; set; }
         [DataMember]
         public List<UserDataPointTimeStep> TimeSteps { get; set; }
+
     }
 
     public class UserDataPointTimeStep
     {
         public DateTime DateTime { get; set; }
         public double Value { get; set; }
+        public double? BaselineValue { get; set; }
+        public double? BaselineValueDifference { get; set; }
     }
 
 

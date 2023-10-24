@@ -80,23 +80,26 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
                 foreach (var dateTime in parsedHeadAllOutputFile.Keys)
                 {
-                    double valueToAdd;
+                    var runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                    double? baselineValue = null;
+                    double? baselineValueDifference = null;
                     if (run.IsDifferential)
                     {
                         // get the difference between baseline and the run value for differential results
-                        var runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
-                        var baselineValue = baselineHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
-                        valueToAdd = baselineValue - runValue;
+                        baselineValue = baselineHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        baselineValueDifference = baselineValue - runValue;
                     }
                     else
                     {
-                        valueToAdd = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
                     }
 
                     inputPoint.TimeSteps.Add(new UserDataPointTimeStep()
                     {
                         DateTime = dateTime,
-                        Value = valueToAdd
+                        Value = runValue,
+                        BaselineValue = baselineValue,
+                        BaselineValueDifference = baselineValueDifference
                     });
                 }
             });
