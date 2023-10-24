@@ -80,7 +80,7 @@ namespace Olsson.GET.Common.Utilities
         public string GoogleMapsAPIKey { get; set; }
         public TimeSpan LoginTimeout { get; set; } = TimeSpan.FromDays(60);
         public int TrialRunLimit { get; set; } = 10;
-        public int MaxRunProcessingTimeInHours { get; set; } = 12;
+        public int MaxRunProcessingTimeInHours { get; set; } = 24;
         public int ContainerRetentionPeriodInDays { get; set; } = 1;
         public int MaxContainerCount { get; set; } = 90;
         public string APIFunctionCode { get; set; }
