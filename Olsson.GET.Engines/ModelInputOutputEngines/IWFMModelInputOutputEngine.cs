@@ -182,10 +182,17 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     EndingStorage = double.Parse(data[3]),
                     DeepPercolation = double.Parse(data[4]),
                     GainFromStream = double.Parse(data[5]),
+                    Recharge = double.Parse(data[6]),
                     GainFromLake = double.Parse(data[7]),
                     BoundaryInflow = double.Parse(data[8]),
+                    Subsidence = double.Parse(data[9]),
+                    SubsurfaceIrrigation = double.Parse(data[10]),
+                    TileDrainOutflow = double.Parse(data[11]),
                     Pumping = double.Parse(data[12]),
                     OutflowToRootZone = double.Parse(data[13]),
+                    NetSubsurfaceInflow = double.Parse(data[14]),
+                    Discrepancy = double.Parse(data[15]),
+                    CumulativeSubsidence = double.Parse(data[16]),
                 });
             }
         }
