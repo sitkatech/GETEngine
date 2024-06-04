@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Olsson.GET.Accessors.APIFunctions;
 using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Olsson.GET.Common.DataContracts.Models;
@@ -15,9 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Microsoft.AspNetCore.Mvc;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
@@ -30,11 +31,11 @@ namespace Olsson.GET.Clients.APIFunctions
             _managerFactory = managerFactory;
         }
 
-        private const string WaterLevelChangeFileName = "Water Level Change";
-
         //MP 11/17/21 This function should be built out to be a little bit more informative. But for now just use it to see if the API is responsive
         [FunctionName("Health")]
         [OpenApiOperation(operationId: "Health")]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
         public IActionResult Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
@@ -42,7 +43,12 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("RetrieveResult")]
-        public IActionResult RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, Microsoft.Azure.WebJobs.ExecutionContext context)
+        [OpenApiOperation(operationId: "RetrieveResult")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(RetrieveResultModel), Required = true, Description = "Retrieve Result Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RunResultResponseModel))]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
+        public IActionResult RetrieveResult([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req, Microsoft.Azure.WebJobs.ExecutionContext context)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Retrieve Result.");
 
@@ -77,7 +83,7 @@ namespace Olsson.GET.Clients.APIFunctions
 
             if (runResult == null)
             {
-                return new BadRequestObjectResult(new
+                return new BadRequestObjectResult(new RunResponseModel()
                 {
                     RunId = data.RunId.Value,
                     Message = "There is no run associated with the run id provided, the run has not completed, or you do not have access to view the status of the run"
@@ -88,8 +94,13 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("StartRun")]
+        [OpenApiOperation(operationId: "StartRun")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(NewRunModel), Required = true, Description = "New Run Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RunResponseModel))]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
         public IActionResult StartRun(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Start Run.");
 
@@ -304,8 +315,13 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetRunStatus")]
+        [OpenApiOperation(operationId: "GetRunStatus")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(RunDetailModel), Required = true, Description = "Run Detail Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RunResponseModel))]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
         public IActionResult GetRunStatus(
-          [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+          [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Run Status.");
 
@@ -353,7 +369,12 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("GetAvailableRunResults")]
-        public IActionResult GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+        [OpenApiOperation(operationId: "GetAvailableRunResults")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(RunDetailModel), Required = true, Description = "Run Detail Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(List<AvailableRunResult>))]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
+        public IActionResult GetAvailableRunResults([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Available Run Results.");
 
@@ -395,19 +416,17 @@ namespace Olsson.GET.Clients.APIFunctions
         private class AvailableRunResult
         {
             public string FileName { get; set; }
-            public List<string> AvailableDates { get; set; }
-            public string SomethingElse { get; set; }
-        }
-
-        private class AvailableRunResultHelper
-        {
-            public string FileName { get; set; }
-            public List<string> AvailableDates { get; set; }
-            public string SomethingElse { get; set; }
+            public List<string> AvailableSubTypes { get; set; }
+            public List<string> AvailableFileTypes { get; set; }
         }
 
         [FunctionName("GetRuns")]
-        public IActionResult GetRuns([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req)
+        [OpenApiOperation(operationId: "GetRuns")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CustomerRunModel), Required = true, Description = "Customer Run Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(List<RunSummaryReponseModel>))]
+        [OpenApiSecurity("subscription_key_header", SecuritySchemeType.ApiKey, Name = "Ocp-Apim-Subscription-Key", In = OpenApiSecurityLocationType.Header)]
+        [OpenApiSecurity("subscription_key_query_param", SecuritySchemeType.ApiKey, Name = "subscription-key", In = OpenApiSecurityLocationType.Query)]
+        public IActionResult GetRuns([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Get Runs.");
 

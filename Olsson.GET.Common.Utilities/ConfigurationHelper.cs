@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace Olsson.GET.Common.Utilities
 {
@@ -105,6 +106,9 @@ namespace Olsson.GET.Common.Utilities
         public int MaxNumberOfDataSeriesToDisplay { get; set; } = 20;
         public int MaxNumberOfActionsInBucket { get; set; } = 4;
         public TimeSpan CacheStaticContentTimeSpan { get; set; } = new TimeSpan();
+
+        public string CustomerAzureFunctionsBaseUrl { get; set; } =
+            "https://get-api-qa.azure-api.net/GETAzureFunctionApiQA";
 
     }
 }
