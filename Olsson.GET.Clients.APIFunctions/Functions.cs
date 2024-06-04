@@ -15,9 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 
 namespace Olsson.GET.Clients.APIFunctions
 {
@@ -34,6 +34,7 @@ namespace Olsson.GET.Clients.APIFunctions
 
         //MP 11/17/21 This function should be built out to be a little bit more informative. But for now just use it to see if the API is responsive
         [FunctionName("Health")]
+        [OpenApiOperation(operationId: "Health")]
         public IActionResult Health([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestMessage req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
