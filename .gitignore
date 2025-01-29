@@ -261,3 +261,5 @@ Olsson.GET.Clients.Portal/package-lock.json
 
 # Config
 Olsson.GET.Common.Shared/Configs/appsecrets.json
+
+Documentation/
