@@ -7,8 +7,10 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
+using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 
 
 namespace Olsson.GET.Accessors.EntityFramework

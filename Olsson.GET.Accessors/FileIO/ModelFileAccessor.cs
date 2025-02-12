@@ -8,7 +8,6 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using Newtonsoft.Json;
 using Olsson.GET.Accessors.ExtensionMethods;
-using Olsson.GET.Common.DataContracts.Models;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
@@ -16,6 +15,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Olsson.GET.Accessors.EntityFramework;
+using Model = Olsson.GET.Common.DataContracts.Models.Model;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -1585,7 +1586,5 @@ namespace Olsson.GET.Accessors.FileIO
 
             return GetFileData(relativeHeadAllOutputFilePath);
         }
-
-
     }
 }

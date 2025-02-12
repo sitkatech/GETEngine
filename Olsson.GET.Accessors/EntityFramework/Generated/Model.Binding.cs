@@ -37,7 +37,7 @@ namespace Olsson.GET.Accessors.EntityFramework
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Model(int modelID, string modelName, int imageID, DateTime startDateTime, string runFileName, double? allowablePercentDiscrepancy, string mapSettings, string mapRunFileName, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, string canalData, string buddyGroup, string mapDrawdownFileName, string listFileName, int? baseflowTableProcessingConfigurationID, string modelDescription, string modelDocumentation, int modelEngineTypeID, int modelGridTypeID) : this()
+        public Model(int modelID, string modelName, int imageID, DateTime startDateTime, string runFileName, double? allowablePercentDiscrepancy, string mapSettings, string mapRunFileName, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, string canalData, string buddyGroup, string mapDrawdownFileName, string listFileName, int? baseflowTableProcessingConfigurationID, string modelDescription, string modelDocumentation, int modelEngineTypeID, int modelGridTypeID, int outputVolumeUnitID) : this()
         {
             this.ModelID = modelID;
             this.ModelName = modelName;
@@ -58,12 +58,13 @@ namespace Olsson.GET.Accessors.EntityFramework
             this.ModelDocumentation = modelDocumentation;
             this.ModelEngineTypeID = modelEngineTypeID;
             this.ModelGridTypeID = modelGridTypeID;
+            this.OutputVolumeUnitID = outputVolumeUnitID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Model(string modelName, int imageID, DateTime startDateTime, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, int modelEngineTypeID, int modelGridTypeID) : this()
+        public Model(string modelName, int imageID, DateTime startDateTime, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, int modelEngineTypeID, int modelGridTypeID, int outputVolumeUnitID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ModelID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -75,12 +76,13 @@ namespace Olsson.GET.Accessors.EntityFramework
             this.NumberOfStressPeriods = numberOfStressPeriods;
             this.ModelEngineTypeID = modelEngineTypeID;
             this.ModelGridTypeID = modelGridTypeID;
+            this.OutputVolumeUnitID = outputVolumeUnitID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Model(string modelName, Image image, DateTime startDateTime, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, ModelEngineType modelEngineType, ModelGridType modelGridType) : this()
+        public Model(string modelName, Image image, DateTime startDateTime, bool isDoubleSizeHeatMapOutput, int numberOfStressPeriods, ModelEngineType modelEngineType, ModelGridType modelGridType, VolumeUnit outputVolumeUnit) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ModelID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -93,14 +95,15 @@ namespace Olsson.GET.Accessors.EntityFramework
             this.NumberOfStressPeriods = numberOfStressPeriods;
             this.ModelEngineTypeID = modelEngineType.ModelEngineTypeID;
             this.ModelGridTypeID = modelGridType.ModelGridTypeID;
+            this.OutputVolumeUnitID = outputVolumeUnit.VolumeUnitID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Model CreateNewBlank(Image image, ModelEngineType modelEngineType, ModelGridType modelGridType)
+        public static Model CreateNewBlank(Image image, ModelEngineType modelEngineType, ModelGridType modelGridType, VolumeUnit outputVolumeUnit)
         {
-            return new Model(default(string), image, default(DateTime), default(bool), default(int), modelEngineType, modelGridType);
+            return new Model(default(string), image, default(DateTime), default(bool), default(int), modelEngineType, modelGridType, outputVolumeUnit);
         }
 
         /// <summary>
@@ -286,6 +289,7 @@ namespace Olsson.GET.Accessors.EntityFramework
         }
         public int ModelEngineTypeID { get; set; }
         public int ModelGridTypeID { get; set; }
+        public int OutputVolumeUnitID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ModelID; } set { ModelID = value; } }
 
@@ -310,6 +314,7 @@ namespace Olsson.GET.Accessors.EntityFramework
         public virtual BaseflowTableProcessingConfiguration BaseflowTableProcessingConfiguration { get; set; }
         public ModelEngineType ModelEngineType { get { return ModelEngineType.AllLookupDictionary[ModelEngineTypeID]; } }
         public ModelGridType ModelGridType { get { return ModelGridType.AllLookupDictionary[ModelGridTypeID]; } }
+        public VolumeUnit OutputVolumeUnit { get { return VolumeUnit.AllLookupDictionary[OutputVolumeUnitID]; } }
 
         public static class FieldLengths
         {

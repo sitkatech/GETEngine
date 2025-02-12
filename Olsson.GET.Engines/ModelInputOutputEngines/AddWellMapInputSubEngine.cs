@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Olsson.GET.Accessors.EntityFramework;
 using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Shared;
@@ -49,11 +48,12 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     }
                     var daysInMonth = DateTime.DaysInMonth(latLngValue.Date.Item1, latLngValue.Date.Item2);
                     var stressPeriod = Utilities.GetStressPeriod(latLngValue.Date.Item1, latLngValue.Date.Item2, Model, existingFlows.StressPeriods);
-                    var flowInCubicFeetPerDay = UnitConversion.ConvertFlow(val, run.InputVolumeUnitID, VolumeUnit.CubicFeet.VolumeUnitID, daysInMonth);
+                    var modelExpectedVolumeUnitID = modflowFileAccessor.Model.ExpectedOutputVolumeUnitID;
+                    var flowInExpectedVolumeUnitPerDay = UnitConversion.ConvertFlow(val, run.InputVolumeUnitID, modelExpectedVolumeUnitID, daysInMonth);
 
                     foreach (var locationPumpingProportion in wellLocations)
                     {
-                        stressPeriod.LocationRates.Insert(0, new LocationRate { Location = locationPumpingProportion.Location, Rate = flowInCubicFeetPerDay * locationPumpingProportion.Proportion });
+                        stressPeriod.LocationRates.Insert(0, new LocationRate { Location = locationPumpingProportion.Location, Rate = flowInExpectedVolumeUnitPerDay * locationPumpingProportion.Proportion });
                     }
                 }
             }

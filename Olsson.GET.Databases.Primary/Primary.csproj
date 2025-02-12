@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>Olsson.GET.Databases.Primary</RootNamespace>
     <AssemblyName>Olsson.GET.Databases.Primary</AssemblyName>
@@ -665,6 +665,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\021\001.Remove UpsertModel sproc.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\022\001.Add OutputVolumeID to Model table.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
