@@ -4,7 +4,6 @@ using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Runs;
 using System;
-using System.Data.Entity.SqlServer;
 
 namespace Olsson.GET.Clients.Agent
 {
@@ -20,9 +19,6 @@ namespace Olsson.GET.Clients.Agent
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Logger.LogDebug("Agent started");
             
-            Logger.LogInformation($"Loading Native Assemblies from {AppDomain.CurrentDomain.BaseDirectory}");
-            SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            SqlProviderServices.SqlServerTypesAssemblyName = "Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
             if (args == null || args.Length < 1)
             {
                 Logger.LogError("No run id specified");
