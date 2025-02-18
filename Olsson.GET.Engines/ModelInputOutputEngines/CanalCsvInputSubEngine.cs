@@ -52,11 +52,13 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                         {
                             val *= -1.0;
                         }
-                        var cubicFeetPerDayValue = UnitConversion.ConvertVolume(val, VolumeUnit.AllLookupDictionary[run.InputVolumeUnitID].ToEnum, VolumeUnitEnum.CubicFeet) / daysInMonth;
+
+                        var newVolumeUnitEnum = VolumeUnit.AllLookupDictionary[modflowFileAccessor.Model.ExpectedOutputVolumeUnitID].ToEnum;
+                        var expectedVolumeUnitPerDayValue = UnitConversion.ConvertVolume(val, VolumeUnit.AllLookupDictionary[run.InputVolumeUnitID].ToEnum, newVolumeUnitEnum) / daysInMonth;
                         foreach (var proportion in modflowFileAccessor.GetLocationProportions(featureValue.FeatureName))
                         {
                             var ratesToUpdate = proportion.IsClnWell ? stressPeriod.ClnLocationRates : stressPeriod.LocationRates;
-                            ratesToUpdate.Insert(0, new LocationRate { Location = proportion.Location, Rate = proportion.Proportion * cubicFeetPerDayValue });
+                            ratesToUpdate.Insert(0, new LocationRate { Location = proportion.Location, Rate = proportion.Proportion * expectedVolumeUnitPerDayValue });
                         }
                     }
                 }

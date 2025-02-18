@@ -5,7 +5,7 @@
     <AssemblyName>Olsson.GET.Common.DataContracts</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyTitle>Olsson.GET.Common.DataContracts</AssemblyTitle>
     <Product>Olsson.GET.Common.DataContracts</Product>

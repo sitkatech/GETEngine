@@ -34,6 +34,7 @@ namespace Olsson.GET.Accessors.EntityFramework
             Property(x => x.ModelDocumentation).HasColumnName(@"ModelDocumentation").HasColumnType("varchar").IsOptional();
             Property(x => x.ModelEngineTypeID).HasColumnName(@"ModelEngineTypeID").HasColumnType("int").IsRequired();
             Property(x => x.ModelGridTypeID).HasColumnName(@"ModelGridTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.OutputVolumeUnitID).HasColumnName(@"OutputVolumeUnitID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.Image).WithMany(b => b.Models).HasForeignKey(c => c.ImageID).WillCascadeOnDelete(false); // FK_Model_Image_ImageID
