@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Olsson.GET.Common.Utilities</RootNamespace>
     <AssemblyName>Olsson.GET.Common.Utilities</AssemblyName>
