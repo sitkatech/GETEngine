@@ -100,7 +100,7 @@ namespace Olsson.GET.Accessors.Models
                     ShowToAllUsersInScenarioList = x.Scenario.ShowToAllUsersInScenarioList,
                     Models = x.Scenario.ModelScenarios.Select(y => ToSimpleDto(y.Model)).ToList()
                 }).ToArray(),
-                ExpectedOutputVolumeUnitID = model.OutputVolumeUnitID
+                OutputVolumeUnitID = model.OutputVolumeUnitID
             };
         }
 

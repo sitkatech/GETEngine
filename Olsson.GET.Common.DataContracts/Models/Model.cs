@@ -64,6 +64,6 @@ namespace Olsson.GET.Common.DataContracts.Models
         public List<ModelExecutable> ModelExecutables { get; set; }
         //public List<Run> Runs { get; set; }
 
-        public int ExpectedOutputVolumeUnitID { get; set; } 
+        public int OutputVolumeUnitID { get; set; } 
     }
 }

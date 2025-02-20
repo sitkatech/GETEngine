@@ -48,7 +48,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     }
                     var daysInMonth = DateTime.DaysInMonth(latLngValue.Date.Item1, latLngValue.Date.Item2);
                     var stressPeriod = Utilities.GetStressPeriod(latLngValue.Date.Item1, latLngValue.Date.Item2, Model, existingFlows.StressPeriods);
-                    var modelExpectedVolumeUnitID = modflowFileAccessor.Model.ExpectedOutputVolumeUnitID;
+                    var modelExpectedVolumeUnitID = modflowFileAccessor.Model.OutputVolumeUnitID;
                     var flowInExpectedVolumeUnitPerDay = UnitConversion.ConvertFlow(val, run.InputVolumeUnitID, modelExpectedVolumeUnitID, daysInMonth);
 
                     foreach (var locationPumpingProportion in wellLocations)
