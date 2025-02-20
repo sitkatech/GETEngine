@@ -53,7 +53,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                             val *= -1.0;
                         }
 
-                        var newVolumeUnitEnum = VolumeUnit.AllLookupDictionary[modflowFileAccessor.Model.ExpectedOutputVolumeUnitID].ToEnum;
+                        var newVolumeUnitEnum = VolumeUnit.AllLookupDictionary[modflowFileAccessor.Model.OutputVolumeUnitID].ToEnum;
                         var expectedVolumeUnitPerDayValue = UnitConversion.ConvertVolume(val, VolumeUnit.AllLookupDictionary[run.InputVolumeUnitID].ToEnum, newVolumeUnitEnum) / daysInMonth;
                         foreach (var proportion in modflowFileAccessor.GetLocationProportions(featureValue.FeatureName))
                         {
