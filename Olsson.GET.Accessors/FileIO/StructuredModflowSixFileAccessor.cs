@@ -6,6 +6,7 @@ using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -23,9 +24,9 @@ namespace Olsson.GET.Accessors.FileIO
             public StructuredModflowSixProportionMapper()
                 : base(new[] { "layer", "row", "col" })
             {
-                Map(m => m.Location).ConvertUsing(r =>
+                Map(m => m.Location).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
+                    var row = r.Row;
                     return BuildStructuredKey(row.GetField<int>("layer"), row.GetField<int>("row"), row.GetField<int>("col"));
                 });
             }
@@ -56,23 +57,21 @@ namespace Olsson.GET.Accessors.FileIO
             var fileLines = GetModelFileLines(tdisFileName);
             var result = new List<StressPeriod>();
 
-            using (var fileLineEnumerator = fileLines.GetEnumerator())
+            using var fileLineEnumerator = fileLines.GetEnumerator();
+            while (fileLineEnumerator.MoveNext())
             {
-                while (fileLineEnumerator.MoveNext())
+                if (fileLineEnumerator.Current.IndexOf("END PERIODDATA", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    if (fileLineEnumerator.Current.IndexOf("END PERIODDATA", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        break;
-                    }
-
-                    if (fileLineEnumerator.Current.IndexOf("BEGIN PERIODDATA", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        AddStressPeriodData(fileLineEnumerator, result);
-                    }
+                    break;
                 }
 
-                return result;
+                if (fileLineEnumerator.Current.IndexOf("BEGIN PERIODDATA", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    AddStressPeriodData(fileLineEnumerator, result);
+                }
             }
+
+            return result;
         }
 
         private void AddStressPeriodData(IEnumerator<string> fileLineEnumerator, List<StressPeriod> stressPeriods)
@@ -145,40 +144,38 @@ namespace Olsson.GET.Accessors.FileIO
 
         private IEnumerable<MapOutputData> GetMapOutputData(string fileName)
         {
-            using (var bs = new BufferedStream(GetFileStream(fileName)))
-            using (var br = new BinaryReader(bs, System.Text.Encoding.ASCII))
+            using var bs = new BufferedStream(GetFileStream(fileName));
+            using var br = new BinaryReader(bs, System.Text.Encoding.ASCII);
+            // For each stress period, time step, and layer for which data are saved to the binary output file, the following two records are written:
+            // Record 1: timeStep, stressPeriod, stressPeriodTimeValue, totalSimulationTime, headerText, NCOL, NROW, ILAY
+            // Record 2: ((DATA(J, I, ILAY), J = 1, NCOL), I = 1, NROW)
+
+            while (br.PeekChar() != -1)
             {
-                // For each stress period, time step, and layer for which data are saved to the binary output file, the following two records are written:
-                // Record 1: timeStep, stressPeriod, stressPeriodTimeValue, totalSimulationTime, headerText, NCOL, NROW, ILAY
-                // Record 2: ((DATA(J, I, ILAY), J = 1, NCOL), I = 1, NROW)
+                var timeStep = br.ReadUInt32();
+                var stressPeriod = br.ReadUInt32();
 
-                while (br.PeekChar() != -1)
+                // skip stress period time value
+                br.ReadDouble();
+                // skip total simulation time
+                br.ReadDouble();
+
+                var headerText = new string(br.ReadChars(16));
+                if (!ModflowSixValidMapFileHeaders.Contains(headerText))
                 {
-                    var timeStep = br.ReadUInt32();
-                    var stressPeriod = br.ReadUInt32();
+                    throw new Exception($"Invalid map file record header {headerText}");
+                }
 
-                    // skip stress period time value
-                    br.ReadDouble();
-                    // skip total simulation time
-                    br.ReadDouble();
-
-                    var headerText = new string(br.ReadChars(16));
-                    if (!ModflowSixValidMapFileHeaders.Contains(headerText))
+                var isOutputHeader = ModflowSixMapOutputHeaderRecordsToReturn.Contains(headerText);
+                foreach (var result in GetRecordMapOutputValues(br, stressPeriod, timeStep))
+                {
+                    if (isOutputHeader)
                     {
-                        throw new Exception($"Invalid map file record header {headerText}");
-                    }
-
-                    var isOutputHeader = ModflowSixMapOutputHeaderRecordsToReturn.Contains(headerText);
-                    foreach (var result in GetRecordMapOutputValues(br, stressPeriod, timeStep))
-                    {
-                        if (isOutputHeader)
+                        if (result.Value != null && Math.Abs(result.Value.Value) >= 1.0E30)
                         {
-                            if (result.Value != null && Math.Abs(result.Value.Value) >= 1.0E30)
-                            {
-                                result.Value = null;
-                            }
-                            yield return result;
+                            result.Value = null;
                         }
+                        yield return result;
                     }
                 }
             }
@@ -206,7 +203,7 @@ namespace Olsson.GET.Accessors.FileIO
             }
         }
 
-        private Stream GetFileStream(string fileName)
+        private static Stream GetFileStream(string fileName)
         {
             var path = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, fileName);
             return new FileStream(path, FileMode.Open, FileAccess.Read);
@@ -217,14 +214,18 @@ namespace Olsson.GET.Accessors.FileIO
             var result = new Dictionary<Tuple<int, int>, List<string>>();
             if (FileExists(ZonesFileName))
             {
-                var reader = new CsvReader(GetFileData(ZonesFileName));
-                reader.Configuration.RegisterClassMap<SegmentReachZoneItemMapper>();
-                reader.Configuration.TrimOptions = TrimOptions.Trim;
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    var record = reader.GetRecord<SegmentReachZone>();
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(GetFileData(ZonesFileName), csvConfiguration);
+                csvReader.Context.RegisterClassMap<SegmentReachZoneItemMapper>();
+                csvReader.Read();
+                csvReader.ReadHeader();
+                while (csvReader.Read())
+                {
+                    var record = csvReader.GetRecord<SegmentReachZone>();
                     var key = Tuple.Create(record.Seg, record.Rch);
                     if (!result.ContainsKey(key))
                     {
@@ -249,13 +250,12 @@ namespace Olsson.GET.Accessors.FileIO
             return new List<string>();
         }
 
-        private class SegmentReachZoneItemMapper : ClassMap<SegmentReachZone>
+        private sealed class SegmentReachZoneItemMapper : ClassMap<SegmentReachZone>
         {
             public SegmentReachZoneItemMapper()
             {
                 Map(m => m.Seg).Name("Seg");
                 Map(m => m.Zone).Name("Zone");
-                var allMappedColumns = new[] { "Seg", "Zone" };
             }
         }
     }

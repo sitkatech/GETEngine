@@ -10,8 +10,10 @@ using Olsson.GET.Engines.ModelInputOutputEngines;
 using Olsson.GET.Tests.EngineTests;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper.Configuration;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using BaseflowTableProcessingConfiguration = Olsson.GET.Common.DataContracts.Models.BaseflowTableProcessingConfiguration;
@@ -141,7 +143,13 @@ namespace IntegrationTests
 
         private IEnumerable<ExpectedBaseFlowResultData> GetExpectedResultData()
         {
-            var expectedResultData = new CsvHelper.CsvReader(System.IO.File.OpenText(@"ModflowTestFiles\CentralPlatteNaturalResourceDistrictSample\OlssonPostProcess\MonthlyValues.csv"));
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+
+            using var expectedResultData = new CsvHelper.CsvReader(System.IO.File.OpenText(@"ModflowTestFiles\CentralPlatteNaturalResourceDistrictSample\OlssonPostProcess\MonthlyValues.csv"), csvConfiguration);
             expectedResultData.Read();
             expectedResultData.ReadHeader();
             while (expectedResultData.Read())

@@ -1,7 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.SqlServer.Server;
 using Microsoft.SqlServer.Types;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
@@ -12,10 +11,10 @@ using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Olsson.GET.Accessors.EntityFramework;
 using Model = Olsson.GET.Common.DataContracts.Models.Model;
 
 namespace Olsson.GET.Accessors.FileIO
@@ -93,6 +92,7 @@ namespace Olsson.GET.Accessors.FileIO
         private const string IWFMResultsDirectory = "Results";
         private const string IWFMResultsHeadAllFilePortion = "HeadAll.out";
         private const string IWFMResultsHeadAllBaselineFilePortion = "HeadAll.Baseline.out";
+        private const string NodeWaterLevelLayerFileName = "NodeWaterLevelLayer.csv";
 
         protected IFileFormatter FileFormatter { get; set; }
 
@@ -237,12 +237,17 @@ namespace Olsson.GET.Accessors.FileIO
             var result = new Dictionary<Tuple<int, int>, List<string>>();
             if (FileExists(ZonesFileName))
             {
-                var reader = new CsvReader(GetFileData(ZonesFileName));
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    var record = reader.GetRecord<SegmentReachZone>();
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(GetFileData(ZonesFileName), csvConfiguration);
+                csvReader.Read();
+                csvReader.ReadHeader();
+                while (csvReader.Read())
+                {
+                    var record = csvReader.GetRecord<SegmentReachZone>();
                     var key = Tuple.Create(record.Seg, record.Rch);
                     if (!result.ContainsKey(key))
                     {
@@ -277,12 +282,17 @@ namespace Olsson.GET.Accessors.FileIO
             var result = new Dictionary<string, string>();
             if (FileExists(fileName))
             {
-                var reader = new CsvReader(GetFileData(fileName));
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    var record = reader.GetRecord<FriendlyZoneName>();
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
+                csvReader.Read();
+                csvReader.ReadHeader();
+                while (csvReader.Read())
+                {
+                    var record = csvReader.GetRecord<FriendlyZoneName>();
                     result[record.ZoneNumber] = record.ZoneName;
                 }
             }
@@ -314,40 +324,43 @@ namespace Olsson.GET.Accessors.FileIO
         private Dictionary<string, List<LocationProportion>> CreateLocationFlowProportionsDictionary()
         {
             var result = new Dictionary<string, List<LocationProportion>>(new CaseInsensitiveStringComparer());
-            using (var reader = new CsvReader(GetFileData(LocationFlowProportionsFileName)))
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                reader.Configuration.RegisterClassMap(LocationProportionMapperType);
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(LocationFlowProportionsFileName), csvConfiguration);
+            csvReader.Context.RegisterClassMap(LocationProportionMapperType);
+            csvReader.Read();
+            csvReader.ReadHeader();
+            while (csvReader.Read())
+            {
+                var record = csvReader.GetRecord<LocationProportionData>();
+                foreach (var proportion in record.Proportions.Where(a => a.Proportion != 0.0))
                 {
-                    var record = reader.GetRecord<LocationProportionData>();
-                    foreach (var proportion in record.Proportions.Where(a => a.Proportion != 0.0))
+                    if (!result.ContainsKey(proportion.FeatureName))
                     {
-                        if (!result.ContainsKey(proportion.FeatureName))
-                        {
-                            result[proportion.FeatureName] = new List<LocationProportion>();
-                        }
-                        result[proportion.FeatureName].Add(new LocationProportion
-                        {
-                            Location = record.Location,
-                            Proportion = proportion.Proportion,
-                            IsClnWell = record.IsClnWell
-                        });
+                        result[proportion.FeatureName] = new List<LocationProportion>();
                     }
+                    result[proportion.FeatureName].Add(new LocationProportion
+                    {
+                        Location = record.Location,
+                        Proportion = proportion.Proportion,
+                        IsClnWell = record.IsClnWell
+                    });
                 }
-                return result;
             }
+            return result;
         }
 
         internal class LocationProportionMapper : ClassMap<LocationProportionData>
         {
             public LocationProportionMapper(string[] mappedColumns)
             {
-                Map(m => m.IsClnWell).ConvertUsing(r =>
+                Map(m => m.IsClnWell).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
-                    if (row.Context.HeaderRecord.Any(a => string.Equals("CLN", a)))
+                    var row = r.Row;
+                    if (row.HeaderRecord != null && row.HeaderRecord.Any(a => string.Equals("CLN", a)))
                     {
                         return row.GetField("CLN") == "1";
                     }
@@ -355,19 +368,19 @@ namespace Olsson.GET.Accessors.FileIO
                 });
                 var allMappedColumns = mappedColumns.Concat(new[] { "CLN" });
                 //Adding a column here? add it to the mappedColumns array below
-                Map(m => m.Proportions).ConvertUsing(r =>
+                Map(m => m.Proportions).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
+                    var row = r.Row;
 
                     //any column outside our expected values is treated as canal
                     //wish we could programatically check which columns are already mapped, couldn't figure it out
-                    string[] columnsInFileNotMapped = row.Context.HeaderRecord.Where(f => !allMappedColumns.Contains(f)).ToArray();
+                    var columnsInFileNotMapped = row.HeaderRecord == null ? new string[]{}: row.HeaderRecord.Where(f => !allMappedColumns.Contains(f)).ToArray();
 
                     var values = new List<LocationProportionValue>();
 
                     foreach (var feature in columnsInFileNotMapped)
                     {
-                        //if we have a value and it's parsable to an int add it.
+                        //if we have a value and it's parseable to an int add it.
                         if (row.TryGetField(feature, out double value))
                         {
                             values.Add(new LocationProportionValue()
@@ -380,7 +393,7 @@ namespace Olsson.GET.Accessors.FileIO
                         {
                             if (!string.IsNullOrWhiteSpace(row.GetField(feature))) // not null, not an int, blow up
                             {
-                                throw new CsvHelperException(r.Context, $"Error on Row {row}: Unable to read value for column {feature}.");
+                                throw new CsvHelperException(r.Row.Context, $"Error on Row {row}: Unable to read value for column {feature}.");
                             }
                         }
                     }
@@ -1079,16 +1092,13 @@ namespace Olsson.GET.Accessors.FileIO
                 return null;
             }
 
-            var result = new List<AsrDataMap>();
-            var reader = new CsvReader(GetFileData(fileName));
-            reader.Read();
-            reader.ReadHeader();
-            while (reader.Read())
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                result.Add(reader.GetRecord<AsrDataMap>());
-            }
-
-            return result;
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
+            return csvReader.GetRecords<AsrDataMap>().ToList();
         }
 
         public virtual IEnumerable<ZoneBudgetItem> GetBaselineZoneBudgetItems(List<AsrDataMap> asrData)
@@ -1112,18 +1122,17 @@ namespace Olsson.GET.Accessors.FileIO
 
         protected virtual IEnumerable<ZoneBudgetItem> ReadZoneBudgetItemsFile(string fileName)
         {
-            var reader = new CsvReader(GetFileData(fileName));
-            reader.Configuration.RegisterClassMap<ZoneBudgetItemMapper>();
-            reader.Configuration.TrimOptions = TrimOptions.Trim;
-            reader.Read();
-            reader.ReadHeader();
-            while (reader.Read())
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                yield return reader.GetRecord<ZoneBudgetItem>();
-            }
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
+            csvReader.Context.RegisterClassMap<ZoneBudgetItemMapper>();
+            return csvReader.GetRecords<ZoneBudgetItem>();
         }
 
-        private class ZoneBudgetItemMapper : ClassMap<ZoneBudgetItem>
+        private sealed class ZoneBudgetItemMapper : ClassMap<ZoneBudgetItem>
         {
             public ZoneBudgetItemMapper()
             {
@@ -1132,23 +1141,27 @@ namespace Olsson.GET.Accessors.FileIO
                 Map(m => m.Zone).Name("ZONE");
                 var allMappedColumns = new[] { "PERIOD", "STEP", "ZONE" };
                 //Adding a column here? add it to the mappedColumns array below
-                Map(m => m.Values).ConvertUsing(r =>
+                Map(m => m.Values).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
+                    var row = r.Row;
                     //any column outside our expected values is treated as canal
                     //wish we could programatically check which columns are already mapped, couldn't figure it out
                     var values = new List<ZoneBudgetValue>();
 
-                    for (var i = 0; i < row.Context.HeaderRecord.Length; i++)
+                    if (row.HeaderRecord != null)
                     {
-                        var header = row.Context.HeaderRecord[i];
-                        if (!allMappedColumns.Contains(header.ToUpper()) && double.TryParse(row.GetField(i), out var value))
+                        for (var i = 0; i < row.HeaderRecord.Length; i++)
                         {
-                            values.Add(new ZoneBudgetValue
+                            var header = row.HeaderRecord[i];
+                            if (!allMappedColumns.Contains(header.ToUpper()) &&
+                                double.TryParse(row.GetField(i), out var value))
                             {
-                                Key = header,
-                                Value = value
-                            });
+                                values.Add(new ZoneBudgetValue
+                                {
+                                    Key = header,
+                                    Value = value
+                                });
+                            }
                         }
                     }
 
@@ -1168,19 +1181,18 @@ namespace Olsson.GET.Accessors.FileIO
 
         private IEnumerable<PointOfInterest> ReadPointsOfInterestFile(string filename)
         {
-            var reader = new CsvReader(GetFileData(filename));
-            reader.Configuration.RegisterClassMap<PointOfInterestItemMapper>();
-            reader.Configuration.TrimOptions = TrimOptions.Trim;
-            reader.Configuration.Delimiter = "|";
-            reader.Read();
-            reader.ReadHeader();
-            while (reader.Read())
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                yield return reader.GetRecord<PointOfInterest>();
-            }
+                HasHeaderRecord = true,
+                Delimiter = "|",
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(filename), csvConfiguration);
+            csvReader.Context.RegisterClassMap<PointOfInterestItemMapper>();
+            return csvReader.GetRecords<PointOfInterest>();
         }
 
-        private class PointOfInterestItemMapper : ClassMap<PointOfInterest>
+        private sealed class PointOfInterestItemMapper : ClassMap<PointOfInterest>
         {
             public PointOfInterestItemMapper()
             {
@@ -1242,13 +1254,13 @@ namespace Olsson.GET.Accessors.FileIO
         private static Feature SqlGeographyToFeature(SqlGeography geography)
         {
             // Create a WKT reader
-            WKTReader reader = new WKTReader();
+            var reader = new WKTReader();
 
             // Parse the WKT string and create a geometry object
             var wkt = new string(geography.AsTextZM().Value);
-            Geometry geometry = reader.Read(wkt);
+            var geometry = reader.Read(wkt);
             
-            Feature feature = new Feature(){Geometry = geometry};
+            var feature = new Feature {Geometry = geometry};
 
             return feature;
         }
@@ -1405,10 +1417,15 @@ namespace Olsson.GET.Accessors.FileIO
 
         private void GetLocationZonesFromFile(string fileName, Dictionary<string, List<string>> result)
         {
-            var reader = new CsvReader(GetFileData(fileName));
-            reader.Read();
-            reader.ReadHeader();
-            foreach (var record in GetLocationZoneData(reader))
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
+            csvReader.Read();
+            csvReader.ReadHeader();
+            foreach (var record in GetLocationZoneData(csvReader))
             {
                 if (!result.ContainsKey(record.Location))
                 {
@@ -1555,13 +1572,19 @@ namespace Olsson.GET.Accessors.FileIO
             var result = new Dictionary<int, Tuple<double, double>>();
             if (FileExists(LocationMapCoordinatesFileName))
             {
-                var reader = new CsvReader(GetFileData(LocationMapCoordinatesFileName));
-                reader.Configuration.RegisterClassMap<NodeLatLngMap>();
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    var record = reader.GetRecord<NodeLatLng>();
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(GetFileData(LocationMapCoordinatesFileName),
+                    csvConfiguration);
+                csvReader.Context.RegisterClassMap<NodeLatLngMap>();
+                csvReader.Read();
+                csvReader.ReadHeader();
+                while (csvReader.Read())
+                {
+                    var record = csvReader.GetRecord<NodeLatLng>();
                     var key = record.Node;
 
                     if (!result.ContainsKey(key))
@@ -1571,8 +1594,6 @@ namespace Olsson.GET.Accessors.FileIO
                 }
             }
             return result;
-
-            
         }
 
         public TextReader GetIWFMHeadAllOutputFile(bool isDifferential = false)
@@ -1585,6 +1606,40 @@ namespace Olsson.GET.Accessors.FileIO
             var relativeHeadAllOutputFilePath = fullHeadAllOutputFilePath.Replace($"{ConfigurationHelper.AppSettings.ModflowDataFolder}\\", "");
 
             return GetFileData(relativeHeadAllOutputFilePath);
+        }
+
+        public class NodeWaterLevelLayer
+        {
+            public int Node { get; set; }
+            public int WaterLevelLayer { get; set; }
+        }
+
+        public sealed class NodeWaterLevelLayerMapper : ClassMap<NodeWaterLevelLayer>
+        {
+            public NodeWaterLevelLayerMapper()
+            {
+                Map(m => m.Node).Name("Node");
+                Map(m => m.WaterLevelLayer).Name("Layer");
+            }
+        }
+
+        public Dictionary<int, int> GetNodeWaterLevelLayerMapping()
+        {
+            if (!FileExists(NodeWaterLevelLayerFileName))
+            {
+                throw new Exception($"{NodeWaterLevelLayerFileName} not found!");
+            }
+
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+
+            using var csvReader = new CsvReader(GetFileData(NodeWaterLevelLayerFileName), csvConfiguration);
+            csvReader.Context.RegisterClassMap<NodeLatLngMap>();
+            var records = csvReader.GetRecords<NodeWaterLevelLayer>();
+            return records.ToDictionary(x => x.Node, x => x.WaterLevelLayer);
         }
     }
 }

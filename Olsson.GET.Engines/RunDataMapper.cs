@@ -14,19 +14,19 @@ namespace Olsson.GET.Engines
             //Adding a column here? add it to the mappedColumns array below
             Map(m => m.Month).Name("Month");
             Map(m => m.Year).Name("Year");
-            Map(m => m.Values).ConvertUsing(r =>
+            Map(m => m.Values).Convert(r =>
             {
-                var row = (CsvHelper.CsvReader)r;
+                var row = r.Row;
                 //any column outside our expected values is treated as canal
                 //wish we could programatically check which columns are already mapped, couldn't figure it out
                 string[] mappedColumns = { "Year", "Month" };
-                string[] columnsInFileNotMapped = row.Context.HeaderRecord.Where(f => !mappedColumns.Contains(f)).ToArray();
+                var columnsInFileNotMapped = row.HeaderRecord == null ? new string[]{} :  row.HeaderRecord.Where(f => !mappedColumns.Contains(f)).ToArray();
 
                 var values = new List<FeatureValue>();
 
                 foreach (var feature in columnsInFileNotMapped)
                 {
-                    //if we have a value and it's parsable to an int add it.
+                    //if we have a value and parseable to an int add it.
                     if (row.TryGetField(feature, out double value))
                     {
                         values.Add(new FeatureValue()
@@ -39,7 +39,7 @@ namespace Olsson.GET.Engines
                     {
                         if (!string.IsNullOrWhiteSpace(row.GetField(feature))) // not null, not an int, blow up
                         {
-                            throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Unable to read value for column {feature}.");
+                            throw new CsvHelperException(row.Context, $"Error on Row {row}: Unable to read value for column {feature}.");
                         }
                     }
                 }
@@ -54,42 +54,40 @@ namespace Olsson.GET.Engines
         public WellRunDataMapper()
         {
             //Adding a column here? add it to the mappedColumns array below
-            Map(m => m.Month).ConvertUsing(row =>
+            Map(m => m.Month).Convert(row =>
             {
-                if (row.TryGetField("Date", out DateTime value))
+                if (row.Row.TryGetField("Date", out DateTime value))
                 {
                     return value.Month;
                 }
-                else
-                {
-                    throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Unable to read date {row.GetField("Date")}.");
-                }
+
+                throw new CsvHelperException(row.Row.Context, $"Error on Row {row.Row}: Unable to read date {row.Row.GetField("Date")}.");
             });
-            Map(m => m.Year).ConvertUsing(row =>
+            Map(m => m.Year).Convert(row =>
             {
-                if (row.TryGetField("Date", out DateTime value))
+                if (row.Row.TryGetField("Date", out DateTime value))
                 {
                     return value.Year;
                 }
                 else
                 {
-                    throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Unable to read date {row.GetField("Date")}.");
+                    throw new CsvHelperException(row.Row.Context, $"Error on Row {row.Row}: Unable to read date {row.Row.GetField("Date")}.");
                 }
             });
 
-            Map(m => m.Values).ConvertUsing(r =>
+            Map(m => m.Values).Convert(r =>
             {
-                var row = (CsvHelper.CsvReader)r;
+                var row = r.Row;
                 //any column outside our expected values is treated as canal
                 //wish we could programatically check which columns are already mapped, couldn't figure it out
                 string[] mappedColumns = { "Date" };
-                string[] columnsInFileNotMapped = row.Context.HeaderRecord.Where(f => !mappedColumns.Contains(f)).ToArray();
+                var columnsInFileNotMapped = row.HeaderRecord == null ? new string[]{} : row.HeaderRecord.Where(f => !mappedColumns.Contains(f)).ToArray();
 
                 var values = new List<FeatureWithLocationValue>();
 
                 foreach (var feature in columnsInFileNotMapped)
                 {
-                    //if we have a value and it's parsable to an int add it.
+                    //if we have a value and parseable to an int add it.
                     if (row.TryGetField(feature, out double value))
                     {
                         values.Add(new FeatureWithLocationValue()
@@ -104,7 +102,7 @@ namespace Olsson.GET.Engines
                     {
                         if (!string.IsNullOrWhiteSpace(row.GetField(feature))) // not null, not an int, blow up
                         {
-                            throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Unable to read value for column {feature}.");
+                            throw new CsvHelperException(row.Context, $"Error on Row {row}: Unable to read value for column {feature}.");
                         }
                     }
                 }
@@ -121,21 +119,21 @@ namespace Olsson.GET.Engines
             Map(m => m.Name).Name("Name");
             Map(m => m.Lat).Name("Latitude");
             Map(m => m.Lng).Name("Longitude");
-            Map(m => m.ParticleCount).ConvertUsing(row =>
+            Map(m => m.ParticleCount).Convert(row =>
             {
-                if (row.TryGetField("Particle Count", out int value))
+                if (row.Row.TryGetField("Particle Count", out int value))
                 {
-                    if (value <= 0 || value > 32)
+                    if (value is <= 0 or > 32)
                     {
-                        throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Particle Count must be between 1 and 32.");
+                        throw new CsvHelperException(row.Row.Context, $"Error on Row {row.Row}: Particle Count must be between 1 and 32.");
                     }
                     return value;
                 }
                 else
                 {
-                    throw new CsvHelperException(row.Context, $"Error on Row {row.Context.Row}: Unable to read value for column Particle Count.");
+                    throw new CsvHelperException(row.Row.Context, $"Error on Row {row.Row}: Unable to read value for column Particle Count.");
                 }
-            }); ;
+            });
         }
     }
 }

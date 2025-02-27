@@ -6,6 +6,7 @@ using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,37 +39,35 @@ namespace Olsson.GET.Accessors.FileIO
             return CreateModflowFileNamesDictionary(Model.ModelExecutables.OrderBy(x => x.RunOrder).First().Arguments);
         }
 
-        internal static new Dictionary<string, List<string>> CreateModflowFileNamesDictionary(string namFileName)
+        internal new static Dictionary<string, List<string>> CreateModflowFileNamesDictionary(string namFileName)
         {
             var result = new Dictionary<string, List<string>>();
             var fileLines = GetModelFileLines(namFileName);
 
-            using (var fileLineEnumerator = fileLines.GetEnumerator())
+            using var fileLineEnumerator = fileLines.GetEnumerator();
+            while (fileLineEnumerator.MoveNext())
             {
-                while (fileLineEnumerator.MoveNext())
+                if (fileLineEnumerator.Current.IndexOf("BEGIN TIMING", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    if (fileLineEnumerator.Current.IndexOf("BEGIN TIMING", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        ParseTimingFileName(fileLineEnumerator, result);
-                    }
+                    ParseTimingFileName(fileLineEnumerator, result);
+                }
 
-                    var match = ModFlowSixNamFileRegex.Match(fileLineEnumerator.Current);
-                    if (match.Success)
+                var match = ModFlowSixNamFileRegex.Match(fileLineEnumerator.Current);
+                if (match.Success)
+                {
+                    var nameFileLines = GetModelFileLines(match.Groups["namefile"].Value);
+                    foreach (var nameFileLine in nameFileLines)
                     {
-                        var nameFileLines = GetModelFileLines(match.Groups["namefile"].Value);
-                        foreach (var nameFileLine in nameFileLines)
+                        var file = ModFlowSixFileNameRegex.Match(nameFileLine);
+                        if (file.Success)
                         {
-                            var file = ModFlowSixFileNameRegex.Match(nameFileLine);
-                            if (file.Success)
+                            var key = file.Groups["key"].Value;
+                            var fileName = file.Groups["fileName"].Value;
+                            if (!result.ContainsKey(key))
                             {
-                                var key = file.Groups["key"].Value;
-                                var fileName = file.Groups["fileName"].Value;
-                                if (!result.ContainsKey(key))
-                                {
-                                    result.Add(key, new List<string>());
-                                }
-                                result[key].Add(fileName);
+                                result.Add(key, new List<string>());
                             }
+                            result[key].Add(fileName);
                         }
                     }
                 }
@@ -102,15 +101,13 @@ namespace Olsson.GET.Accessors.FileIO
         public override int GetNumberOfSegmentReaches()
         {
             var fileLines = GetModelFileLines(GetFileName(SfrFileKey));
-            using (var fileLineEnumerator = fileLines.GetEnumerator())
+            using var fileLineEnumerator = fileLines.GetEnumerator();
+            while (fileLineEnumerator.MoveNext())
             {
-                while (fileLineEnumerator.MoveNext())
+                var match = SfrReachNumber.Match(fileLineEnumerator.Current);
+                if (match.Success)
                 {
-                    var match = SfrReachNumber.Match(fileLineEnumerator.Current);
-                    if (match.Success)
-                    {
-                        return int.Parse(match.Groups["reachCount"].Value);
-                    }
+                    return int.Parse(match.Groups["reachCount"].Value);
                 }
             }
 
@@ -141,19 +138,17 @@ namespace Olsson.GET.Accessors.FileIO
 
             var numSegmentReaches = GetNumberOfSegmentReaches();
 
-            using (var fileLineEnumerator = fileLines.GetEnumerator())
+            using var fileLineEnumerator = fileLines.GetEnumerator();
+            while (fileLineEnumerator.MoveNext())
             {
-                while (fileLineEnumerator.MoveNext())
+                var match = regexForBaseflowTableIndicator.Match(fileLineEnumerator.Current);
+                if (match.Success)
                 {
-                    var match = regexForBaseflowTableIndicator.Match(fileLineEnumerator.Current);
-                    if (match.Success)
-                    {
-                        AddLocationFlowRate(fileLineEnumerator, result, numSegmentReaches);
-                    }
+                    AddLocationFlowRate(fileLineEnumerator, result, numSegmentReaches);
                 }
-
-                return result;
             }
+
+            return result;
         }
 
         private void AddLocationFlowRate(IEnumerator<string> fileLineEnumerator, List<OutputData> outputData,
@@ -266,15 +261,14 @@ namespace Olsson.GET.Accessors.FileIO
 
         protected override IEnumerable<ZoneBudgetItem> ReadZoneBudgetItemsFile(string fileName)
         {
-            var reader = new CsvReader(GetFileData(fileName));
-            reader.Configuration.RegisterClassMap<ZoneBudgetItemMapper>();
-            reader.Configuration.TrimOptions = TrimOptions.Trim;
-            reader.Read();
-            reader.ReadHeader();
-            while (reader.Read())
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                yield return reader.GetRecord<ZoneBudgetItem>();
-            }
+                HasHeaderRecord = true,
+                TrimOptions = TrimOptions.Trim
+            };
+            using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
+            csvReader.Context.RegisterClassMap<ZoneBudgetItemMapper>();
+            return csvReader.GetRecords<ZoneBudgetItem>();
         }
 
         public override StressPeriodsLocationRates GetLocationRates()
@@ -286,56 +280,54 @@ namespace Olsson.GET.Accessors.FileIO
                 StressPeriods = new List<StressPeriodLocationRates>()
             };
 
-            using (var fileLineEnumerator = fileLines.GetEnumerator())
+            using var fileLineEnumerator = fileLines.GetEnumerator();
+            while (fileLineEnumerator.MoveNext())
             {
-                while (fileLineEnumerator.MoveNext())
+                if (fileLineEnumerator.Current.Equals("begin options", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (fileLineEnumerator.Current.Equals("begin options", StringComparison.OrdinalIgnoreCase))
+                    while (fileLineEnumerator.MoveNext() && !fileLineEnumerator.Current.Equals("end options", StringComparison.OrdinalIgnoreCase))
                     {
-                        while (fileLineEnumerator.MoveNext() && !fileLineEnumerator.Current.Equals("end options", StringComparison.OrdinalIgnoreCase))
+                        var currOption = fileLineEnumerator.Current?.Trim();
+                        if (!string.IsNullOrEmpty(currOption))
                         {
-                            var currOption = fileLineEnumerator.Current?.Trim();
-                            if (!string.IsNullOrEmpty(currOption))
-                            {
-                                result.Parameters.Add(currOption);
-                            }
-                        }
-                        continue;
-                    }
-
-                    if (fileLineEnumerator.Current.Equals("begin dimensions", StringComparison.OrdinalIgnoreCase))
-                    {
-                        fileLineEnumerator.MoveNext();
-                        result.HeaderValue = FileFormatter.ParseWelFileHeaderData(fileLineEnumerator.Current);
-                        continue;
-                    }
-
-                    if (fileLineEnumerator.Current.IndexOf("begin period", StringComparison.OrdinalIgnoreCase) < 0)
-                    {
-                        continue;
-                    }
-
-                    // If no stress period is specified (e.g. The previous period is 3, and the current stress period is 5), fill the intervening stress periods with identical location rates
-                    var currStressPeriod = int.Parse(fileLineEnumerator.Current.Substring(13));
-                    if (result.StressPeriods.Count != currStressPeriod - 1)
-                    {
-                        for (var i = result.StressPeriods.Count; i < currStressPeriod - 1; i++)
-                        {
-                            result.StressPeriods.Add(result.StressPeriods[i - 1]);
+                            result.Parameters.Add(currOption);
                         }
                     }
-
-                    var currStressPeriodRates = new StressPeriodLocationRates
-                    {
-                        LocationRates = new List<LocationRate>()
-                    };
-
-                    AddRateData(fileLineEnumerator, currStressPeriodRates.LocationRates);
-
-                    result.StressPeriods.Add(currStressPeriodRates);
+                    continue;
                 }
-                return result;
+
+                if (fileLineEnumerator.Current.Equals("begin dimensions", StringComparison.OrdinalIgnoreCase))
+                {
+                    fileLineEnumerator.MoveNext();
+                    result.HeaderValue = FileFormatter.ParseWelFileHeaderData(fileLineEnumerator.Current);
+                    continue;
+                }
+
+                if (fileLineEnumerator.Current.IndexOf("begin period", StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    continue;
+                }
+
+                // If no stress period is specified (e.g. The previous period is 3, and the current stress period is 5), fill the intervening stress periods with identical location rates
+                var currStressPeriod = int.Parse(fileLineEnumerator.Current.Substring(13));
+                if (result.StressPeriods.Count != currStressPeriod - 1)
+                {
+                    for (var i = result.StressPeriods.Count; i < currStressPeriod - 1; i++)
+                    {
+                        result.StressPeriods.Add(result.StressPeriods[i - 1]);
+                    }
+                }
+
+                var currStressPeriodRates = new StressPeriodLocationRates
+                {
+                    LocationRates = new List<LocationRate>()
+                };
+
+                AddRateData(fileLineEnumerator, currStressPeriodRates.LocationRates);
+
+                result.StressPeriods.Add(currStressPeriodRates);
             }
+            return result;
         }
 
         /// <summary>
@@ -364,51 +356,49 @@ namespace Olsson.GET.Accessors.FileIO
         public override void UpdateLocationRates(StressPeriodsLocationRates stressPeriods)
         {
             var welFileFullPath = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, GetFileName(WelFileKey));
-            using (var sw = new StreamWriter(new FileStream(welFileFullPath, FileMode.Create, FileAccess.Write)))
+            using var sw = new StreamWriter(new FileStream(welFileFullPath, FileMode.Create, FileAccess.Write));
+            if (stressPeriods.StressPeriods == null)
             {
-                if (stressPeriods.StressPeriods == null)
+                stressPeriods.StressPeriods = new List<StressPeriodLocationRates>();
+            }
+
+            sw.WriteLine("begin options");
+            foreach (var parameter in stressPeriods.Parameters)
+            {
+                sw.WriteLine("  " + parameter);
+            }
+            sw.WriteLine("end options\n");
+
+            var maxCount = stressPeriods.StressPeriods.Select(a => (a.LocationRates?.Count ?? 0) + (a.ClnLocationRates?.Count ?? 0)).Max();
+            WriteTotalHeaderRow(sw, maxCount, stressPeriods.HeaderValue);
+
+            for (var i = 0; i < stressPeriods.StressPeriods.Count; i++)
+            {
+                if (stressPeriods.StressPeriods[i].LocationRates == null)
                 {
-                    stressPeriods.StressPeriods = new List<StressPeriodLocationRates>();
+                    stressPeriods.StressPeriods[i].LocationRates = new List<LocationRate>();
                 }
 
-                sw.WriteLine("begin options");
-                foreach (var parameter in stressPeriods.Parameters)
+                sw.WriteLine($"begin period {i + 1}");
+
+                foreach (var locationRate in stressPeriods.StressPeriods[i].LocationRates)
                 {
-                    sw.WriteLine("  " + parameter);
+                    WriteLocationRateRow(sw, locationRate);
                 }
-                sw.WriteLine("end options\n");
 
-                var maxCount = stressPeriods.StressPeriods.Select(a => (a.LocationRates?.Count ?? 0) + (a.ClnLocationRates?.Count ?? 0)).Max();
-                WriteTotalHeaderRow(sw, maxCount, stressPeriods.HeaderValue);
-
-                for (var i = 0; i < stressPeriods.StressPeriods.Count; i++)
+                if (stressPeriods.StressPeriods[i].ClnLocationRates != null)
                 {
-                    if (stressPeriods.StressPeriods[i].LocationRates == null)
-                    {
-                        stressPeriods.StressPeriods[i].LocationRates = new List<LocationRate>();
-                    }
-
-                    sw.WriteLine($"begin period {i + 1}");
-
-                    foreach (var locationRate in stressPeriods.StressPeriods[i].LocationRates)
+                    foreach (var locationRate in stressPeriods.StressPeriods[i].ClnLocationRates)
                     {
                         WriteLocationRateRow(sw, locationRate);
                     }
-
-                    if (stressPeriods.StressPeriods[i].ClnLocationRates != null)
-                    {
-                        foreach (var locationRate in stressPeriods.StressPeriods[i].ClnLocationRates)
-                        {
-                            WriteLocationRateRow(sw, locationRate);
-                        }
-                    }
-
-                    sw.WriteLine("end period\n");
                 }
+
+                sw.WriteLine("end period\n");
             }
         }
 
-        private class ZoneBudgetItemMapper : ClassMap<ZoneBudgetItem>
+        private sealed class ZoneBudgetItemMapper : ClassMap<ZoneBudgetItem>
         {
             public ZoneBudgetItemMapper()
             {
@@ -417,19 +407,19 @@ namespace Olsson.GET.Accessors.FileIO
                 Map(m => m.Zone).Name("zone");
                 var allMappedColumns = new[] { "kstp", "kper", "zone" };
                 var loggedFoundHeaders = false;
-                Map(m => m.Values).ConvertUsing(r =>
+                Map(m => m.Values).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
+                    var row = r.Row;
                     var values = new List<ZoneBudgetValue>();
 
                     if (!loggedFoundHeaders)
                     {
-                        Logger.LogDebug($"Found zone budget item headers [{string.Join(",", row.Context.HeaderRecord)}]");
+                        Logger.LogDebug($"Found zone budget item headers [{string.Join(",", row.HeaderRecord)}]");
                         loggedFoundHeaders = true;
                     }
-                    for (var i = 0; i < row.Context.HeaderRecord.Length; i++)
+                    for (var i = 0; i < row.HeaderRecord.Length; i++)
                     {
-                        var header = row.Context.HeaderRecord[i];
+                        var header = row.HeaderRecord[i];
                         if (!allMappedColumns.Contains(header.ToLower()) && double.TryParse(row.GetField(i), out var value))
                         {
                             values.Add(new ZoneBudgetValue
