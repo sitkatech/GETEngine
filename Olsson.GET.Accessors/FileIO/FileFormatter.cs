@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using Olsson.GET.Common.DataContracts.Runs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using CsvHelper.Configuration;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -358,27 +360,30 @@ namespace Olsson.GET.Accessors.FileIO
         protected Dictionary<string, (SqlGeography Geography, List<LocationPumpingProportion> LocationPumpingProportions)> CreateLocationPositionMap<T>(TextReader fileData, Func<T, string> getKeyFunc, Func<T, List<LocationPumpingProportion>> getWellPumpingFunc)
         {
             var result = new Dictionary<string, (SqlGeography Geography, List<LocationPumpingProportion> LocationPumpingProportions)>();
-            using (var reader = new CsvReader(fileData))
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                reader.Configuration.MissingFieldFound = null;
-                reader.Read();
-                reader.ReadHeader();
-                var startingLatLongIndex = reader.Context.HeaderRecord.Length;
-                while (reader.Read())
+                HasHeaderRecord = true,
+                MissingFieldFound = null
+            };
+            using var csvReader = new CsvReader(fileData, csvConfiguration);
+            csvReader.Read();
+            csvReader.ReadHeader();
+            var startingLatLongIndex = csvReader.HeaderRecord?.Length ?? 0;
+            while (csvReader.Read())
+            {
+                var record = csvReader.GetRecord<T>();
+                var latLngs = new List<double>();
+                var currIndex = startingLatLongIndex;
+                while (csvReader.TryGetField<string>(currIndex++, out var strValue) && double.TryParse(strValue, out var value))
                 {
-                    var record = reader.GetRecord<T>();
-                    var latLngs = new List<double>();
-                    var currIndex = startingLatLongIndex;
-                    while (reader.TryGetField<string>(currIndex++, out var strValue) && double.TryParse(strValue, out var value))
-                    {
-                        latLngs.Add(value);
-                    }
-                    var longs = latLngs.Where((x, i) => i % 2 == 0).ToList();
-                    var lats = latLngs.Where((x, i) => (i + 1) % 2 == 0).ToList();
-                    var key = getKeyFunc(record);
-                    result[key] = (CreateGeography(lats, longs), GetLocationPumpingProportions(key, getWellPumpingFunc(record)));
+                    latLngs.Add(value);
                 }
+                var longs = latLngs.Where((x, i) => i % 2 == 0).ToList();
+                var lats = latLngs.Where((x, i) => (i + 1) % 2 == 0).ToList();
+                var key = getKeyFunc(record);
+                result[key] = (CreateGeography(lats, longs), GetLocationPumpingProportions(key, getWellPumpingFunc(record)));
             }
+
             return result;
         }
 

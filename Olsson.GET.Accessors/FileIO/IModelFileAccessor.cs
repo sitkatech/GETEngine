@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Olsson.GET.Common.DataContracts.Models;
+using Olsson.GET.Common.DataContracts.Runs;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Olsson.GET.Common.DataContracts.Models;
-using Olsson.GET.Common.DataContracts.Runs;
 
 namespace Olsson.GET.Accessors.FileIO
 {
@@ -52,5 +52,6 @@ namespace Olsson.GET.Accessors.FileIO
         Dictionary<int, Tuple<double, double>> GetIWFMNodeLocations();
         TextReader GetIWFMHeadAllOutputFile(bool isDifferential = false); 
         Model Model { get; }
+        Dictionary<int, int> GetNodeWaterLevelLayerMapping();
     }
 }

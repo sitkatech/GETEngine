@@ -16,9 +16,9 @@ namespace Olsson.GET.Accessors.FileIO
                 : base(new[] { "layer", "row", "col" })
             {
                 //Adding a column here? Add it to the mappedColumns array below
-                Map(m => m.Location).ConvertUsing(r =>
+                Map(m => m.Location).Convert(r =>
                 {
-                    var row = (CsvHelper.CsvReader)r;
+                    var row = r.Row;
                     return BuildStructuredKey(row.GetField<int>("layer"), row.GetField<int>("row"), row.GetField<int>("col"));
                 });
             }

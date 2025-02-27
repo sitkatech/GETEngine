@@ -5,6 +5,7 @@ using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -200,7 +201,7 @@ namespace Olsson.GET.Accessors.FileIO
             }
         }
 
-        private Stream GetFileStream(string fileName)
+        private static Stream GetFileStream(string fileName)
         {
             var path = Path.Combine(ConfigurationHelper.AppSettings.ModflowDataFolder, fileName);
             return new FileStream(path, FileMode.Open, FileAccess.Read);
@@ -211,14 +212,18 @@ namespace Olsson.GET.Accessors.FileIO
             var result = new Dictionary<Tuple<int, int>, List<string>>();
             if (FileExists(ZonesFileName))
             {
-                var reader = new CsvReader(GetFileData(ZonesFileName));
-                reader.Configuration.RegisterClassMap<SegmentReachZoneItemMapper>();
-                reader.Configuration.TrimOptions = TrimOptions.Trim;
-                reader.Read();
-                reader.ReadHeader();
-                while (reader.Read())
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    var record = reader.GetRecord<SegmentReachZone>();
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(GetFileData(ZonesFileName), csvConfiguration);
+                csvReader.Context.RegisterClassMap<SegmentReachZoneItemMapper>();
+                csvReader.Read();
+                csvReader.ReadHeader();
+                while (csvReader.Read())
+                {
+                    var record = csvReader.GetRecord<SegmentReachZone>();
                     var key = Tuple.Create(record.Seg, record.Rch);
                     if (!result.ContainsKey(key))
                     {

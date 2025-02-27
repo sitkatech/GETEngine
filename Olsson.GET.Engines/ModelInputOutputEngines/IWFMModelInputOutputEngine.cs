@@ -13,6 +13,8 @@ using Olsson.GET.Accessors.EntityFramework;
 using System.IO;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 using System.Globalization;
+using CsvHelper.Configuration;
+using CsvHelper;
 
 namespace Olsson.GET.Engines.ModelInputOutputEngines
 {
@@ -58,7 +60,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
 
             var nodeLocations = modelFileAccessor.GetIWFMNodeLocations();
 
-            Dictionary<int, Point> nodePoints = nodeLocations.ToDictionary(x => x.Key, x => new Point(x.Value.Item2, x.Value.Item1));
+            var nodePoints = nodeLocations.ToDictionary(x => x.Key, x => new Point(x.Value.Item2, x.Value.Item1));
             // find the closest node to each of the input locations
             userDataObject.UserDataPointInputs.ForEach(inputPoint =>
             {
@@ -74,24 +76,27 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
             var parsedHeadAllOutputFile = ParseHeadAllOutputFile(modelFileAccessor);
             var baselineHeadAllOutputFile = ParseHeadAllOutputFile(modelFileAccessor, true);
 
+            // get the NodeWaterLevelLayer.csv file 
+            // this file maps which layer each node will use, instead of it always defaulting to the last layer
+            var nodeToLayerMapping = modelFileAccessor.GetNodeWaterLevelLayerMapping();
             userDataObject.UserDataPointInputs.ForEach(inputPoint =>
             {
                 inputPoint.TimeSteps = new List<UserDataPointTimeStep>();
 
                 foreach (var dateTime in parsedHeadAllOutputFile.Keys)
                 {
-                    var runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                    var runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode][nodeToLayerMapping[inputPoint.ClosestNode]];
                     double? baselineValue = null;
                     double? baselineValueDifference = null;
                     if (run.IsDifferential)
                     {
                         // get the difference between baseline and the run value for differential results
-                        baselineValue = baselineHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        baselineValue = baselineHeadAllOutputFile[dateTime][inputPoint.ClosestNode][nodeToLayerMapping[inputPoint.ClosestNode]];
                         baselineValueDifference = baselineValue - runValue;
                     }
                     else
                     {
-                        runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode].Last();
+                        runValue = parsedHeadAllOutputFile[dateTime][inputPoint.ClosestNode][nodeToLayerMapping[inputPoint.ClosestNode]];
                     }
 
                     inputPoint.TimeSteps.Add(new UserDataPointTimeStep()
@@ -207,15 +212,14 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
         {
             var nodeValuesDictionary = new Dictionary<DateTime, Dictionary<int, List<double>>>();
             var reader = modelFileAccessor.GetIWFMHeadAllOutputFile(isDifferential);
-            string line;
             DateTime currentTimeStep = default;
-            while ((line = reader.ReadLine()) != null)
+            while (reader.ReadLine() is { } line)
             {
                 // Skip empty lines
                 if (string.IsNullOrWhiteSpace(line) || line.StartsWith("*"))
                     continue;
 
-                string[] parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
                 var isNewTimestepRow = DateTime.TryParseExact(parts[0].Replace("24:00", "00:00"), "MM/dd/yyyy_HH:mm",
                     CultureInfo.InvariantCulture,
@@ -228,7 +232,7 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                     // the rest of the parts should now be just the number of nodes
                 }
 
-                for (int i = 0; i < parts.Length; i++)
+                for (var i = 0; i < parts.Length; i++)
                 {
                     if (!nodeValuesDictionary.ContainsKey(currentTimeStep))
                     {
@@ -240,12 +244,10 @@ namespace Olsson.GET.Engines.ModelInputOutputEngines
                         nodeValuesDictionary[currentTimeStep][i + 1] = new List<double>();
                     }
 
-                    nodeValuesDictionary[currentTimeStep][i + 1].Add(Double.Parse(parts[i]));
+                    nodeValuesDictionary[currentTimeStep][i + 1].Add(double.Parse(parts[i]));
                 }
             }
             return nodeValuesDictionary;
         }
-
-        
     }
 }

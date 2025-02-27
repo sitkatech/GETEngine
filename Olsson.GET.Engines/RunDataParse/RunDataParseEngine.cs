@@ -6,6 +6,7 @@ using Olsson.GET.Common.DataContracts.Runs;
 using Olsson.GET.Common.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,36 +22,37 @@ namespace Olsson.GET.Engines.RunDataParse
             Logger.LogInformation("Parsing raw survey data");
 
             List<RunCanalInput> records = null;
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             try
             {
-                using (TextReader tr = new StreamReader(new MemoryStream(data), Encoding.UTF8))
+                using TextReader tr = new StreamReader(new MemoryStream(data), Encoding.UTF8);
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    using (var reader = new CsvReader(tr))
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+
+                using (var csvReader = new CsvReader(tr, csvConfiguration))
+                {
+                    csvReader.Context.RegisterClassMap<CanalRunDataMapper>();
+                    records = csvReader.GetRecords<RunCanalInput>().ToList();
+                }
+
+                var canalNames = model.CanalData?.Split(',').Where(a => !string.IsNullOrWhiteSpace(a)).Select(a => a.Trim()).ToList() ?? new List<string>();
+                var isFirst = true;
+                for (var i = 0; i < records.Count; i++)
+                {
+                    var record = records[i];
+                    if (isFirst)
                     {
-                        reader.Configuration.RegisterClassMap<CanalRunDataMapper>();
-
-                        reader.Configuration.TrimOptions = TrimOptions.Trim;
-
-                        records = reader.GetRecords<RunCanalInput>().ToList();
-                    }
-
-                    var canalNames = model.CanalData?.Split(',').Where(a => !string.IsNullOrWhiteSpace(a)).Select(a => a.Trim()).ToList() ?? new List<string>();
-                    var isFirst = true;
-                    for (var i = 0; i < records.Count; i++)
-                    {
-                        var record = records[i];
-                        if (isFirst)
+                        var invalidColumnNames = record.Values.Where(a => !canalNames.Contains(a.FeatureName.Trim()));
+                        foreach (var invalidColumnName in invalidColumnNames)
                         {
-                            var invalidColumnNames = record.Values.Where(a => !canalNames.Contains(a.FeatureName.Trim()));
-                            foreach (var invalidColumnName in invalidColumnNames)
-                            {
-                                errors.Add($"Invalid Column Name - Record #{i + 1} {invalidColumnName.FeatureName}");
-                            }
-                            isFirst = false;
+                            errors.Add($"Invalid Column Name - Record #{i + 1} {invalidColumnName.FeatureName}");
                         }
-                        ValidateDates(model, record.Year, record.Month, errors, i);
+                        isFirst = false;
                     }
+                    ValidateDates(model, record.Year, record.Month, errors, i);
                 }
             }
             catch (Exception ex)
@@ -86,41 +88,38 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public byte[] CanalRunDataToCsv(List<RunCanalInput> data)
         {
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream))
-            using (var csvWriter = new CsvWriter(streamWriter))
-            {
-                //header row
-                csvWriter.WriteField("Month");
-                csvWriter.WriteField("Year");
+            using var memoryStream = new MemoryStream();
+            using var streamWriter = new StreamWriter(memoryStream);
+            using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+            //header row
+            csvWriter.WriteField("Month");
+            csvWriter.WriteField("Year");
 
-                var fields = data.First().Values.Select(v => v.FeatureName).ToList();
+            var fields = data.First().Values.Select(v => v.FeatureName).ToList();
+
+            foreach (var field in fields)
+            {
+                csvWriter.WriteField(field);
+            }
+
+            csvWriter.NextRecord();
+
+            //rows
+            foreach (var record in data)
+            {
+                csvWriter.WriteField(record.Month);
+                csvWriter.WriteField(record.Year);
 
                 foreach (var field in fields)
                 {
-                    csvWriter.WriteField(field);
+                    csvWriter.WriteField(record.Values.First(v => v.FeatureName == field).Value);
                 }
 
                 csvWriter.NextRecord();
-
-                //rows
-                foreach (var record in data)
-                {
-                    csvWriter.WriteField(record.Month);
-                    csvWriter.WriteField(record.Year);
-
-                    foreach (var field in fields)
-                    {
-                        csvWriter.WriteField(record.Values.First(v => v.FeatureName == field).Value);
-                    }
-
-                    csvWriter.NextRecord();
-                }
-
-                streamWriter.Flush();
-                return memoryStream.ToArray();
             }
 
+            streamWriter.Flush();
+            return memoryStream.ToArray();
         }
 
         public RunWellInputParseResult ParseWellRunDataFromFile(byte[] data, Model model)
@@ -134,22 +133,26 @@ namespace Olsson.GET.Engines.RunDataParse
             {
                 using (TextReader tr = new StreamReader(new MemoryStream(data), Encoding.UTF8))
                 {
-                    using (var reader = new CsvReader(tr))
+                    var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                     {
-                        reader.Configuration.RegisterClassMap<WellRunDataMapper>();
-                        reader.Configuration.TrimOptions = TrimOptions.Trim;
+                        HasHeaderRecord = true,
+                        TrimOptions = TrimOptions.Trim
+                    };
+                    using (var csvReader = new CsvReader(tr, csvConfiguration))
+                    {
+                        csvReader.Context.RegisterClassMap<WellRunDataMapper>();
 
                         records = new List<RunWellInput>();
 
                         //header
-                        reader.Read();
-                        reader.ReadHeader();
+                        csvReader.Read();
+                        csvReader.ReadHeader();
 
                         ////////////////////////////////////////////////////////////////sb 12/11/2018 BEGIN identify duplicate wells          
                         //well
                         var wells = new List<string>();
                         var x = 1;
-                        while (reader.TryGetField<string>(x, out var well))
+                        while (csvReader.TryGetField<string>(x, out var well))
                         {
                             wells.Add(well);
                             x++;
@@ -169,28 +172,28 @@ namespace Olsson.GET.Engines.RunDataParse
                         ////////////////////////////////////////////////////////////sb 12/11/2018 end
 
                         //lat
-                        reader.Read();
+                        csvReader.Read();
                         var lats = new List<double>();
                         var i = 1;
-                        while (reader.TryGetField<double>(i, out var lat))
+                        while (csvReader.TryGetField<double>(i, out var lat))
                         {
                             lats.Add(lat);
                             i++;
                         }
 
                         //lng
-                        reader.Read();
+                        csvReader.Read();
                         var lngs = new List<double>();
                         i = 1;
-                        while (reader.TryGetField<double>(i, out var lng))
+                        while (csvReader.TryGetField<double>(i, out var lng))
                         {
                             lngs.Add(lng);
                             i++;
                         }
 
-                        while (reader.Read())
+                        while (csvReader.Read())
                         {
-                            records.Add(reader.GetRecord<RunWellInput>());
+                            records.Add(csvReader.GetRecord<RunWellInput>());
                         }
 
                         //populate the lat/long
@@ -230,85 +233,81 @@ namespace Olsson.GET.Engines.RunDataParse
 
         public byte[] WellRunDataToCsv(List<RunWellInput> data)
         {
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream))
-            using (var csvWriter = new CsvWriter(streamWriter))
+            using var memoryStream = new MemoryStream();
+            using var streamWriter = new StreamWriter(memoryStream);
+            using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+            //header row
+            csvWriter.WriteField("Date");
+
+            var wells = data.First().Values.Select(sp => sp.FeatureName).Distinct().ToList();
+
+            foreach (var field in wells)
             {
-                //header row
-                csvWriter.WriteField("Date");
-
-                var wells = data.First().Values.Select(sp => sp.FeatureName).Distinct().ToList();
-
-                foreach (var field in wells)
-                {
-                    csvWriter.WriteField(field);
-                }
-
-                //Lat row
-                csvWriter.NextRecord();
-                csvWriter.WriteField(""); //empty row under date
-                foreach (var field in wells)
-                {
-                    csvWriter.WriteField(data.First().Values.First(v => v.FeatureName == field).Lat);
-                }
-
-                //Lng row
-                csvWriter.NextRecord();
-                csvWriter.WriteField(""); //empty row under date
-                foreach (var field in wells)
-                {
-                    csvWriter.WriteField(data.First().Values.First(v => v.FeatureName == field).Lng);
-                }
-
-                csvWriter.NextRecord();
-
-                //rows
-                foreach (var record in data)
-                {
-                    csvWriter.WriteField(new DateTime(record.Year, record.Month, 1).ToString("MM/dd/yyyy"));
-
-                    foreach (var well in wells)
-                    {
-                        csvWriter.WriteField(record.Values.FirstOrDefault(r => r.FeatureName == well)?.Value);
-                    }
-
-                    csvWriter.NextRecord();
-                }
-
-                streamWriter.Flush();
-                return memoryStream.ToArray();
+                csvWriter.WriteField(field);
             }
+
+            //Lat row
+            csvWriter.NextRecord();
+            csvWriter.WriteField(""); //empty row under date
+            foreach (var field in wells)
+            {
+                csvWriter.WriteField(data.First().Values.First(v => v.FeatureName == field).Lat);
+            }
+
+            //Lng row
+            csvWriter.NextRecord();
+            csvWriter.WriteField(""); //empty row under date
+            foreach (var field in wells)
+            {
+                csvWriter.WriteField(data.First().Values.First(v => v.FeatureName == field).Lng);
+            }
+
+            csvWriter.NextRecord();
+
+            //rows
+            foreach (var record in data)
+            {
+                csvWriter.WriteField(new DateTime(record.Year, record.Month, 1).ToString("MM/dd/yyyy"));
+
+                foreach (var well in wells)
+                {
+                    csvWriter.WriteField(record.Values.FirstOrDefault(r => r.FeatureName == well)?.Value);
+                }
+
+                csvWriter.NextRecord();
+            }
+
+            streamWriter.Flush();
+            return memoryStream.ToArray();
         }
 
         public byte[] WellParticleRunDataToCsv(List<RunWellParticleInput> data)
         {
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream))
-            using (var csvWriter = new CsvWriter(streamWriter))
-            {
-                //header row
-                csvWriter.WriteField("Name");
-                csvWriter.WriteField("Latitude");
-                csvWriter.WriteField("Longitude");
-                csvWriter.WriteField("Particle Count");
+            using var memoryStream = new MemoryStream();
+            using var streamWriter = new StreamWriter(memoryStream);
+            using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+            //header row
+            csvWriter.WriteField("Name");
+            csvWriter.WriteField("Latitude");
+            csvWriter.WriteField("Longitude");
+            csvWriter.WriteField("Particle Count");
 
+
+            csvWriter.NextRecord();
+
+            //rows
+            foreach (var record in data)
+            {
+                csvWriter.WriteField(record.Name);
+                csvWriter.WriteField(record.Lat);
+                csvWriter.WriteField(record.Lng);
+                csvWriter.WriteField(record.ParticleCount);
 
                 csvWriter.NextRecord();
-
-                //rows
-                foreach (var record in data)
-                {
-                    csvWriter.WriteField(record.Name);
-                    csvWriter.WriteField(record.Lat);
-                    csvWriter.WriteField(record.Lng);
-                    csvWriter.WriteField(record.ParticleCount);
-
-                    csvWriter.NextRecord();
-                }
-
-                streamWriter.Flush();
-                return memoryStream.ToArray();
             }
+
+            streamWriter.Flush();
+            return memoryStream.ToArray();
         }
 
         public RunWellParticleInputParseResult ParseWellParticleRunDataFromFile(byte[] data, Model model)
@@ -316,21 +315,19 @@ namespace Olsson.GET.Engines.RunDataParse
             Logger.LogInformation("Parsing raw survey data");
 
             List<RunWellParticleInput> records = null;
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
             try
             {
-                using (TextReader tr = new StreamReader(new MemoryStream(data), Encoding.UTF8))
+                using TextReader tr = new StreamReader(new MemoryStream(data), Encoding.UTF8);
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    using (var reader = new CsvReader(tr))
-                    {
-                        reader.Configuration.RegisterClassMap<RunWellParticleDataMapper>();
-
-                        reader.Configuration.TrimOptions = TrimOptions.Trim;
-
-                        records = reader.GetRecords<RunWellParticleInput>().ToList();
-                    }
-                }
+                    HasHeaderRecord = true,
+                    TrimOptions = TrimOptions.Trim
+                };
+                using var csvReader = new CsvReader(tr, csvConfiguration);
+                csvReader.Context.RegisterClassMap<RunWellParticleDataMapper>();
+                records = csvReader.GetRecords<RunWellParticleInput>().ToList();
             }
             catch (Exception ex)
             {
