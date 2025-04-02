@@ -268,7 +268,7 @@ namespace Olsson.GET.Accessors.FileIO
             };
             using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
             csvReader.Context.RegisterClassMap<ZoneBudgetItemMapper>();
-            return csvReader.GetRecords<ZoneBudgetItem>();
+            return csvReader.GetRecords<ZoneBudgetItem>().ToList();
         }
 
         public override StressPeriodsLocationRates GetLocationRates()
