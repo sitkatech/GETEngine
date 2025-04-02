@@ -1129,7 +1129,7 @@ namespace Olsson.GET.Accessors.FileIO
             };
             using var csvReader = new CsvReader(GetFileData(fileName), csvConfiguration);
             csvReader.Context.RegisterClassMap<ZoneBudgetItemMapper>();
-            return csvReader.GetRecords<ZoneBudgetItem>();
+            return csvReader.GetRecords<ZoneBudgetItem>().ToList();
         }
 
         private sealed class ZoneBudgetItemMapper : ClassMap<ZoneBudgetItem>
@@ -1189,7 +1189,7 @@ namespace Olsson.GET.Accessors.FileIO
             };
             using var csvReader = new CsvReader(GetFileData(filename), csvConfiguration);
             csvReader.Context.RegisterClassMap<PointOfInterestItemMapper>();
-            return csvReader.GetRecords<PointOfInterest>();
+            return csvReader.GetRecords<PointOfInterest>().ToList();
         }
 
         private sealed class PointOfInterestItemMapper : ClassMap<PointOfInterest>
@@ -1638,7 +1638,7 @@ namespace Olsson.GET.Accessors.FileIO
 
             using var csvReader = new CsvReader(GetFileData(NodeWaterLevelLayerFileName), csvConfiguration);
             csvReader.Context.RegisterClassMap<NodeWaterLevelLayerMapper>();
-            var records = csvReader.GetRecords<NodeWaterLevelLayer>();
+            var records = csvReader.GetRecords<NodeWaterLevelLayer>().ToList();
             return records.ToDictionary(x => x.Node, x => x.WaterLevelLayer - 1);
         }
     }
