@@ -1639,7 +1639,7 @@ namespace Olsson.GET.Accessors.FileIO
             using var csvReader = new CsvReader(GetFileData(NodeWaterLevelLayerFileName), csvConfiguration);
             csvReader.Context.RegisterClassMap<NodeWaterLevelLayerMapper>();
             var records = csvReader.GetRecords<NodeWaterLevelLayer>();
-            return records.ToDictionary(x => x.Node, x => x.WaterLevelLayer);
+            return records.ToDictionary(x => x.Node, x => x.WaterLevelLayer - 1);
         }
     }
 }
