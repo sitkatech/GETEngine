@@ -1063,7 +1063,8 @@ namespace Olsson.GET.Managers.Runs
                         { "MODEL_ID", run.ModelID.ToString() },
                         { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }, // i'm guessing this isn't being used at all because the linux containers are small and simple
                         { "STORAGE_ACCOUNT", ConfigurationHelper.AppSettings.AzureStorageAccountName},
-                        { "SAS_TOKEN", sasToken}
+                        { "SAS_TOKEN", sasToken},
+                        { "FILE_STORAGE_LOCATOR", run.FileStorageLocator }
                     };
 
                     containerAccessor.StartAzureContainer(run.FileStorageLocator,
