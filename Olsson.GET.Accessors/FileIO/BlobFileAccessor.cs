@@ -133,7 +133,7 @@ namespace Olsson.GET.Accessors.FileIO
              
             var sasToken = cloudFileShare.GetSharedAccessSignature(new SharedAccessFilePolicy()
             {
-                Permissions = SharedAccessFilePermissions.Read | SharedAccessFilePermissions.List,
+                Permissions = SharedAccessFilePermissions.Read | SharedAccessFilePermissions.List | SharedAccessFilePermissions.Create | SharedAccessFilePermissions.Write,
                 SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(2)
             });
             return sasToken;
