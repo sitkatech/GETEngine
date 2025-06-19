@@ -139,6 +139,24 @@ namespace Olsson.GET.Accessors.FileIO
             return sasToken;
         }
 
+        public string GetBlobContainerSasToken(string containerName)
+        {
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference(containerName);
+
+            var blobSasToken = container.GetSharedAccessSignature(new SharedAccessBlobPolicy
+            {
+                Permissions = SharedAccessBlobPermissions.Read |
+                              SharedAccessBlobPermissions.Write |
+                              SharedAccessBlobPermissions.Create |
+                              SharedAccessBlobPermissions.List,
+                SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddDays(2)
+            });
+
+            return blobSasToken;
+        }
+
         public async Task<List<string>> GetFilesInShareDirectory(string fileLocation, bool recursive = false)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(fileLocation);

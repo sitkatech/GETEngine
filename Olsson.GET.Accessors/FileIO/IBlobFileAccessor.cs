@@ -30,5 +30,7 @@ namespace Olsson.GET.Accessors.FileIO
         Task DeleteCloudFileShare(string fileLocator);
 
         string GetAgentFileShareSASToken();
+
+        string GetBlobContainerSasToken(string containerName);
     }
 }

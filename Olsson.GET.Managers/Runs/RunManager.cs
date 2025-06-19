@@ -1036,6 +1036,7 @@ namespace Olsson.GET.Managers.Runs
             var containerStarted = false;
 
             var sasToken = blobFileAccessor.GetAgentFileShareSASToken();
+            var blobSasToken = blobFileAccessor.GetBlobContainerSasToken(ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
 
             // run custom image
             if (processType == AgentProcessType.Input && run.Scenario.InputImage != null)
@@ -1064,6 +1065,7 @@ namespace Olsson.GET.Managers.Runs
                         { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }, // i'm guessing this isn't being used at all because the linux containers are small and simple
                         { "STORAGE_ACCOUNT", ConfigurationHelper.AppSettings.AzureStorageAccountName},
                         { "SAS_TOKEN", sasToken},
+                        { "blobSasToken", blobSasToken },
                         { "FILE_STORAGE_LOCATOR", run.FileStorageLocator }
                     };
 
