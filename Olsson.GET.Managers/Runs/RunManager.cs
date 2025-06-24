@@ -1226,7 +1226,7 @@ namespace Olsson.GET.Managers.Runs
             Logger.LogInformation($"Found run \"{run.RunName}\"");
             var storageFiles = new List<string>();
             var storageFilesCopied = new List<string>();
-            var usesFileStorage = run.Scenario.InputImage != null && run.Scenario.InputImage.IsLinux;
+            var usesFileStorage = run.Scenario.InputImage != null;
 
 
             #region RetrieveFiles
