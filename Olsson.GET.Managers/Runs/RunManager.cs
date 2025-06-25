@@ -1228,6 +1228,22 @@ namespace Olsson.GET.Managers.Runs
             var storageFilesCopied = new List<string>();
             var usesFileStorage = run.Scenario.InputImage != null;
 
+            // Copy blob files added or modified by the input container to the file share before running the analysis container, if the input container was a custom Windows container
+            var isWindowsCustomInput = run.Scenario.InputImage != null && !run.Scenario.InputImage.IsLinux;
+            if (isWindowsCustomInput)
+            {
+                Logger.LogInformation($"Copying all blob files to file share for Windows custom input container: {run.FileStorageLocator}");
+                var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+
+                foreach (var file in files)
+                {
+                    blobFileAccessor.CopyFromBlobStorageToFileShare(StorageLocations.InputFilePathForRun(run.FileStorageLocator, file),
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
+                        file,
+                        run.FileStorageLocator).Wait();
+                }
+            }
+
 
             #region RetrieveFiles
             // RL 12/22/22: there seems to be an expectation that GenerateInputFiles will generate at lease one file
