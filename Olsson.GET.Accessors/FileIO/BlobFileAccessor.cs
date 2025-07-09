@@ -295,13 +295,32 @@ namespace Olsson.GET.Accessors.FileIO
         public async Task CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.LogInformation($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
+
             var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
-
             CloudFileShare cloudFileShare = GetCloudFileShare(destFileLocation);
-
             var destFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(destFilePath);
 
+            // Start the copy
             await destFile.StartCopyAsync(srcblockBlob);
+
+            // Wait for the copy to complete
+            while (true)
+            {
+                await destFile.FetchAttributesAsync();
+
+                if (destFile.CopyState.Status != CopyStatus.Pending)
+                    break;
+
+                Logger.LogInformation($"Waiting for copy to complete for file: {destFilePath}. Current status: {destFile.CopyState.Status}");
+                await Task.Delay(5000); // Wait 5 seconds before checking again
+            }
+
+            if (destFile.CopyState.Status != CopyStatus.Success)
+            {
+                throw new Exception($"Copy failed for file {destFilePath}: {destFile.CopyState.StatusDescription}");
+            }
+
+            Logger.LogInformation($"Copy completed successfully for file: {destFilePath}");
 
             if (deleteSrc)
             {
