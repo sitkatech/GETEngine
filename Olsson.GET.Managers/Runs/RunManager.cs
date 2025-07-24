@@ -202,6 +202,48 @@ namespace Olsson.GET.Managers.Runs
             return run;
         }
 
+        public List<AvailableRunInput> FindAvailableRunInputs(int runId, int customerId)
+        {
+            Logger.LogInformation($"Finding input files for run {runId} for customer {customerId}");
+            var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
+            var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId, customerId);
+            if (run == null)
+            {
+                return null;
+            }
+
+            var result = new List<AvailableRunInput>();
+            var files = blobFileAccessor.GetFilesInDirectory(
+                StorageLocations.InputFolderPathForRun(run.FileStorageLocator),
+                ConfigurationHelper.AppSettings.BlobStorageModelDataFolder
+            ).Result
+            .Select(a => new { Match = FileNameParseRegEx.Match(a), FullName = a })
+            .Where(a => a.Match.Success)
+            .Select(a => new
+            {
+                IsHidden = !string.IsNullOrWhiteSpace(a.Match.Groups["hidden"].Value),
+                FileName = a.Match.Groups["name"].Value,
+                Extension = a.Match.Groups["extension"].Value,
+                a.FullName
+            })
+            .GroupBy(a => a.FileName)
+            .ToList();
+
+            foreach (var file in files)
+            {
+                if (!file.First().IsHidden)
+                {
+                    result.Add(new AvailableRunInput
+                    {
+                        FileName = file.Key,
+                        AvailableFileTypes = file.Select(a => a.Extension).Distinct().ToList()
+                    });
+                }
+            }
+
+            return result;
+        }
+
 
         public List<AvailableRunResult> FindAvailableRunResults(int runId, int customerId)
         {
@@ -305,6 +347,32 @@ namespace Olsson.GET.Managers.Runs
         private static bool IsDrawdownFile(string fileName)
         {
             return string.Equals(fileName, DrawdownFileName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public RunResultResponseModel GetRunInput(int runId, int customerId, string fileName)
+        {
+            Logger.LogInformation($"Retrieving input file '{fileName}' for run {runId} and customer {customerId}");
+
+            var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId, customerId);
+            if (run == null)
+            {
+                return null;
+            }
+
+            var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
+            var filePath = StorageLocations.InputFilePathForRun(run.FileStorageLocator, fileName);
+            var fileData = blobFileAccessor.GetFile(filePath, ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+
+            if (fileData == null)
+            {
+                return null;
+            }
+
+            return new RunResultResponseModel
+            {
+                RunId = runId,
+                FileDetails = Encoding.UTF8.GetString(fileData)
+            };
         }
 
         public RunResultResponseModel GetRunResult(int runId, int customerId, string fileName, string subType, string fileType)

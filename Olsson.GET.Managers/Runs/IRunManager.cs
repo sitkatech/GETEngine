@@ -113,6 +113,10 @@ namespace Olsson.GET.Managers.Runs
 
         List<AvailableRunResult> FindAvailableRunResults(int runId, int customerId);
 
+        List<AvailableRunInput> FindAvailableRunInputs(int runId, int customerId);
+
+        RunResultResponseModel GetRunInput(int runId, int customerId, string fileName);
+
         RunResultResponseModel GetRunResult(int runId, int customerId, string fileName, string subType, string fileType);
 
         List<Run> FindRunsByModelId(int modelId);
