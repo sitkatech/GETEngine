@@ -212,38 +212,19 @@ namespace Olsson.GET.Managers.Runs
                 return null;
             }
 
-            var result = new List<AvailableRunInput>();
             var files = blobFileAccessor.GetFilesInDirectory(
                 StorageLocations.InputFolderPathForRun(run.FileStorageLocator),
                 ConfigurationHelper.AppSettings.BlobStorageModelDataFolder
-            ).Result
-            .Select(a => new { Match = FileNameParseRegEx.Match(a), FullName = a })
-            .Where(a => a.Match.Success)
-            .Select(a => new
-            {
-                IsHidden = !string.IsNullOrWhiteSpace(a.Match.Groups["hidden"].Value),
-                FileName = a.Match.Groups["name"].Value,
-                Extension = a.Match.Groups["extension"].Value,
-                a.FullName
-            })
-            .GroupBy(a => a.FileName)
-            .ToList();
+            ).Result;
 
-            foreach (var file in files)
+            var result = files.Select(file => new AvailableRunInput
             {
-                if (!file.First().IsHidden)
-                {
-                    result.Add(new AvailableRunInput
-                    {
-                        FileName = file.Key,
-                        AvailableFileTypes = file.Select(a => a.Extension).Distinct().ToList()
-                    });
-                }
-            }
+                FileName = Path.GetFileName(file),
+                AvailableFileTypes = new List<string> { Path.GetExtension(file) }
+            }).ToList();
 
             return result;
         }
-
 
         public List<AvailableRunResult> FindAvailableRunResults(int runId, int customerId)
         {

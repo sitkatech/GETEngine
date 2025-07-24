@@ -47,8 +47,12 @@ namespace Olsson.GET.Clients.APIFunctions
         }
 
         [FunctionName("RetrieveInput")]
+        [OpenApiOperation(operationId: "RetrieveInput")]
+        [OpenApiRequestBody("application/json", typeof(RetrieveResultModel), Required = true, Description = "Retrieve Input Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RunResultResponseModel))]
         public IActionResult RetrieveInput(
-    [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
+
         {
             _logger.LogInformation("Processing request: Retrieve Input.");
             string requestBody = req.Content.ReadAsStringAsync().Result;
