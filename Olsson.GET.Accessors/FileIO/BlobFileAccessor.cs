@@ -337,14 +337,13 @@ namespace Olsson.GET.Accessors.FileIO
             var fsas = srcFile.GetSharedAccessSignature(new SharedAccessFilePolicy
             {
                 Permissions = SharedAccessFilePermissions.Read,
-                AccessExpiryTime = DateTime.UtcNow.AddHours(1)
+                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1)
             });
             Uri fileSasUri = new Uri(srcFile.StorageUri.PrimaryUri.ToString() + fsas);
 
             var destBlockBlob = await GetBlockBlobReference(destFileLocation, destFilePath);
 
             // Check for pending copy
-
             await destBlockBlob.FetchAttributesAsync();
             if (destBlockBlob.CopyState != null && destBlockBlob.CopyState.Status == CopyStatus.Pending)
             {
@@ -373,19 +372,17 @@ namespace Olsson.GET.Accessors.FileIO
                 Logger.LogInformation($"Previous copy operation for blob {destFilePath} completed with status: {destBlockBlob.CopyState.Status}");
             }
 
-        }
-
-        await destBlockBlob.DeleteIfExistsAsync();
-        await destBlockBlob.StartCopyAsync(fileSasUri);
+            await destBlockBlob.DeleteIfExistsAsync();
+            await destBlockBlob.StartCopyAsync(fileSasUri);
 
             if (deleteSrc)
             {
                 await srcFile.DeleteAsync();
-    }
-}
+            }
+        }
 
 
-public async Task DeleteCloudFileShare(string fileLocator)
+        public async Task DeleteCloudFileShare(string fileLocator)
 {
     var cloudFileShare = GetCloudFileShare(fileLocator);
 
