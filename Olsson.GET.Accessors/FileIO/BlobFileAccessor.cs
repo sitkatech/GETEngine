@@ -130,7 +130,7 @@ namespace Olsson.GET.Accessors.FileIO
         public string GetAgentFileShareSASToken()
         {
             CloudFileShare cloudFileShare = GetCloudFileShare("agent");
-             
+
             var sasToken = cloudFileShare.GetSharedAccessSignature(new SharedAccessFilePolicy()
             {
                 Permissions = SharedAccessFilePermissions.Read | SharedAccessFilePermissions.List | SharedAccessFilePermissions.Create | SharedAccessFilePermissions.Write,
@@ -139,12 +139,30 @@ namespace Olsson.GET.Accessors.FileIO
             return sasToken;
         }
 
+        public string GetBlobContainerSasToken(string containerName)
+        {
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference(containerName);
+
+            var blobSasToken = container.GetSharedAccessSignature(new SharedAccessBlobPolicy
+            {
+                Permissions = SharedAccessBlobPermissions.Read |
+                              SharedAccessBlobPermissions.Write |
+                              SharedAccessBlobPermissions.Create |
+                              SharedAccessBlobPermissions.List,
+                SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddDays(2)
+            });
+
+            return blobSasToken;
+        }
+
         public async Task<List<string>> GetFilesInShareDirectory(string fileLocation, bool recursive = false)
         {
             CloudFileShare cloudFileShare = GetCloudFileShare(fileLocation);
 
             var directory = cloudFileShare.GetRootDirectoryReference();
-            
+
             FileContinuationToken fileContinuationToken = null;
             var files = new List<IListFileItem>();
 
@@ -152,7 +170,7 @@ namespace Olsson.GET.Accessors.FileIO
             if (recursive)
             {
                 do
-                { 
+                {
 
                     var resultSegment = await directory.ListFilesAndDirectoriesSegmentedAsync(
 
@@ -212,7 +230,7 @@ namespace Olsson.GET.Accessors.FileIO
                     return Uri.UnescapeDataString(String.Join("", segments.Skip(2)));
 
                 }).ToList();
-            } 
+            }
 
 
             return files.Select(a => Uri.UnescapeDataString(a.Uri.Segments.Last())).ToList();
@@ -249,7 +267,7 @@ namespace Olsson.GET.Accessors.FileIO
                         files.Add(fileItem);
                     }
                 });
-                
+
             } while (fileContinuationToken != null);
 
             return files;
@@ -277,13 +295,32 @@ namespace Olsson.GET.Accessors.FileIO
         public async Task CopyFromBlobStorageToFileShare(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.LogInformation($"Copying files from blob storage to file share - SRC: [{srcFileLocation}/{srcFilePath}] DEST: [{destFileLocation}/{destFilePath}]");
+
             var srcblockBlob = await GetBlockBlobReference(srcFileLocation, srcFilePath);
-
             CloudFileShare cloudFileShare = GetCloudFileShare(destFileLocation);
-
             var destFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(destFilePath);
 
+            // Start the copy
             await destFile.StartCopyAsync(srcblockBlob);
+
+            // Wait for the copy to complete
+            while (true)
+            {
+                await destFile.FetchAttributesAsync();
+
+                if (destFile.CopyState.Status != CopyStatus.Pending)
+                    break;
+
+                Logger.LogInformation($"Waiting for copy to complete for file: {destFilePath}. Current status: {destFile.CopyState.Status}");
+                await Task.Delay(5000); // Wait 5 seconds before checking again
+            }
+
+            if (destFile.CopyState.Status != CopyStatus.Success)
+            {
+                throw new Exception($"Copy failed for file {destFilePath}: {destFile.CopyState.StatusDescription}");
+            }
+
+            Logger.LogInformation($"Copy completed successfully for file: {destFilePath}");
 
             if (deleteSrc)
             {
@@ -294,22 +331,48 @@ namespace Olsson.GET.Accessors.FileIO
         public async Task CopyFromFileShareToBlobStorage(string srcFilePath, string srcFileLocation, string destFilePath, string destFileLocation, bool deleteSrc = false)
         {
             Logger.LogInformation($"Copying files from file share to blob storage - SRC: [{srcFilePath} - {srcFileLocation}] DEST: [{destFilePath} - {destFileLocation}]");
+
             CloudFileShare cloudFileShare = GetCloudFileShare(srcFileLocation);
-
             var srcFile = cloudFileShare.GetRootDirectoryReference().GetFileReference(srcFilePath);
-
-            var fsas = srcFile.GetSharedAccessSignature(new SharedAccessFilePolicy()
+            var fsas = srcFile.GetSharedAccessSignature(new SharedAccessFilePolicy
             {
                 Permissions = SharedAccessFilePermissions.Read,
                 SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1)
             });
             Uri fileSasUri = new Uri(srcFile.StorageUri.PrimaryUri.ToString() + fsas);
 
-
             var destBlockBlob = await GetBlockBlobReference(destFileLocation, destFilePath);
 
-            await destBlockBlob.DeleteIfExistsAsync();
+            // Check for pending copy
+            await destBlockBlob.FetchAttributesAsync();
+            if (destBlockBlob.CopyState != null && destBlockBlob.CopyState.Status == CopyStatus.Pending)
+            {
+                Logger.LogWarning($"Pending copy operation detected for blob: {destFilePath}. Waiting for completion...");
 
+                int maxRetries = 120; // 10 minutes total at 5s intervals
+                int retryCount = 0;
+
+                while (destBlockBlob.CopyState.Status == CopyStatus.Pending && retryCount < maxRetries)
+                {
+                    await Task.Delay(5000);
+                    await destBlockBlob.FetchAttributesAsync();
+                    retryCount++;
+                }
+
+                if (destBlockBlob.CopyState.Status == CopyStatus.Pending)
+                {
+                    throw new TimeoutException($"Copy operation for blob {destFilePath} timed out after {maxRetries * 5} seconds.");
+                }
+
+                if (destBlockBlob.CopyState.Status != CopyStatus.Success)
+                {
+                    throw new Exception($"Previous copy failed for blob {destFilePath}: {destBlockBlob.CopyState.StatusDescription}");
+                }
+
+                Logger.LogInformation($"Previous copy operation for blob {destFilePath} completed with status: {destBlockBlob.CopyState.Status}");
+            }
+
+            await destBlockBlob.DeleteIfExistsAsync();
             await destBlockBlob.StartCopyAsync(fileSasUri);
 
             if (deleteSrc)
@@ -318,37 +381,38 @@ namespace Olsson.GET.Accessors.FileIO
             }
         }
 
+
         public async Task DeleteCloudFileShare(string fileLocator)
-        {
-            var cloudFileShare = GetCloudFileShare(fileLocator);
+{
+    var cloudFileShare = GetCloudFileShare(fileLocator);
 
-            await cloudFileShare.DeleteIfExistsAsync();
-        }
+    await cloudFileShare.DeleteIfExistsAsync();
+}
 
-        #region Private Methods
-        private async Task<CloudBlockBlob> GetBlockBlobReference(string containerName, string fileName)
-        {
-            var container = await GetCloudBlobContainer(containerName);
-            var blockBlob = container.GetBlockBlobReference(fileName);
-            return blockBlob;
-        }
+#region Private Methods
+private async Task<CloudBlockBlob> GetBlockBlobReference(string containerName, string fileName)
+{
+    var container = await GetCloudBlobContainer(containerName);
+    var blockBlob = container.GetBlockBlobReference(fileName);
+    return blockBlob;
+}
 
-        private static async Task<CloudBlobContainer> GetCloudBlobContainer(string containerName)
-        {
-            var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var container = blobClient.GetContainerReference(containerName);
-            await container.CreateIfNotExistsAsync();
-            return container;
-        }
+private static async Task<CloudBlobContainer> GetCloudBlobContainer(string containerName)
+{
+    var storageAccount = CloudStorageAccount.Parse(ConfigurationHelper.ConnectionStrings.AzureStorageAccount);
+    var blobClient = storageAccount.CreateCloudBlobClient();
+    var container = blobClient.GetContainerReference(containerName);
+    await container.CreateIfNotExistsAsync();
+    return container;
+}
 
-        private static CloudFileShare GetCloudFileShare(string fileLocator)
-        {
-            return CloudStorageAccount.Parse(
-                 ConfigurationHelper.ConnectionStrings.AzureStorageAccount)
-                 .CreateCloudFileClient()
-                 .GetShareReference(fileLocator);
-        }
+private static CloudFileShare GetCloudFileShare(string fileLocator)
+{
+    return CloudStorageAccount.Parse(
+         ConfigurationHelper.ConnectionStrings.AzureStorageAccount)
+         .CreateCloudFileClient()
+         .GetShareReference(fileLocator);
+}
 
         #endregion
     }

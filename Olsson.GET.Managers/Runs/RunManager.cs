@@ -202,6 +202,29 @@ namespace Olsson.GET.Managers.Runs
             return run;
         }
 
+        public List<AvailableRunInput> FindAvailableRunInputs(int runId, int customerId)
+        {
+            Logger.LogInformation($"Finding input files for run {runId} for customer {customerId}");
+            var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
+            var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId, customerId);
+            if (run == null)
+            {
+                return null;
+            }
+
+            var files = blobFileAccessor.GetFilesInDirectory(
+                StorageLocations.InputFolderPathForRun(run.FileStorageLocator),
+                ConfigurationHelper.AppSettings.BlobStorageModelDataFolder
+            ).Result;
+
+            var result = files.Select(file => new AvailableRunInput
+            {
+                FileName = Path.GetFileName(file),
+                AvailableFileTypes = new List<string> { Path.GetExtension(file) }
+            }).ToList();
+
+            return result;
+        }
 
         public List<AvailableRunResult> FindAvailableRunResults(int runId, int customerId)
         {
@@ -305,6 +328,32 @@ namespace Olsson.GET.Managers.Runs
         private static bool IsDrawdownFile(string fileName)
         {
             return string.Equals(fileName, DrawdownFileName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public RunResultResponseModel GetRunInput(int runId, int customerId, string fileName)
+        {
+            Logger.LogInformation($"Retrieving input file '{fileName}' for run {runId} and customer {customerId}");
+
+            var run = AccessorFactory.CreateAccessor<IRunAccessor>().FindRun(runId, customerId);
+            if (run == null)
+            {
+                return null;
+            }
+
+            var blobFileAccessor = AccessorFactory.CreateAccessor<IBlobFileAccessor>();
+            var filePath = StorageLocations.InputFilePathForRun(run.FileStorageLocator, fileName);
+            var fileData = blobFileAccessor.GetFile(filePath, ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+
+            if (fileData == null)
+            {
+                return null;
+            }
+
+            return new RunResultResponseModel
+            {
+                RunId = runId,
+                FileDetails = Encoding.UTF8.GetString(fileData)
+            };
         }
 
         public RunResultResponseModel GetRunResult(int runId, int customerId, string fileName, string subType, string fileType)
@@ -1036,6 +1085,7 @@ namespace Olsson.GET.Managers.Runs
             var containerStarted = false;
 
             var sasToken = blobFileAccessor.GetAgentFileShareSASToken();
+            var blobSasToken = blobFileAccessor.GetBlobContainerSasToken(ConfigurationHelper.AppSettings.BlobStorageModelDataFolder);
 
             // run custom image
             if (processType == AgentProcessType.Input && run.Scenario.InputImage != null)
@@ -1064,6 +1114,7 @@ namespace Olsson.GET.Managers.Runs
                         { "DOTNET_ENVIRONMENT", ConfigurationHelper.GetEnvironment() }, // i'm guessing this isn't being used at all because the linux containers are small and simple
                         { "STORAGE_ACCOUNT", ConfigurationHelper.AppSettings.AzureStorageAccountName},
                         { "SAS_TOKEN", sasToken},
+                        { "blobSasToken", blobSasToken },
                         { "FILE_STORAGE_LOCATOR", run.FileStorageLocator }
                     };
 
@@ -1224,7 +1275,23 @@ namespace Olsson.GET.Managers.Runs
             Logger.LogInformation($"Found run \"{run.RunName}\"");
             var storageFiles = new List<string>();
             var storageFilesCopied = new List<string>();
-            var usesFileStorage = run.Scenario.InputImage != null && run.Scenario.InputImage.IsLinux;
+            var usesFileStorage = run.Scenario.InputImage != null;
+
+            // Copy blob files added or modified by the input container to the file share before running the analysis container, if the input container was a custom Windows container
+            var isWindowsCustomInput = run.Scenario.InputImage != null && !run.Scenario.InputImage.IsLinux;
+            if (isWindowsCustomInput)
+            {
+                Logger.LogInformation($"Copying all blob files to file share for Windows custom input container: {run.FileStorageLocator}");
+                var files = blobFileAccessor.GetFilesInDirectory(StorageLocations.InputFolderPathForRun(run.FileStorageLocator), ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Result;
+
+                foreach (var file in files)
+                {
+                    blobFileAccessor.CopyFromBlobStorageToFileShare(StorageLocations.InputFilePathForRun(run.FileStorageLocator, file),
+                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder,
+                        file,
+                        run.FileStorageLocator).Wait();
+                }
+            }
 
 
             #region RetrieveFiles

@@ -6,9 +6,12 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Olsson.GET.Accessors;
 using Olsson.GET.Accessors.EntityFramework;
+using Olsson.GET.Accessors.FileIO;
 using Olsson.GET.Common.DataContracts.APIFunctionModels;
 using Olsson.GET.Common.DataContracts.Models;
+using Olsson.GET.Common.Shared;
 using Olsson.GET.Common.Utilities;
 using Olsson.GET.Managers;
 using Olsson.GET.Managers.Customers;
@@ -18,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using Run = Olsson.GET.Common.DataContracts.Runs.Run;
 
 namespace Olsson.GET.Clients.APIFunctions
@@ -40,6 +44,38 @@ namespace Olsson.GET.Clients.APIFunctions
         {
             _logger.LogInformation("C# HTTP trigger function processed a request: Health.");
             return new OkObjectResult("API is responsive.");
+        }
+
+        [FunctionName("RetrieveInput")]
+        [OpenApiOperation(operationId: "RetrieveInput")]
+        [OpenApiRequestBody("application/json", typeof(RetrieveResultModel), Required = true, Description = "Retrieve Input Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RunResultResponseModel))]
+        public IActionResult RetrieveInput(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
+
+        {
+            _logger.LogInformation("Processing request: Retrieve Input.");
+            string requestBody = req.Content.ReadAsStringAsync().Result;
+            var data = JsonConvert.DeserializeObject<RetrieveResultModel>(requestBody);
+
+            if (data == null || !data.RunId.HasValue || !data.CustomerId.HasValue || string.IsNullOrEmpty(data.FileName))
+            {
+                return new BadRequestObjectResult("Missing required fields: runId, customerId, or fileName.");
+            }
+
+            var runManager = _managerFactory.CreateManager<IRunManager>();
+            var runInput = runManager.GetRunInput(data.RunId.Value, data.CustomerId.Value, data.FileName);
+
+            if (runInput == null)
+            {
+                return new BadRequestObjectResult(new RunResponseModel
+                {
+                    RunId = data.RunId.Value,
+                    Message = "Input file not found or access denied."
+                });
+            }
+
+            return new OkObjectResult(runInput);
         }
 
         [FunctionName("RetrieveResult")]
@@ -366,6 +402,36 @@ namespace Olsson.GET.Clients.APIFunctions
                 Message = string.Empty
             };
             return new OkObjectResult(response);
+        }
+
+        [FunctionName("GetAvailableRunInputs")]
+        [OpenApiOperation(operationId: "GetAvailableRunInputs")]
+        [OpenApiRequestBody("application/json", typeof(RunDetailModel), Required = true, Description = "Run Detail Model")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(List<AvailableRunInput>))]
+        public IActionResult GetAvailableRunInputs([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req)
+        {
+            _logger.LogInformation("Processing request: Get Available Run Inputs.");
+            string requestBody = req.Content.ReadAsStringAsync().Result;
+            var data = JsonConvert.DeserializeObject<RunDetailModel>(requestBody);
+
+            if (data == null || !data.RunId.HasValue || !data.CustomerId.HasValue)
+            {
+                return new BadRequestObjectResult("Missing required fields: runId or customerId.");
+            }
+
+            var runManager = _managerFactory.CreateManager<IRunManager>();
+            var availableInputs = runManager.FindAvailableRunInputs(data.RunId.Value, data.CustomerId.Value);
+
+            if (availableInputs == null)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    RunId = data.RunId.Value,
+                    Message = "Run not found or no inputs available."
+                });
+            }
+
+            return new OkObjectResult(availableInputs);
         }
 
         [FunctionName("GetAvailableRunResults")]
