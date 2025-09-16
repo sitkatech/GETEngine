@@ -1351,28 +1351,6 @@ namespace Olsson.GET.Managers.Runs
             }
 
             runAccessor.UpdateRunStatus(run.RunID, run.CustomerID, analysisEngineSuccess ? RunStatus.AnalysisSuccess.RunStatusID : RunStatus.AnalysisFailed.RunStatusID);
-
-            // clean up files in storage
-            if (usesFileStorage)
-            {
-                // move copied files into model outputs
-                foreach (var file in storageFilesCopied)
-                {
-                    blobFileAccessor.CopyFromFileShareToBlobStorage(file, run.FileStorageLocator,
-                        StorageLocations.ModelOutputFolderPath(run.Image.ImageName, file),
-                        ConfigurationHelper.AppSettings.BlobStorageModelOutputsFolder).Wait();
-                }
-            }
-            else
-            {
-                foreach (var blobFile in storageFiles)
-                {
-                    blobFileAccessor.DeleteFile(
-                        StorageLocations.GenerateInputOutputFilePath(run.FileStorageLocator, blobFile),
-                        ConfigurationHelper.AppSettings.BlobStorageModelDataFolder).Wait();
-                }
-            }
-
             return analysisEngineSuccess;
         }
 
